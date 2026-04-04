@@ -2303,6 +2303,29 @@
           {
             "type": "tip",
             "content": "Le futur : les reasoning models (o3, R1) + les agents avec MCP + la multimodalité native = une IA capable de travailler en autonomie sur des tâches de plusieurs heures. Claude Code, Devin, et les agents de coding ne sont que le début de cette ère agentique."
+          },
+          {
+            "type": "check",
+            "question": "Qu'est-ce qui distingue un 'reasoning model' (o1, o3, DeepSeek-R1) d'un LLM classique ?",
+            "options": [
+              "Il utilise plus de données d'entraînement",
+              "Il est plus rapide à répondre",
+              "Il effectue une chaîne de réflexion interne avant de répondre, ce qui le rend bien supérieur sur les problèmes de raisonnement, maths et programmation complexe",
+              "Il ne peut traiter que du texte, pas d'images"
+            ],
+            "correct": 2,
+            "explanation": "Les reasoning models allouent du 'temps de réflexion' (chain-of-thought interne) avant de produire leur réponse finale. Cette délibération les rend bien supérieurs aux LLMs classiques sur les problèmes complexes : o3 dépasse les meilleurs mathématiciens sur certains benchmarks. En contrepartie, ils sont plus lents et coûteux."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "2024-2025 : quatre grandes tendances — multimodalité native (texte + image + audio), long context (jusqu'à 2M tokens), reasoning models (o3, R1), Edge AI (LLMs sur téléphone)",
+              "Les reasoning models 'pensent avant de répondre' via une chaîne de réflexion interne — révolutionnaires pour les maths, la logique et la programmation",
+              "Stack IA production : Claude/GPT pour l'inférence, pgvector ou Pinecone pour les embeddings, LangChain/LangChain4j pour l'orchestration, Langfuse pour l'observabilité",
+              "Frameworks incontournables : LangChain (orchestration), LlamaIndex (RAG documents), AutoGen/CrewAI (multi-agents), DSPy (optimisation auto)",
+              "L'ère agentique s'accélère : agents + MCP + multimodalité convergent vers une IA capable de travailler en autonomie sur des projets entiers"
+            ]
           }
         ]
       }

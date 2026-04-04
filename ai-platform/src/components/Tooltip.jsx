@@ -122,6 +122,43 @@ export const GLOSSARY = {
   'json':                 { fr: 'JSON', def: 'JavaScript Object Notation — format texte léger pour échanger des données. Standard de facto pour les APIs REST et les fichiers de configuration.' },
   'docker':               { fr: 'Docker', def: 'Outil de conteneurisation : emballe une appli et toutes ses dépendances dans un conteneur portable et reproductible. Utilisé pour déployer des modèles IA.' },
   'http':                 { fr: 'HTTP / HTTPS', def: 'Protocole de communication du web. HTTPS est sa version sécurisée (chiffrée). Base des APIs REST utilisées pour interroger les LLMs en production.' },
+
+  // ── Réseaux de neurones — concepts clés ─────────────────────────────────────
+  'vanishing gradient':   { fr: 'Gradient qui disparaît', def: 'Problème des réseaux profonds : lors de la rétropropagation, les gradients se multiplient par des petits nombres et deviennent exponentiellement proches de zéro dans les premières couches, bloquant l\'apprentissage. ReLU et les LSTMs ont été conçus pour l\'atténuer.' },
+  'gru':                  { fr: 'GRU (Gated Recurrent Unit)', def: 'Variante simplifiée du LSTM avec seulement deux portes (mise à jour, réinitialisation). Moins de paramètres que le LSTM, souvent aussi performante. Choix courant pour les séries temporelles.' },
+  'gelu':                 { fr: 'GELU (Gaussian Error Linear Unit)', def: 'Fonction d\'activation lissée utilisée dans BERT, GPT et la majorité des LLMs modernes. Légèrement supérieure à ReLU sur les tâches NLP.' },
+  'encoder':              { fr: 'Encodeur (Encoder)', def: 'Partie du Transformer qui lit la séquence dans les deux sens et produit une représentation vectorielle du texte. BERT est un modèle encodeur — idéal pour comprendre le texte.' },
+  'decoder':              { fr: 'Décodeur (Decoder)', def: 'Partie du Transformer qui génère du texte token par token en ne regardant que les tokens passés (causal masking). GPT est un modèle décodeur — idéal pour générer du texte.' },
+  'convolution':          { fr: 'Convolution', def: 'Opération mathématique qui fait glisser un filtre (kernel) sur une image pour détecter des patterns locaux : bords, textures, formes. Brique de base des CNN.' },
+  'pooling':              { fr: 'Pooling', def: 'Couche de sous-échantillonnage dans un CNN qui réduit la taille spatiale. Max pooling retient la valeur maximale dans chaque fenêtre, réduisant la résolution et augmentant la robustesse aux translations.' },
+
+  // ── Types d'apprentissage ────────────────────────────────────────────────────
+  'supervised learning':          { fr: 'Apprentissage supervisé', def: 'Le modèle apprend à partir de données étiquetées (entrée → sortie connue). Ex: prédire le prix d\'une maison depuis ses caractéristiques. Représente ~80% des cas en production.' },
+  'unsupervised learning':        { fr: 'Apprentissage non supervisé', def: 'Le modèle découvre des structures cachées dans des données non étiquetées. Ex: regrouper des clients par comportement (clustering). Utile quand annoter des données est coûteux.' },
+  'reinforcement learning':       { fr: 'Apprentissage par renforcement', def: 'Un agent prend des actions dans un environnement et reçoit des récompenses ou pénalités. Il apprend par essai-erreur à maximiser la récompense cumulée. Utilisé pour les jeux, la robotique et le fine-tuning des LLMs (RLHF).' },
+
+  // ── Algorithmes ML classiques ────────────────────────────────────────────────
+  'random forest':        { fr: 'Forêt Aléatoire (Random Forest)', def: 'Ensemble de centaines d\'arbres de décision entraînés sur des sous-échantillons aléatoires. Chaque arbre vote et on prend la majorité. Très robuste, peu sensible au surapprentissage.' },
+  'gradient boosting':    { fr: 'Gradient Boosting', def: 'Technique d\'ensemble qui entraîne des arbres de décision en séquence, chaque nouvel arbre corrigeant les erreurs du précédent. XGBoost et LightGBM en sont les implémentations les plus performantes.' },
+  'xgboost':              { fr: 'XGBoost', def: 'Implémentation optimisée du gradient boosting, très populaire en compétitions ML et production. Rapide, efficace sur les données tabulaires, gère les valeurs manquantes automatiquement.' },
+  'word2vec':             { fr: 'Word2Vec', def: 'Modèle d\'embedding entraîné à prédire le contexte d\'un mot (Skip-gram) ou un mot depuis son contexte (CBOW). A démontré que les mots similaires ont des représentations vectorielles proches. Précurseur des embeddings modernes.' },
+
+  // ── Optimiseurs ──────────────────────────────────────────────────────────────
+  'adam':                 { fr: 'Adam (Adaptive Moment Estimation)', def: 'Optimiseur combinant momentum (direction moyenne) et RMSprop (adaptation du learning rate). Le choix par défaut pour entraîner des réseaux de neurones. Converge plus vite que la descente de gradient classique.' },
+  'adamw':                { fr: 'AdamW', def: 'Variante d\'Adam avec weight decay découplé. Meilleure généralisation que Adam. Optimiseur standard pour fine-tuner les LLMs (GPT, BERT, LLaMA utilisent tous AdamW).' },
+  'momentum':             { fr: 'Momentum', def: 'Technique d\'optimisation qui accumule les gradients passés pour maintenir une direction dans la descente. Accélère la convergence et atténue les oscillations dans les "vallées" de la fonction de perte.' },
+
+  // ── Frameworks ───────────────────────────────────────────────────────────────
+  'pytorch':              { fr: 'PyTorch', def: 'Framework deep learning open-source de Meta. Le standard dans la recherche IA. Graphe de calcul dynamique, débug facile. Utilisé pour entraîner la grande majorité des LLMs modernes.' },
+  'tensorflow':           { fr: 'TensorFlow', def: 'Framework deep learning de Google. Populaire en production grâce à TensorFlow Serving et TFLite (mobile). Keras est son API haut niveau.' },
+
+  // ── État de l'art 2024-2025 ──────────────────────────────────────────────────
+  'multimodal':           { fr: 'Multimodal', def: 'Modèle capable de traiter plusieurs types de données en entrée : texte, images, audio, vidéo. GPT-4o, Claude 3.5, Gemini 1.5 sont des modèles multimodaux natifs.' },
+  'reasoning model':      { fr: 'Modèle de raisonnement', def: 'LLM qui "pense" avant de répondre via une chaîne de réflexion interne invisible. o1, o3 (OpenAI), DeepSeek-R1 : bien supérieurs sur les maths, la programmation et la logique complexe.' },
+  'edge ai':              { fr: 'Edge AI', def: 'Exécution de modèles d\'IA directement sur l\'appareil (téléphone, laptop) sans appel à un serveur cloud. Avantages : confidentialité, latence nulle, pas de coût API. Ex: Llama 3.2 sur iPhone.' },
+  'langchain':            { fr: 'LangChain', def: 'Framework Python/JavaScript d\'orchestration de LLMs. Chaînes de traitement, intégrations avec des dizaines d\'outils et modèles. Le plus populaire mais verbeux. LangGraph pour les workflows complexes.' },
+  'llamaindex':           { fr: 'LlamaIndex', def: 'Framework Python spécialisé dans l\'indexation et la recherche de documents pour les pipelines RAG. Excellent pour traiter des documents complexes (PDF, tables, images).' },
+  'seq2seq':              { fr: 'Seq2Seq (Séquence à Séquence)', def: 'Architecture composée d\'un encodeur qui compresse la séquence d\'entrée et d\'un décodeur qui génère la séquence de sortie. Base de la traduction automatique avant les Transformers.' },
 }
 
 // Lookup case-insensitive
