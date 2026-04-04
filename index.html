@@ -5,6 +5,15 @@
     <link rel="icon" type="image/svg+xml" href="/ai-academy/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>AI Academy — Comprendre l'IA de A à Z</title>
+    <script>
+      // Restore path encoded by 404.html for GitHub Pages SPA routing.
+      (function() {
+        var p = new URLSearchParams(window.location.search).get('p');
+        if (p) {
+          window.history.replaceState(null, '', '/ai-academy' + decodeURIComponent(p));
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
