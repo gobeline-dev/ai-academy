@@ -1,6 +1,14 @@
 import { useParams, Link } from 'react-router-dom'
 import { useState } from 'react'
 
+function getReadingTime(sections) {
+  if (!sections || sections.length === 0) return 1
+  const words = sections.flatMap(s => [
+    s.title || '', s.body || '', ...(s.items || []),
+  ]).join(' ').split(/\s+/).filter(Boolean).length
+  return Math.max(1, Math.round(words / 200))
+}
+
 export default function ModulePage({ modules, progressHook }) {
   const { slug } = useParams()
   const module = modules.find(m => m.slug === slug)
@@ -46,7 +54,7 @@ export default function ModulePage({ modules, progressHook }) {
           <span style={{ color: 'var(--text-primary)' }}>{module.title}</span>
         </nav>
 
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 32, alignItems: 'start' }}>
+        <div className="module-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 340px', gap: 32, alignItems: 'start' }}>
           {/* Main content */}
           <div>
             {/* Module header */}
@@ -191,7 +199,13 @@ export default function ModulePage({ modules, progressHook }) {
                         </div>
                       </div>
 
-                      <div style={{ display: 'flex', alignItems: 'center', gap: 10, flexShrink: 0 }}>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexShrink: 0 }}>
+                        <span style={{
+                          fontSize: '0.72rem', color: 'var(--text-muted)',
+                          background: 'rgba(255,255,255,0.04)', padding: '2px 7px', borderRadius: 6,
+                        }}>
+                          📖 ~{getReadingTime(lesson.sections)} min
+                        </span>
                         <span style={{
                           fontSize: '0.75rem',
                           color: 'var(--text-muted)',
@@ -268,6 +282,13 @@ export default function ModulePage({ modules, progressHook }) {
                 >
                   🎯 {quizCompleted ? `Revoir le quiz (${quizScore}%)` : 'Passer le quiz'}
                 </Link>
+                <Link
+                  to={`/module/${module.slug}/flashcards`}
+                  className="btn btn-ghost"
+                  style={{ width: '100%', fontSize: '0.85rem' }}
+                >
+                  🃏 Flashcards de révision
+                </Link>
               </div>
             </div>
 
@@ -310,11 +331,6 @@ export default function ModulePage({ modules, progressHook }) {
         </div>
       </div>
 
-      <style>{`
-        @media (max-width: 900px) {
-          .module-layout { grid-template-columns: 1fr !important; }
-        }
-      `}</style>
     </div>
   )
 }

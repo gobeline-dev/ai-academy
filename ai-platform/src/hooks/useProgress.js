@@ -75,7 +75,7 @@ export function useProgress(modules) {
 
   const saveQuizScore = useCallback((moduleSlug, score, total) => {
     setProgress(prev => {
-      const xpGained = Math.round((score / total) * 100)
+      const pct = total > 0 ? Math.round((score / total) * 100) : 0
       const alreadyCompleted = prev.completedQuizzes.includes(moduleSlug)
       const next = {
         ...prev,
@@ -84,13 +84,36 @@ export function useProgress(modules) {
           : [...prev.completedQuizzes, moduleSlug],
         quizScores: {
           ...prev.quizScores,
-          [moduleSlug]: Math.max(prev.quizScores[moduleSlug] || 0, Math.round((score / total) * 100)),
+          [moduleSlug]: Math.max(prev.quizScores[moduleSlug] || 0, pct),
         },
-        totalXP: alreadyCompleted ? prev.totalXP : prev.totalXP + xpGained,
+        totalXP: alreadyCompleted ? prev.totalXP : prev.totalXP + pct,
       }
       next.unlockedAchievements = computeNewAchievements(next, modulesRef.current)
       return next
     })
+  }, [])
+
+  const exportProgress = useCallback(() => {
+    const json = JSON.stringify(progress, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `ai-academy-progression-${new Date().toISOString().slice(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+  }, [progress])
+
+  const importProgress = useCallback((json) => {
+    try {
+      const parsed = JSON.parse(json)
+      // Validate minimal shape
+      if (typeof parsed.totalXP !== 'number') throw new Error('Format invalide')
+      setProgress({ ...defaultProgress, ...parsed })
+      return true
+    } catch {
+      return false
+    }
   }, [])
 
   const isLessonCompleted = useCallback(
@@ -144,6 +167,8 @@ export function useProgress(modules) {
     isModuleCompleted,
     getModuleProgress,
     getOverallProgress,
+    exportProgress,
+    importProgress,
     newlyUnlocked,
     clearNewlyUnlocked,
     shiftNewlyUnlocked,

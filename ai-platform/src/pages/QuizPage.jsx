@@ -97,11 +97,10 @@ export default function QuizPage({ modules, progressHook }) {
         </div>
 
         {/* Quiz component */}
-        <div style={{
+        <div className="quiz-card-inner" style={{
           background: 'var(--bg-card)',
           border: '1px solid var(--border-subtle)',
           borderRadius: 'var(--radius-xl)',
-          padding: '32px',
           animation: 'fadeInUp 0.4s ease 0.1s both',
         }}>
           <Quiz

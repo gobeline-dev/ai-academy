@@ -36,7 +36,7 @@ export default function ModulesPage({ modules, progressHook }) {
 
       return true
     })
-  }, [modules, search, levelFilter, statusFilter, progress.completedLessons])
+  }, [modules, search, levelFilter, statusFilter, progress.completedLessons, getModuleProgress])
 
   const isFiltered = search || levelFilter !== 'Tous' || statusFilter !== 'Tous'
 
@@ -138,9 +138,10 @@ export default function ModulesPage({ modules, progressHook }) {
           </div>
 
           {/* Level + Status filters */}
-          <div style={{ display: 'flex', gap: 20, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', gap: 14, flexDirection: 'column' }}>
             {/* Level */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <div className="filters-scroll">
+            <div className="filters-row" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
               <span style={{ fontSize: '0.73rem', fontWeight: 600, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>Niveau :</span>
               {LEVELS.map(level => {
                 const active = levelFilter === level
@@ -158,9 +159,11 @@ export default function ModulesPage({ modules, progressHook }) {
                 )
               })}
             </div>
+            </div>
 
             {/* Status */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+            <div className="filters-scroll">
+            <div className="filters-row" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
               <span style={{ fontSize: '0.73rem', fontWeight: 600, color: 'var(--text-muted)', whiteSpace: 'nowrap' }}>Statut :</span>
               {STATUSES.map(status => (
                 <FilterPill
@@ -170,6 +173,7 @@ export default function ModulesPage({ modules, progressHook }) {
                   onClick={() => setStatusFilter(status)}
                 />
               ))}
+            </div>
             </div>
           </div>
 

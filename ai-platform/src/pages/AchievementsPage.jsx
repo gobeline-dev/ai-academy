@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { ACHIEVEMENTS, RARITY_CONFIG } from '../data/achievements.js'
 
@@ -9,12 +9,16 @@ const RARITY_LABELS = { all: 'Tous', bronze: 'Bronze', silver: 'Argent', gold: '
 const STATUS_LABELS = { all: 'Tous', unlocked: 'Débloqués', locked: 'Verrouillés' }
 
 export default function AchievementsPage({ modules, progressHook }) {
-  const { progress } = progressHook
+  const { progress, exportProgress, importProgress, resetProgress } = progressHook
   // Use the array as dependency (stable reference), derive Set inside memos
   const unlockedArr = progress.unlockedAchievements || []
 
   const [rarityFilter, setRarityFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
+  const [importError, setImportError] = useState(null)
+  const [importSuccess, setImportSuccess] = useState(false)
+  const [resetConfirm, setResetConfirm] = useState(false)
+  const fileInputRef = useRef(null)
 
   const filtered = useMemo(() => {
     const unlockedSet = new Set(unlockedArr)
@@ -192,6 +196,119 @@ export default function AchievementsPage({ modules, progressHook }) {
           {rarityFilter !== 'all' || statusFilter !== 'all' ? ' (filtré)' : ''}
         </div>
 
+        {/* ── Export / Import progression ───────────────────────────── */}
+        <div style={{
+          marginTop: 48,
+          background: 'var(--bg-card)',
+          border: '1px solid var(--border-subtle)',
+          borderRadius: 'var(--radius-lg)',
+          padding: '24px',
+          animation: 'fadeInUp 0.4s ease 0.2s both',
+        }}>
+          <h3 style={{ fontSize: '1rem', marginBottom: 6, color: 'var(--text-primary)' }}>
+            💾 Progression
+          </h3>
+          <p style={{ fontSize: '0.82rem', color: 'var(--text-muted)', marginBottom: 20, lineHeight: 1.6 }}>
+            Exportez votre progression pour la sauvegarder ou la transférer.
+            Importez un fichier pour restaurer une sauvegarde.
+          </p>
+
+          <div style={{ display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center' }}>
+            {/* Export */}
+            <button onClick={exportProgress} style={{
+              display: 'inline-flex', alignItems: 'center', gap: 7,
+              padding: '8px 18px', borderRadius: 'var(--radius-md)',
+              background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.3)',
+              color: 'var(--color-primary-light)', fontWeight: 600, cursor: 'pointer',
+              fontSize: '0.85rem', transition: 'all 0.2s ease',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(99,102,241,0.2)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(99,102,241,0.1)' }}
+            >
+              ⬇ Exporter (.json)
+            </button>
+
+            {/* Import */}
+            <button onClick={() => fileInputRef.current?.click()} style={{
+              display: 'inline-flex', alignItems: 'center', gap: 7,
+              padding: '8px 18px', borderRadius: 'var(--radius-md)',
+              background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.25)',
+              color: '#34d399', fontWeight: 600, cursor: 'pointer',
+              fontSize: '0.85rem', transition: 'all 0.2s ease',
+            }}
+              onMouseEnter={e => { e.currentTarget.style.background = 'rgba(16,185,129,0.15)' }}
+              onMouseLeave={e => { e.currentTarget.style.background = 'rgba(16,185,129,0.08)' }}
+            >
+              ⬆ Importer
+            </button>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept=".json"
+              style={{ display: 'none' }}
+              onChange={e => {
+                const file = e.target.files?.[0]
+                if (!file) return
+                const reader = new FileReader()
+                reader.onload = ev => {
+                  const ok = importProgress(ev.target.result)
+                  if (ok) {
+                    setImportSuccess(true)
+                    setImportError(null)
+                    setTimeout(() => setImportSuccess(false), 3000)
+                  } else {
+                    setImportError('Fichier invalide. Vérifiez qu\'il s\'agit d\'un export AI Academy.')
+                    setImportSuccess(false)
+                  }
+                }
+                reader.readAsText(file)
+                e.target.value = ''
+              }}
+            />
+
+            {/* Reset */}
+            {resetConfirm ? (
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <span style={{ fontSize: '0.8rem', color: '#f87171' }}>Confirmer la remise à zéro ?</span>
+                <button onClick={() => { resetProgress(); setResetConfirm(false) }} style={{
+                  padding: '6px 12px', borderRadius: 'var(--radius-md)',
+                  background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.35)',
+                  color: '#f87171', fontWeight: 600, cursor: 'pointer', fontSize: '0.8rem',
+                }}>Oui, effacer</button>
+                <button onClick={() => setResetConfirm(false)} style={{
+                  padding: '6px 12px', borderRadius: 'var(--radius-md)',
+                  background: 'transparent', border: '1px solid var(--border-subtle)',
+                  color: 'var(--text-muted)', cursor: 'pointer', fontSize: '0.8rem',
+                }}>Annuler</button>
+              </div>
+            ) : (
+              <button onClick={() => setResetConfirm(true)} style={{
+                padding: '8px 14px', borderRadius: 'var(--radius-md)',
+                background: 'transparent', border: '1px solid rgba(239,68,68,0.2)',
+                color: '#f87171', cursor: 'pointer', fontSize: '0.8rem',
+                transition: 'all 0.2s ease',
+              }}
+                onMouseEnter={e => e.currentTarget.style.background = 'rgba(239,68,68,0.08)'}
+                onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+              >
+                🗑 Réinitialiser
+              </button>
+            )}
+          </div>
+
+          {/* Feedback */}
+          {importSuccess && (
+            <div style={{ marginTop: 12, fontSize: '0.82rem', color: '#34d399', display: 'flex', alignItems: 'center', gap: 6 }}>
+              ✓ Progression importée avec succès !
+            </div>
+          )}
+          {importError && (
+            <div style={{ marginTop: 12, fontSize: '0.82rem', color: '#f87171' }}>
+              ✗ {importError}
+            </div>
+          )}
+        </div>
+
         {/* Achievement grid */}
         {filtered.length === 0 ? (
           <div style={{
@@ -203,7 +320,7 @@ export default function AchievementsPage({ modules, progressHook }) {
             <div style={{ fontSize: '0.9rem' }}>Aucun trophée pour ces filtres</div>
           </div>
         ) : (
-          <div style={{
+          <div className="achievements-grid" style={{
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
             gap: 16,
