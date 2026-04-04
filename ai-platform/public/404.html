@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <title>AI Academy</title>
+    <script>
+      // GitHub Pages SPA redirect trick.
+      // Encodes the current path + search + hash into a query parameter,
+      // then redirects to index.html which will decode and restore it.
+      var l = window.location;
+      var base = '/ai-academy';
+      var path = l.pathname.slice(base.length) + l.search + l.hash;
+      l.replace(base + '/?p=' + encodeURIComponent(path));
+    </script>
+  </head>
+  <body></body>
+</html>
