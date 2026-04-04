@@ -1,6 +1,7 @@
 import { useParams, Link, useNavigate } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import LessonContent from '../components/LessonContent.jsx'
+import ConceptDiagram from '../components/ConceptDiagram.jsx'
 
 export default function LessonPage({ modules, progressHook }) {
   const { slug, lessonId } = useParams()
@@ -288,6 +289,7 @@ export default function LessonPage({ modules, progressHook }) {
 
         {/* Content */}
         <div style={{ animation: 'fadeInUp 0.4s ease 0.1s both' }}>
+          <ConceptDiagram lessonId={lesson.id} />
           <LessonContent sections={lesson.sections} />
         </div>
 

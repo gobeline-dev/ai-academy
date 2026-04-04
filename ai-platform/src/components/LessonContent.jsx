@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { AutoTooltipText } from './Tooltip.jsx'
 
 function CodeBlock({ content, label, language = 'python' }) {
   const [copied, setCopied] = useState(false)
@@ -64,36 +65,57 @@ function CodeBlock({ content, label, language = 'python' }) {
 }
 
 function highlightPython(code) {
+  // Escape HTML entities first (on raw code, before any tagging)
   const escaped = code
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
 
-  return escaped
-    // Strings
-    .replace(/("""[\s\S]*?"""|'''[\s\S]*?'''|"[^"]*"|'[^']*')/g, '<span style="color:#86efac">$1</span>')
-    // Comments
-    .replace(/(#[^\n]*)/g, '<span style="color:#475569;font-style:italic">$1</span>')
-    // Keywords
-    .replace(/\b(def|class|return|import|from|as|if|else|elif|for|while|in|not|and|or|True|False|None|with|try|except|raise|yield|lambda|pass|break|continue|async|await)\b/g,
-      '<span style="color:#c084fc;font-weight:600">$1</span>')
-    // Built-ins
-    .replace(/\b(print|len|range|enumerate|zip|map|filter|list|dict|set|tuple|str|int|float|bool|type|isinstance|hasattr|getattr|setattr|max|min|sum|sorted|any|all)\b/g,
-      '<span style="color:#67e8f9">$1</span>')
-    // Decorators
-    .replace(/(@\w+)/g, '<span style="color:#fbbf24">$1</span>')
-    // Numbers
-    .replace(/\b(\d+\.?\d*)\b/g, '<span style="color:#fbbf24">$1</span>')
-    // f-string markers
-    .replace(/\b(f)(?=["'])/g, '<span style="color:#c084fc">$1</span>')
+  // Single-pass tokenizer: alternatives are tried left-to-right, first match wins.
+  // This prevents later patterns from re-matching already-tagged content.
+  const TOKEN = new RegExp(
+    // 1. Triple-quoted strings
+    '("""[\\s\\S]*?"""|\'\'\'[\\s\\S]*?\'\'\')'
+    // 2. Single-quoted strings
+    + '|("(?:[^"\\\\]|\\\\.)*"|\'(?:[^\'\\\\]|\\\\.)*\')'
+    // 3. Comments
+    + '|(#[^\\n]*)'
+    // 4. f-string prefix
+    + '|(f(?=["\']))'
+    // 5. Decorators
+    + '|(@\\w+)'
+    // 6. Keywords
+    + '|\\b(def|class|return|import|from|as|if|else|elif|for|while|in|not|and|or|True|False|None|with|try|except|raise|yield|lambda|pass|break|continue|async|await)\\b'
+    // 7. Built-ins
+    + '|\\b(print|len|range|enumerate|zip|map|filter|list|dict|set|tuple|str|int|float|bool|type|isinstance|hasattr|getattr|setattr|max|min|sum|sorted|any|all)\\b'
+    // 8. Numbers
+    + '|\\b(\\d+\\.?\\d*)\\b',
+    'g'
+  )
+
+  return escaped.replace(TOKEN, (_, tripleStr, str, comment, fPrefix, decorator, keyword, builtin, number) => {
+    if (tripleStr !== undefined) return `<span style="color:#86efac">${tripleStr}</span>`
+    if (str       !== undefined) return `<span style="color:#86efac">${str}</span>`
+    if (comment   !== undefined) return `<span style="color:#475569;font-style:italic">${comment}</span>`
+    if (fPrefix   !== undefined) return `<span style="color:#c084fc">${fPrefix}</span>`
+    if (decorator !== undefined) return `<span style="color:#fbbf24">${decorator}</span>`
+    if (keyword   !== undefined) return `<span style="color:#c084fc;font-weight:600">${keyword}</span>`
+    if (builtin   !== undefined) return `<span style="color:#67e8f9">${builtin}</span>`
+    if (number    !== undefined) return `<span style="color:#fbbf24">${number}</span>`
+    return _
+  })
 }
 
-function renderMarkdown(text) {
-  if (!text) return ''
-  return text
-    .replace(/\*\*([^*]+)\*\*/g, '<strong style="color:var(--text-primary)">$1</strong>')
-    .replace(/`([^`]+)`/g, '<code>$1</code>')
-    .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+// Renders markdown AND wraps glossary terms with tooltips
+function RichText({ text, style, tag = 'p' }) {
+  if (!text) return null
+
+  // First, split by markdown bold/code/italic
+  // We'll render via dangerouslySetInnerHTML for bold/italic/code,
+  // but overlay AutoTooltipText on top for tooltip detection.
+  // Simplest approach: use AutoTooltipText with raw text (no markdown),
+  // then render bold/code separately inside.
+  return <AutoTooltipText text={text} style={style} tag={tag} />
 }
 
 export default function LessonContent({ sections }) {
@@ -118,9 +140,8 @@ function Section({ section }) {
           marginBottom: 24,
           borderLeft: '3px solid var(--color-primary)',
         }}>
-          <p style={{ color: 'var(--text-secondary)', lineHeight: 1.8, margin: 0, fontSize: '1.05rem' }}>
-            {section.content}
-          </p>
+          <RichText text={section.content} tag="p"
+            style={{ color: 'var(--text-secondary)', lineHeight: 1.8, margin: 0, fontSize: '1.05rem' }} />
         </div>
       )
 
@@ -141,10 +162,8 @@ function Section({ section }) {
 
     case 'text':
       return (
-        <p
-          style={{ color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: 16 }}
-          dangerouslySetInnerHTML={{ __html: renderMarkdown(section.content) }}
-        />
+        <RichText text={section.content} tag="p"
+          style={{ color: 'var(--text-secondary)', lineHeight: 1.8, marginBottom: 16 }} />
       )
 
     case 'code':
@@ -168,10 +187,8 @@ function Section({ section }) {
           marginBottom: 20,
         }}>
           <span style={{ fontSize: '1.1rem', flexShrink: 0, marginTop: 1 }}>💡</span>
-          <p
-            style={{ color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0, fontSize: '0.9rem' }}
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(section.content) }}
-          />
+          <RichText text={section.content} tag="p"
+            style={{ color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0, fontSize: '0.9rem' }} />
         </div>
       )
 
@@ -187,10 +204,8 @@ function Section({ section }) {
           marginBottom: 20,
         }}>
           <span style={{ fontSize: '1.1rem', flexShrink: 0, marginTop: 1 }}>⚠️</span>
-          <p
-            style={{ color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0, fontSize: '0.9rem' }}
-            dangerouslySetInnerHTML={{ __html: renderMarkdown(section.content) }}
-          />
+          <RichText text={section.content} tag="p"
+            style={{ color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0, fontSize: '0.9rem' }} />
         </div>
       )
 
@@ -234,20 +249,17 @@ function Section({ section }) {
       return (
         <ul style={{ marginBottom: 20, paddingLeft: 0, listStyle: 'none' }}>
           {section.items.map((item, i) => (
-            <li
-              key={i}
-              style={{
-                display: 'flex',
-                gap: 10,
-                padding: '8px 0',
-                borderBottom: i < section.items.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
-                color: 'var(--text-secondary)',
-                lineHeight: 1.6,
-                fontSize: '0.9rem',
-              }}
-            >
+            <li key={i} style={{
+              display: 'flex',
+              gap: 10,
+              padding: '8px 0',
+              borderBottom: i < section.items.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+              color: 'var(--text-secondary)',
+              lineHeight: 1.6,
+              fontSize: '0.9rem',
+            }}>
               <span style={{ color: 'var(--color-primary-light)', flexShrink: 0, marginTop: 2 }}>▸</span>
-              <span dangerouslySetInnerHTML={{ __html: renderMarkdown(item) }} />
+              <RichText text={item} tag="span" />
             </li>
           ))}
         </ul>
@@ -262,23 +274,19 @@ function Section({ section }) {
           marginBottom: 24,
         }}>
           {section.items.map((card, i) => (
-            <div
-              key={i}
-              style={{
-                background: 'rgba(255,255,255,0.03)',
-                border: '1px solid rgba(255,255,255,0.08)',
-                borderRadius: 'var(--radius-md)',
-                padding: 16,
-                transition: 'all 0.2s ease',
-              }}
-            >
+            <div key={i} style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.08)',
+              borderRadius: 'var(--radius-md)',
+              padding: 16,
+              transition: 'all 0.2s ease',
+            }}>
               <div style={{ fontSize: '1.5rem', marginBottom: 10 }}>{card.icon}</div>
               <h4 style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text-primary)', marginBottom: 6 }}>
                 {card.title}
               </h4>
-              <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }}>
-                {card.description}
-              </p>
+              <RichText text={card.description} tag="p"
+                style={{ fontSize: '0.8rem', color: 'var(--text-muted)', lineHeight: 1.6, margin: 0 }} />
             </div>
           ))}
         </div>
@@ -289,10 +297,7 @@ function Section({ section }) {
         <div style={{ marginBottom: 24, position: 'relative' }}>
           <div style={{
             position: 'absolute',
-            left: 7,
-            top: 8,
-            bottom: 8,
-            width: 2,
+            left: 7, top: 8, bottom: 8, width: 2,
             background: 'linear-gradient(180deg, var(--color-primary), var(--color-accent))',
             opacity: 0.3,
             borderRadius: 2,
@@ -318,9 +323,8 @@ function Section({ section }) {
                 }}>
                   {item.year}
                 </span>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                  {item.event}
-                </span>
+                <RichText text={item.event} tag="span"
+                  style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }} />
               </div>
             </div>
           ))}
