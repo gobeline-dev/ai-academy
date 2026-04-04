@@ -91,6 +91,34 @@
             "content": "Retenir : IA ⊃ Machine Learning ⊃ Deep Learning. Le Deep Learning est une sous-catégorie du ML, qui lui-même est une sous-catégorie de l'IA."
           },
           {
+            "type": "check",
+            "question": "Qui est à l'origine du test qui évalue la capacité d'une machine à imiter une conversation humaine ?",
+            "options": ["John McCarthy", "Alan Turing", "Geoffrey Hinton", "Yann LeCun"],
+            "correct": 1,
+            "explanation": "Alan Turing a proposé en 1950 le 'Test de Turing' pour évaluer si une machine peut imiter une conversation humaine de façon convaincante. Ce test reste une référence philosophique fondamentale en IA."
+          },
+          {
+            "type": "compare",
+            "before": {
+              "label": "IA Symbolique (règles explicites)",
+              "items": [
+                "Règles écrites à la main par des experts",
+                "Fragile face aux cas imprévus",
+                "Peu de données nécessaires",
+                "Explicable mais peu flexible"
+              ]
+            },
+            "after": {
+              "label": "Machine Learning",
+              "items": [
+                "Apprend automatiquement depuis les données",
+                "Robuste et généralise bien",
+                "Nécessite beaucoup de données étiquetées",
+                "Moins explicable mais très puissant"
+              ]
+            }
+          },
+          {
             "type": "heading",
             "content": "Pourquoi maintenant ?"
           },
@@ -112,6 +140,29 @@
             "label": "Votre premier classifieur IA en 5 lignes",
             "content": "from sklearn.ensemble import RandomForestClassifier\nimport numpy as np\n\n# Données : [heures_étude, heures_sommeil] -> réussite (0/1)\nX = np.array([[2, 5], [8, 7], [3, 4], [9, 8], [1, 3]])\ny = np.array([0, 1, 0, 1, 0])\n\nclf = RandomForestClassifier()\nclf.fit(X, y)\n\n# Prédiction : 7h d'étude, 8h de sommeil\nprint(clf.predict([[7, 8]]))  # -> [1] : succès prédit !",
             "contentJava": "// Java 11 avec Weka (bibliothèque ML la plus populaire en Java)\n// Dépendance Maven : weka-stable:3.8.6\nimport weka.classifiers.trees.RandomForest;\nimport weka.core.*;\nimport java.util.ArrayList;\n\npublic class PremierClassifieur {\n    public static void main(String[] args) throws Exception {\n        // Définir les attributs : heures_etude, heures_sommeil, resultat\n        ArrayList<Attribute> attrs = new ArrayList<>();\n        attrs.add(new Attribute(\"heures_etude\"));\n        attrs.add(new Attribute(\"heures_sommeil\"));\n        ArrayList<String> classes = new ArrayList<>();\n        classes.add(\"echec\");\n        classes.add(\"succes\");\n        attrs.add(new Attribute(\"resultat\", classes));\n\n        // Créer le dataset et ajouter les données\n        Instances dataset = new Instances(\"Apprentissage\", attrs, 5);\n        dataset.setClassIndex(2);\n\n        // Données : [heures_étude, heures_sommeil, résultat]\n        double[][] data = {{2,5,0},{8,7,1},{3,4,0},{9,8,1},{1,3,0}};\n        for (double[] row : data)\n            dataset.add(new DenseInstance(1.0, row));\n\n        // Entraîner le classifieur Random Forest\n        RandomForest clf = new RandomForest();\n        clf.buildClassifier(dataset);\n\n        // Prédiction : 7h d'étude, 8h de sommeil\n        DenseInstance test = new DenseInstance(1.0, new double[]{7, 8, 0});\n        test.setDataset(dataset);\n        double result = clf.classifyInstance(test);\n        System.out.println(\"Prédiction : \"\n            + dataset.classAttribute().value((int) result));\n        // -> succes prédit !\n    }\n}"
+          },
+          {
+            "type": "check",
+            "question": "Quels sont les trois facteurs qui ont convergé pour créer l'explosion de l'IA moderne ?",
+            "options": [
+              "Données, puissance de calcul, algorithmes",
+              "Internet, smartphones, cloud",
+              "Python, TensorFlow, GPU",
+              "Turing, McCarthy, LeCun"
+            ],
+            "correct": 0,
+            "explanation": "Les données massives (Internet), la puissance de calcul (GPU) et les avancées algorithmiques (Transformers) ont convergé pour rendre l'IA moderne possible. Ces trois éléments se sont combinés à partir des années 2010."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "L'IA est un ensemble de techniques pour simuler l'intelligence humaine, né dans les années 1950 avec Alan Turing",
+              "Il existe trois grandes familles : IA symbolique, Machine Learning et Deep Learning (IA ⊃ ML ⊃ DL)",
+              "L'explosion de l'IA moderne repose sur trois facteurs : données, puissance de calcul (GPU) et algorithmes (Transformers)",
+              "Le premier classifieur s'écrit en quelques lignes avec scikit-learn — la barrière d'entrée n'a jamais été aussi basse",
+              "L'IA est aujourd'hui dans tous les secteurs : santé, finance, transport, éducation et créativité"
+            ]
           }
         ]
       },
@@ -168,6 +219,18 @@
             "content": "Le produit matriciel X @ W est l'opération la plus importante du deep learning. Elle permet de projeter des données dans de nouveaux espaces où les patterns sont plus visibles."
           },
           {
+            "type": "check",
+            "question": "Dans un réseau de neurones, que représente le produit matriciel X @ W + b dans une couche Dense ?",
+            "options": [
+              "Une fonction d'activation non-linéaire",
+              "Le calcul de la perte (loss)",
+              "La transformation linéaire des données d'entrée",
+              "L'algorithme de backpropagation"
+            ],
+            "correct": 2,
+            "explanation": "X @ W + b est la transformation linéaire fondamentale d'une couche Dense : chaque neurone calcule une combinaison linéaire des entrées, pondérée par ses poids W, plus un biais b. C'est l'opération de base répétée des millions de fois dans un réseau profond."
+          },
+          {
             "type": "heading",
             "content": "La décomposition SVD et les embeddings"
           },
@@ -185,6 +248,29 @@
             "label": "SVD : trouver la structure cachée des données",
             "content": "import numpy as np\n\n# Matrice films x utilisateurs (notes)\nratings = np.array([\n    [5, 4, 0, 1],   # Alice\n    [4, 5, 0, 2],   # Bob (similaire à Alice)\n    [0, 1, 5, 4],   # Carol\n    [1, 0, 4, 5],   # Dave (similaire à Carol)\n])\n\nU, S, Vt = np.linalg.svd(ratings, full_matrices=False)\n\n# U : embeddings utilisateurs dans l'espace latent\n# S : importance de chaque dimension latente\n# Vt : embeddings des films\n\nprint(f'Dimensions latentes : {S.round(2)}')\n# [9.63, 3.96, ...] -> 2 concepts principaux\n# Concept 1 : films d'action, Concept 2 : films romantiques",
             "contentJava": "// Java 11 avec Apache Commons Math 3\n// Dépendance Maven : commons-math3:3.6.1\nimport org.apache.commons.math3.linear.*;\n\npublic class SVDExemple {\n    public static void main(String[] args) {\n        // Matrice films x utilisateurs (notes 0-5)\n        double[][] data = {\n            {5, 4, 0, 1},  // Alice\n            {4, 5, 0, 2},  // Bob  (similaire à Alice)\n            {0, 1, 5, 4},  // Carol\n            {1, 0, 4, 5},  // Dave (similaire à Carol)\n        };\n\n        RealMatrix ratings = MatrixUtils.createRealMatrix(data);\n        SingularValueDecomposition svd = new SingularValueDecomposition(ratings);\n\n        // U : embeddings utilisateurs, S : importance, Vt : embeddings films\n        double[] S = svd.getSingularValues();\n        System.out.print(\"Dimensions latentes : [\");\n        for (int i = 0; i < S.length; i++)\n            System.out.printf(\"%.2f%s\", S[i], i < S.length - 1 ? \", \" : \"]%n\");\n        // -> 2 concepts principaux : films d'action vs films romantiques\n    }\n}"
+          },
+          {
+            "type": "check",
+            "question": "Quelle opération mesure l'angle entre deux vecteurs et est massivement utilisée en NLP pour la similarité sémantique ?",
+            "options": [
+              "Le produit matriciel",
+              "La norme euclidienne",
+              "La similarité cosinus",
+              "La décomposition SVD"
+            ],
+            "correct": 2,
+            "explanation": "La similarité cosinus mesure le cosinus de l'angle entre deux vecteurs. Deux vecteurs dans la même direction donnent un cosinus de 1 (identiques), dans des directions opposées -1. Très utilisée pour comparer des embeddings de mots ou de phrases."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Un vecteur est une liste ordonnée de nombres — en IA, tout (images, mots, sons) est représenté sous forme de vecteurs",
+              "Le produit scalaire mesure la similarité entre deux vecteurs ; la similarité cosinus normalise par la longueur",
+              "Une matrice de poids W transforme les données via le produit matriciel X @ W + b — c'est le cœur d'une couche Dense",
+              "La SVD décompose une matrice en facteurs latents, fondement des systèmes de recommandation et des embeddings",
+              "En deep learning, le produit matriciel est l'opération la plus importante ; les GPU l'accélèrent massivement en parallèle"
+            ]
           }
         ]
       },
@@ -216,6 +302,18 @@
             "label": "Distributions — comment un LLM choisit le prochain mot",
             "content": "import numpy as np\n\n# Simulation d'un LLM choisissant le prochain token\nvocabulaire = ['chat', 'chien', 'oiseau', 'poisson']\n\n# Scores bruts du modèle (logits)\nlogits = np.array([3.2, 1.5, 0.8, 0.3])\n\n# Softmax : convertit en probabilités (somme = 1)\ndef softmax(x):\n    exp_x = np.exp(x - np.max(x))  # stabilité numérique\n    return exp_x / exp_x.sum()\n\nprobs = softmax(logits)\nfor mot, p in zip(vocabulaire, probs):\n    print(f'{mot:10} : {p:.1%} {\"█\" * int(p*20)}')\n\n# Température : contrôle la 'créativité'\n# T=0.5 -> plus déterministe  |  T=2.0 -> plus aléatoire\nprint('\\nAvec température T=0.5:')\nprobs_cold = softmax(logits / 0.5)\nfor mot, p in zip(vocabulaire, probs_cold):\n    print(f'{mot:10} : {p:.1%}')",
             "contentJava": "import java.util.Arrays;\n\npublic class Distributions {\n    public static void main(String[] args) {\n        String[] vocabulaire = {\"chat\", \"chien\", \"oiseau\", \"poisson\"};\n        double[] logits = {3.2, 1.5, 0.8, 0.3};\n\n        // Softmax : convertit en probabilités (somme = 1)\n        double[] probs = softmax(logits);\n        for (int i = 0; i < vocabulaire.length; i++) {\n            String bar = \"█\".repeat((int)(probs[i] * 20));\n            System.out.printf(\"%-10s : %.1f%% %s%n\",\n                vocabulaire[i], probs[i] * 100, bar);\n        }\n\n        // Température : contrôle la 'créativité'\n        // T=0.5 -> plus déterministe  |  T=2.0 -> plus aléatoire\n        System.out.println();\n        System.out.println(\"Avec température T=0.5 :\");\n        double[] scaled = Arrays.stream(logits).map(x -> x / 0.5).toArray();\n        double[] probsCold = softmax(scaled);\n        for (int i = 0; i < vocabulaire.length; i++)\n            System.out.printf(\"%-10s : %.1f%%%n\",\n                vocabulaire[i], probsCold[i] * 100);\n    }\n\n    static double[] softmax(double[] x) {\n        double max = Arrays.stream(x).max().orElse(0);\n        double[] exp = Arrays.stream(x).map(v -> Math.exp(v - max)).toArray();\n        double sum = Arrays.stream(exp).sum();\n        return Arrays.stream(exp).map(v -> v / sum).toArray();\n    }\n}"
+          },
+          {
+            "type": "check",
+            "question": "Que fait la fonction Softmax sur un vecteur de logits (scores bruts) ?",
+            "options": [
+              "Elle les normalise entre -1 et 1",
+              "Elle convertit les scores en probabilités dont la somme vaut 1",
+              "Elle sélectionne uniquement le score maximum",
+              "Elle calcule la moyenne des scores"
+            ],
+            "correct": 1,
+            "explanation": "Softmax exponentie chaque valeur puis divise par la somme totale, produisant une distribution de probabilités (valeurs positives, somme = 1). C'est la dernière couche des classificateurs et le mécanisme de sélection de tokens dans les LLMs."
           },
           {
             "type": "heading",
@@ -256,6 +354,29 @@
           {
             "type": "tip",
             "content": "Règle d'or : MSE pour prédire des valeurs continues (prix, température), Cross-Entropy pour prédire des classes (chat/chien, spam/ham, prochain token)."
+          },
+          {
+            "type": "check",
+            "question": "Dans le théorème de Bayes appliqué à la détection de spam, que représente P(spam|'gratuit') ?",
+            "options": [
+              "La probabilité qu'un email soit spam avant toute observation",
+              "La probabilité de trouver le mot 'gratuit' dans un spam",
+              "La probabilité que l'email soit un spam sachant qu'il contient 'gratuit'",
+              "La proportion de spams dans tous les emails"
+            ],
+            "correct": 2,
+            "explanation": "P(spam|'gratuit') est une probabilité conditionnelle : la probabilité que l'email soit un spam SACHANT qu'on a observé le mot 'gratuit'. C'est la probabilité a posteriori, mise à jour grâce au théorème de Bayes par rapport à la probabilité a priori P(spam)."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Une distribution de probabilité décrit la répartition des valeurs ; Softmax convertit des scores bruts en probabilités",
+              "La température contrôle la 'créativité' d'un LLM : T < 1 rend les réponses plus déterministes, T > 1 plus aléatoires",
+              "Le théorème de Bayes permet de mettre à jour ses croyances avec chaque nouvelle preuve — base des filtres anti-spam",
+              "MSE est la fonction de perte pour la régression (valeurs continues), Cross-Entropy pour la classification",
+              "Minimiser la perte est l'objectif central de l'entraînement : le modèle ajuste ses poids pour réduire l'erreur"
+            ]
           }
         ]
       },
@@ -288,6 +409,22 @@
           {
             "type": "text",
             "content": "En termes mathématiques, le **gradient** est une boussole : il te dit dans quelle direction l'erreur *augmente*. Donc le réseau fait l'opposé — il va dans la direction où l'erreur *diminue*. (Pour les curieux : c'est le vecteur des dérivées partielles ∇L(w), mais l'intuition suffit pour la suite.)"
+          },
+          {
+            "type": "check",
+            "question": "Dans la descente de gradient, dans quelle direction le modèle met-il à jour ses paramètres par rapport au gradient ?",
+            "options": [
+              "Dans la direction du gradient (là où la perte augmente)",
+              "Dans la direction opposée au gradient (là où la perte diminue)",
+              "Perpendiculairement au gradient",
+              "Aléatoirement avec un bruit gaussien"
+            ],
+            "correct": 1,
+            "explanation": "Le gradient pointe dans la direction de la montée (augmentation de la perte). Pour minimiser la perte, le modèle fait un pas dans la direction OPPOSÉE au gradient : w = w - lr × ∇L(w). C'est l'essence même de la descente de gradient."
+          },
+          {
+            "type": "interactive",
+            "widget": "gradient-descent"
           },
           {
             "type": "code",
@@ -330,6 +467,29 @@
           {
             "type": "warning",
             "content": "Piège classique : un learning rate trop grand fait osciller sans converger. Trop petit et l'entraînement prend une éternité. Commencez avec lr=0.001 pour Adam — c'est un bon défaut."
+          },
+          {
+            "type": "check",
+            "question": "Quel optimiseur est considéré comme le choix par défaut en 2024 pour la plupart des architectures de deep learning ?",
+            "options": [
+              "SGD classique",
+              "Momentum seul",
+              "Adam (Adaptive Moment Estimation)",
+              "RMSProp"
+            ],
+            "correct": 2,
+            "explanation": "Adam combine le momentum (mémoire des gradients passés) et les learning rates adaptatifs par paramètre. Il converge rapidement et nécessite peu de tuning, ce qui en fait le choix par défaut pour la quasi-totalité des architectures modernes."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "La descente de gradient fait avancer les paramètres dans la direction opposée au gradient pour minimiser la perte",
+              "Le learning rate contrôle la taille du pas : trop grand → diverge, trop petit → entraînement très lent",
+              "SGD calcule le gradient sur un mini-batch ; Adam y ajoute le momentum et des learning rates adaptatifs",
+              "Adam (lr=0.001 par défaut) est le choix par défaut pour la plupart des architectures modernes",
+              "La convergence peut être visualisée : la perte diminue progressivement vers un minimum local ou global"
+            ]
           }
         ]
       }
@@ -378,6 +538,27 @@
             ]
           },
           {
+            "type": "compare",
+            "before": {
+              "label": "Sans IA (règles manuelles)",
+              "items": [
+                "Un expert écrit des centaines de règles if/else",
+                "Fragile : un cas imprévu casse tout le système",
+                "Mise à jour manuelle à chaque changement",
+                "Ne s'améliore pas avec plus de données"
+              ]
+            },
+            "after": {
+              "label": "Avec Machine Learning",
+              "items": [
+                "Le modèle apprend les règles depuis les données d'exemples",
+                "Robuste : généralise aux cas non vus pendant l'entraînement",
+                "Se réentraîne automatiquement sur de nouvelles données",
+                "Plus de données = meilleures performances"
+              ]
+            }
+          },
+          {
             "type": "heading",
             "content": "Le pipeline ML standard"
           },
@@ -390,6 +571,29 @@
               "**Entraînement et tuning** : choisir et optimiser le modèle",
               "**Évaluation** : mesurer la qualité du modèle — accuracy (% bien classés), F1 (équilibre précision/rappel), AUC-ROC (score global sur tous les seuils)",
               "**Déploiement et monitoring** : en production, le comportement réel change avec le temps (data drift — dérive des données : le modèle se dégrade car le monde a changé) — un modèle de détection de fraude de 2022 peut être obsolète en 2024"
+            ]
+          },
+          {
+            "type": "check",
+            "question": "Pourquoi ne doit-on jamais évaluer les performances d'un modèle sur ses données d'entraînement ?",
+            "options": [
+              "C'est trop lent à calculer",
+              "Le modèle a mémorisé ces données et obtient un score artificiellement élevé (overfitting)",
+              "Les données d'entraînement sont confidentielles",
+              "Les métriques ne sont pas comparables"
+            ],
+            "correct": 1,
+            "explanation": "Évaluer sur les données d'entraînement donne un score optimiste et trompeur : le modèle a déjà 'vu' ces exemples et peut les mémoriser. Le split train/test simule des données inédites pour mesurer la vraie capacité de généralisation."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Il existe trois paradigmes : apprentissage supervisé (avec labels), non-supervisé (sans labels) et par renforcement (récompenses)",
+              "L'apprentissage supervisé représente ~80% des cas en production",
+              "Le pipeline ML suit 6 étapes : collecte, feature engineering, split, entraînement, évaluation, déploiement",
+              "Ne jamais évaluer sur les données d'entraînement — utiliser un jeu de test séparé et indépendant",
+              "Le data drift en production est un risque réel : les modèles doivent être monitorés et réentraînés régulièrement"
             ]
           }
         ]
@@ -414,6 +618,29 @@
           {
             "type": "tip",
             "content": "La régression logistique donne des probabilités calibrées, idéales pour décider d'un seuil. Ex: envoyer une offre de rétention uniquement aux clients avec P(churn) > 0.7."
+          },
+          {
+            "type": "check",
+            "question": "Quelle est la principale différence entre la régression linéaire et la régression logistique ?",
+            "options": [
+              "La régression linéaire utilise des arbres de décision",
+              "La régression linéaire prédit une valeur continue, la logistique prédit une probabilité (0 à 1)",
+              "La régression logistique est toujours plus précise",
+              "La régression linéaire ne fonctionne qu'avec une seule variable"
+            ],
+            "correct": 1,
+            "explanation": "La régression linéaire modélise une relation pour prédire une valeur continue (prix d'une maison). La régression logistique applique une sigmoïde pour produire une probabilité entre 0 et 1, idéale pour la classification binaire (churn/pas churn, spam/pas spam)."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "La régression linéaire (y = aX + b) prédit des valeurs continues en minimisant l'erreur quadratique (MSE)",
+              "La régression logistique applique une sigmoïde pour prédire P(y=1|X), parfaite pour la classification binaire",
+              "Les coefficients du modèle sont directement interprétables : un coef positif augmente la probabilité prédite",
+              "La régression logistique produit des probabilités calibrées, utiles pour fixer un seuil de décision métier",
+              "Ces deux modèles restent très utilisés en production pour leur interprétabilité et leur rapidité d'entraînement"
+            ]
           }
         ]
       },
@@ -437,6 +664,29 @@
           {
             "type": "warning",
             "content": "Random Forest vs XGBoost : XGBoost (gradient boosting) bat souvent Random Forest sur données tabulaires compétitives. Mais Random Forest est plus simple à tuner et moins susceptible d'overfitter."
+          },
+          {
+            "type": "check",
+            "question": "Pourquoi les Random Forests sont-ils plus robustes qu'un seul arbre de décision ?",
+            "options": [
+              "Ils utilisent un algorithme plus complexe",
+              "Ils combinent les prédictions de centaines d'arbres entraînés sur des sous-échantillons aléatoires, réduisant la variance",
+              "Ils nécessitent moins de données d'entraînement",
+              "Ils n'ont pas de hyperparamètres à régler"
+            ],
+            "correct": 1,
+            "explanation": "Un seul arbre de décision overfitte facilement (haute variance). La Random Forest entraîne de nombreux arbres sur des sous-ensembles aléatoires de données et de features, puis agrège leurs prédictions (vote majoritaire). Cette diversification réduit drastiquement la variance."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Un arbre de décision est une série de règles if/else apprenables — intuitif mais sujet à l'overfitting",
+              "La Random Forest combine des centaines d'arbres entraînés sur des sous-échantillons pour réduire la variance",
+              "L'importance des features permet d'identifier quelles variables influencent le plus les prédictions",
+              "Le Gradient Boosting (XGBoost, LightGBM) bat souvent Random Forest sur des données tabulaires compétitives",
+              "La cross-validation (k-fold) donne une estimation fiable des performances sans gaspiller de données de test"
+            ]
           }
         ]
       },
@@ -460,6 +710,29 @@
           {
             "type": "tip",
             "content": "Toujours normaliser les données avant de clusterer ! K-Means est sensible aux échelles. Une variable en milliers d'euros dominera une variable en 0-5 étoiles sans normalisation."
+          },
+          {
+            "type": "check",
+            "question": "Pourquoi est-il obligatoire de normaliser les données avant d'appliquer K-Means ?",
+            "options": [
+              "Pour accélérer le calcul",
+              "K-Means utilise des distances euclidiennes : une variable en milliers d'euros dominerait une variable en 0-5 étoiles sans normalisation",
+              "La normalisation améliore toujours la qualité des clusters",
+              "Pour satisfaire les hypothèses gaussiennes de K-Means"
+            ],
+            "correct": 1,
+            "explanation": "K-Means calcule des distances euclidiennes pour assigner les points aux clusters. Sans normalisation, les variables avec de grandes valeurs absolues dominent le calcul de distance et faussent les clusters. StandardScaler ramène chaque variable à moyenne 0 et écart-type 1."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "L'apprentissage non-supervisé découvre la structure cachée des données sans labels",
+              "K-Means regroupe les points en k clusters en minimisant la distance intra-cluster — toujours normaliser avant !",
+              "La méthode du coude (elbow method) aide à choisir le bon nombre de clusters k",
+              "DBSCAN détecte des clusters de forme arbitraire et identifie les anomalies (points isolés)",
+              "Applications clés : segmentation clients, détection d'anomalies, compression de données"
+            ]
           }
         ]
       }
@@ -501,6 +774,29 @@
             "label": "MLP from scratch avec NumPy",
             "content": "import numpy as np\n\nclass MLP:\n    \"\"\"Multi-Layer Perceptron (réseau fully-connected)\"\"\"\n    \n    def __init__(self, layer_sizes):\n        self.weights = []\n        self.biases = []\n        for i in range(len(layer_sizes) - 1):\n            # Initialisation He (pour ReLU)\n            W = np.random.randn(layer_sizes[i], layer_sizes[i+1]) * np.sqrt(2/layer_sizes[i])\n            b = np.zeros(layer_sizes[i+1])\n            self.weights.append(W)\n            self.biases.append(b)\n    \n    def relu(self, x):\n        return np.maximum(0, x)\n    \n    def sigmoid(self, x):\n        return 1 / (1 + np.exp(-x))\n    \n    def forward(self, x):\n        self.activations = [x]\n        current = x\n        for i, (W, b) in enumerate(zip(self.weights, self.biases)):\n            z = current @ W + b\n            # ReLU pour les couches cachées, sigmoid en sortie\n            if i < len(self.weights) - 1:\n                current = self.relu(z)\n            else:\n                current = self.sigmoid(z)\n            self.activations.append(current)\n        return current\n\n# Architecture : 2 entrées -> 4 neurones -> 3 neurones -> 1 sortie\nmlp = MLP([2, 4, 3, 1])\nx = np.array([[0.5, -0.3]])\noutput = mlp.forward(x)\nprint(f'Prédiction : {output[0,0]:.4f}')\nprint(f'Paramètres totaux : {sum(W.size + b.size for W,b in zip(mlp.weights, mlp.biases))}')",
             "contentJava": "import java.util.Random;\n\npublic class MLP {\n    // Poids [layer][neurone_from][neurone_to], biais [layer][neurone]\n    private final double[][][] W;\n    private final double[][] b;\n    double[][] activations; // pour le backprop\n\n    MLP(int[] sizes) {\n        Random rng = new Random(42);\n        W = new double[sizes.length - 1][][];\n        b = new double[sizes.length - 1][];\n        for (int l = 0; l < sizes.length - 1; l++) {\n            double scale = Math.sqrt(2.0 / sizes[l]); // init He (ReLU)\n            W[l] = new double[sizes[l]][sizes[l + 1]];\n            b[l] = new double[sizes[l + 1]];\n            for (int i = 0; i < sizes[l]; i++)\n                for (int j = 0; j < sizes[l + 1]; j++)\n                    W[l][i][j] = rng.nextGaussian() * scale;\n        }\n    }\n\n    static double relu(double x)    { return Math.max(0, x); }\n    static double sigmoid(double x) { return 1 / (1 + Math.exp(-x)); }\n\n    double[] forward(double[] x) {\n        activations = new double[W.length + 1][];\n        activations[0] = x;\n        double[] cur = x;\n        for (int l = 0; l < W.length; l++) {\n            double[] next = new double[b[l].length];\n            for (int j = 0; j < next.length; j++) {\n                next[j] = b[l][j];\n                for (int i = 0; i < cur.length; i++) next[j] += cur[i] * W[l][i][j];\n                // ReLU pour couches cachées, Sigmoid en sortie\n                next[j] = (l < W.length - 1) ? relu(next[j]) : sigmoid(next[j]);\n            }\n            activations[l + 1] = next;\n            cur = next;\n        }\n        return cur;\n    }\n\n    public static void main(String[] args) {\n        // Architecture : 2 entrées -> 4 neurones -> 3 neurones -> 1 sortie\n        MLP mlp = new MLP(new int[]{2, 4, 3, 1});\n        double[] output = mlp.forward(new double[]{0.5, -0.3});\n        System.out.printf(\"Prédiction : %.4f%n\", output[0]);\n\n        int total = 0;\n        for (int l = 0; l < mlp.W.length; l++)\n            total += mlp.W[l].length * mlp.W[l][0].length + mlp.b[l].length;\n        System.out.println(\"Paramètres totaux : \" + total);\n    }\n}"
+          },
+          {
+            "type": "check",
+            "question": "Dans un neurone artificiel, que représente le biais (bias) b ?",
+            "options": [
+              "Le taux d'apprentissage du réseau",
+              "Un paramètre appris qui déplace le seuil d'activation, indépendamment des entrées",
+              "La fonction d'activation non-linéaire",
+              "Le nombre de couches du réseau"
+            ],
+            "correct": 1,
+            "explanation": "Le biais b est un paramètre appris (comme les poids) qui permet de déplacer la frontière de décision. Sans biais, le neurone serait contraint de passer par l'origine. Il donne au réseau plus de flexibilité pour s'adapter aux données."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Un neurone artificiel calcule : sortie = f(w₁x₁ + ... + wₙxₙ + b) où f est une fonction d'activation non-linéaire",
+              "Les poids (w) et biais (b) sont les paramètres que le réseau apprend pendant l'entraînement",
+              "Un MLP (Multi-Layer Perceptron) empile plusieurs couches de neurones pour apprendre des patterns complexes",
+              "L'initialisation He (pour ReLU) évite les problèmes de gradient vanishing/exploding dans les réseaux profonds",
+              "Plus un réseau a de paramètres, plus il peut modéliser des fonctions complexes — mais plus il risque d'overfitter"
+            ]
           }
         ]
       },
@@ -532,6 +828,29 @@
           {
             "type": "tip",
             "content": "En pratique, on n'implémente jamais backprop manuellement. PyTorch et TensorFlow le font automatiquement via l'autograd. Mais comprendre la mécanique permet de déboguer les problèmes de gradient (vanishing, exploding)."
+          },
+          {
+            "type": "check",
+            "question": "Dans la backpropagation, quelle règle mathématique permet de calculer le gradient de la perte par rapport à chaque poids ?",
+            "options": [
+              "La règle de l'intégration par parties",
+              "La règle de la chaîne (chain rule) du calcul différentiel",
+              "Le théorème de Bayes",
+              "La décomposition en valeurs singulières (SVD)"
+            ],
+            "correct": 1,
+            "explanation": "La règle de la chaîne permet de décomposer le gradient d'une composition de fonctions : dL/dw = dL/da × da/dz × dz/dw. C'est ce qui permet de propager le signal d'erreur depuis la sortie jusqu'à chaque poids du réseau, couche par couche."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "La backpropagation calcule le gradient de la perte par rapport à chaque paramètre du réseau",
+              "Elle utilise la règle de la chaîne : le gradient se propage de la sortie vers l'entrée, couche par couche",
+              "Forward pass : calcul des prédictions. Backward pass : calcul des gradients. Mise à jour : ajustement des poids",
+              "En pratique, PyTorch et TensorFlow calculent la backprop automatiquement via l'autograd",
+              "Comprendre la backprop aide à diagnostiquer le vanishing gradient (gradients qui s'annulent) et l'exploding gradient"
+            ]
           }
         ]
       },
@@ -569,6 +888,50 @@
                 "description": "Historiques. Sigmoid pour la sortie binaire (0-1). Tanh centrée en 0 (-1,1). Éviter dans les couches cachées profondes à cause du vanishing gradient."
               }
             ]
+          },
+          {
+            "type": "check",
+            "question": "Pourquoi faut-il éviter les fonctions Sigmoid et Tanh dans les couches cachées de réseaux profonds ?",
+            "options": [
+              "Elles sont trop lentes à calculer",
+              "Elles provoquent le vanishing gradient : leur dérivée est proche de 0 pour les grandes valeurs, ce qui bloque l'apprentissage",
+              "Elles ne produisent pas de valeurs entre 0 et 1",
+              "Elles sont incompatibles avec l'optimiseur Adam"
+            ],
+            "correct": 1,
+            "explanation": "Sigmoid et Tanh saturent (dérivée ≈ 0) pour les grandes valeurs. Lors de la backpropagation, les gradients sont multipliés par ces dérivées : ils deviennent exponentiellement petits dans les couches profondes (vanishing gradient), bloquant l'apprentissage."
+          },
+          {
+            "type": "compare",
+            "before": {
+              "label": "Réseaux historiques (Sigmoid/Tanh)",
+              "items": [
+                "Vanishing gradient dans les réseaux profonds",
+                "Saturation pour les grandes valeurs",
+                "Apprentissage très lent sur plus de 3-4 couches",
+                "Gradients qui disparaissent exponentiellement"
+              ]
+            },
+            "after": {
+              "label": "Réseaux modernes (ReLU/GELU)",
+              "items": [
+                "Gradient constant pour x > 0 avec ReLU — pas de saturation",
+                "GELU lissée, utilisée dans GPT et BERT",
+                "Permet d'entraîner des réseaux de centaines de couches",
+                "ResNet (152 couches) rendu possible grâce à ReLU + skip connections"
+              ]
+            }
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Les fonctions d'activation introduisent la non-linéarité indispensable pour qu'un réseau apprenne des patterns complexes",
+              "ReLU (max(0,x)) est le choix par défaut pour les couches cachées : simple, efficace, pas de saturation",
+              "GELU est la variante lissée utilisée dans les LLMs modernes (GPT, BERT, Claude)",
+              "Softmax convertit un vecteur de scores en distribution de probabilités — utilisée en sortie pour la classification",
+              "Sigmoid et Tanh sont à éviter dans les couches cachées profondes à cause du vanishing gradient"
+            ]
           }
         ]
       },
@@ -592,6 +955,29 @@
           {
             "type": "warning",
             "content": "Règle d'or : commencez par overfitter intentionnellement sur un petit batch (vérification du modèle), puis ajoutez de la régularisation progressivement. Un modèle qui ne peut pas overfitter a souvent un bug."
+          },
+          {
+            "type": "check",
+            "question": "Quel est l'effet du Dropout pendant l'entraînement d'un réseau de neurones ?",
+            "options": [
+              "Il réduit le learning rate progressivement",
+              "Il désactive aléatoirement un pourcentage de neurones à chaque batch, forçant le réseau à apprendre des représentations robustes",
+              "Il normalise les activations pour stabiliser l'entraînement",
+              "Il ajoute un terme de pénalité sur les poids dans la fonction de perte"
+            ],
+            "correct": 1,
+            "explanation": "Le Dropout désactive aléatoirement p% des neurones à chaque batch pendant l'entraînement. Le réseau ne peut plus se reposer sur des neurones spécifiques et doit distribuer l'information. Résultat : des représentations plus robustes qui généralisent mieux sur de nouvelles données."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "L'overfitting survient quand le modèle mémorise le bruit des données d'entraînement au lieu d'apprendre des patterns généralisables",
+              "Le Dropout (0.2-0.5) désactive des neurones aléatoirement pour forcer des représentations robustes",
+              "La régularisation L2 (weight decay) pénalise les gros poids et les maintient proches de zéro",
+              "L'Early Stopping arrête l'entraînement dès que la validation cesse de s'améliorer",
+              "Règle d'or : commencer par overfitter intentionnellement sur un petit batch, puis ajouter la régularisation progressivement"
+            ]
           }
         ]
       }
@@ -633,6 +1019,50 @@
           {
             "type": "tip",
             "content": "MaxPooling vs GlobalAveragePooling : MaxPooling garde les features spatiales (bon pour la détection), GlobalAveragePooling agrège tout (bon pour la classification). Les architectures modernes préfèrent GlobalAveragePooling."
+          },
+          {
+            "type": "check",
+            "question": "Quelle est la propriété fondamentale des convolutions qui les rend si efficaces pour les images ?",
+            "options": [
+              "Elles connectent chaque pixel à chaque neurone de la couche suivante",
+              "Elles appliquent le même filtre sur des régions locales (invariance par translation), réduisant massivement le nombre de paramètres",
+              "Elles travaillent uniquement en noir et blanc",
+              "Elles remplacent le pooling dans les architectures modernes"
+            ],
+            "correct": 1,
+            "explanation": "Une convolution applique le même filtre (kernel) partout sur l'image (poids partagés). Cela exploite l'invariance par translation : un bord vertical est un bord vertical qu'il soit en haut à gauche ou en bas à droite. Cela réduit drastiquement le nombre de paramètres comparé à un réseau fully-connected."
+          },
+          {
+            "type": "compare",
+            "before": {
+              "label": "ML Classique sur images",
+              "items": [
+                "Aplatir l'image en vecteur (ex: 784 valeurs pour 28×28)",
+                "Feature engineering manuel (histogrammes, HOG, SIFT)",
+                "Performances limitées sur images complexes",
+                "Sensible aux variations de position et d'éclairage"
+              ]
+            },
+            "after": {
+              "label": "CNN (Réseau Convolutif)",
+              "items": [
+                "Les filtres glissants détectent des patterns locaux (bords, textures, formes)",
+                "Feature learning automatique : le réseau apprend ses propres filtres",
+                "Révolutionnaire : >98% sur MNIST, >90% sur ImageNet",
+                "Invariant par translation grâce aux poids partagés"
+              ]
+            }
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Les CNNs utilisent des filtres convolutifs qui 'glissent' sur l'image pour détecter des patterns locaux",
+              "Les premières couches détectent des bords et textures, les couches profondes des formes complexes",
+              "MaxPooling réduit la résolution spatiale et crée une invariance aux petites translations",
+              "BatchNormalization stabilise l'entraînement et accélère la convergence",
+              "Les CNNs modernes (EfficientNet, ResNet) atteignent plus de 90% sur ImageNet grâce à des architectures profondes"
+            ]
           }
         ]
       },
@@ -656,6 +1086,133 @@
           {
             "type": "tip",
             "content": "Règle des 500 : avec 500 images par classe, le transfer learning depuis ImageNet donne souvent de très bons résultats. Avec 50 images, c'est encore faisable. Avec 5000+, le fine-tuning complet devient intéressant."
+          },
+          {
+            "type": "check",
+            "question": "Dans le Transfer Learning, pourquoi 'gèle-t-on' (freeze) les couches du backbone pré-entraîné lors de la phase 1 ?",
+            "options": [
+              "Pour accélérer le forward pass",
+              "Pour éviter de détruire les features génériques apprises sur ImageNet avec un learning rate trop élevé",
+              "Pour réduire la consommation mémoire du GPU",
+              "Parce que ces couches ne sont pas utiles pour la nouvelle tâche"
+            ],
+            "correct": 1,
+            "explanation": "Le backbone pré-entraîné sur ImageNet a appris des features génériques précieuses (bords, textures, formes). En le gelant lors de la phase 1, on entraîne uniquement la nouvelle tête de classification sans risquer de 'désapprendre' ces features avec un gradient trop fort."
+          },
+          {
+            "type": "compare",
+            "before": {
+              "label": "Sans Transfer Learning",
+              "items": [
+                "Nécessite des milliers à millions d'images annotées",
+                "Entraînement de plusieurs jours sur GPU coûteux",
+                "Risque fort d'overfitting avec peu de données",
+                "Performances médiocres en dessous de 10 000 images/classe"
+              ]
+            },
+            "after": {
+              "label": "Avec Transfer Learning",
+              "items": [
+                "Bon résultat avec 500 images par classe seulement",
+                "Entraînement en quelques heures sur un seul GPU",
+                "Le backbone pré-entraîné fournit des features génériques robustes",
+                "90%+ d'accuracy typique même avec peu de données"
+              ]
+            }
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Le Transfer Learning réutilise un modèle pré-entraîné sur des millions d'images comme point de départ",
+              "Phase 1 (feature extraction) : geler le backbone et entraîner seulement la tête de classification",
+              "Phase 2 (fine-tuning) : dégeler les dernières couches avec un learning rate très faible (1e-5)",
+              "Avec seulement 500 images par classe, on peut atteindre 90%+ d'accuracy grâce au Transfer Learning",
+              "Les modèles recommandés : EfficientNet, ResNet, ViT (Vision Transformer)"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "4-3",
+        "title": "RNN, LSTM & Séquences",
+        "duration": "25 min",
+        "icon": "🔄",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Avant les Transformers, les RNNs (Réseaux de Neurones Récurrents) et LSTMs dominaient le traitement de séquences : texte, audio, séries temporelles. Ils traitent les données token par token en maintenant un état caché — une 'mémoire'. Comprendre pourquoi ils ont été remplacés est essentiel pour apprécier la révolution Transformer."
+          },
+          {
+            "type": "heading",
+            "content": "Le problème des séquences"
+          },
+          {
+            "type": "text",
+            "content": "Un réseau dense classique (MLP) ne peut pas traiter des séquences de longueur variable : chaque entrée doit avoir une taille fixe. Les RNNs résolvent cela en traitant les tokens un par un, en passant un état caché (hidden state) d'une étape à la suivante. C'est comme lire un texte mot par mot en gardant en mémoire ce qu'on a lu."
+          },
+          {
+            "type": "heading",
+            "content": "RNN → LSTM : résoudre la mémoire à long terme"
+          },
+          {
+            "type": "text",
+            "content": "Le problème du RNN simple : le gradient qui se propage dans le temps devient très petit (vanishing gradient). Après ~10 tokens, le réseau 'oublie' les informations du début. Le LSTM (Long Short-Term Memory, Hochreiter & Schmidhuber, 1997) ajoute trois portes — oubli, entrée, sortie — pour contrôler explicitement quelles informations conserver sur le long terme."
+          },
+          {
+            "type": "tip",
+            "content": "En simple : le RNN lit séquentiellement et oublie vite. Le LSTM ajoute un 'pense-bête' (cell state) qui court en parallèle et stocke les informations importantes sur des centaines de tokens. Le GRU (Gated Recurrent Unit) est une version simplifiée du LSTM, souvent aussi performante mais plus rapide."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "LSTM pour prédiction de série temporelle",
+            "content": "import numpy as np\nfrom tensorflow import keras\nfrom tensorflow.keras import layers\n\n# ── Données : prédire le prix suivant d'une action ──\n# Séquence de 30 jours → prédire le jour 31\nSEQ_LEN = 30\n\n# Créer des séquences de données\ndef create_sequences(data, seq_len):\n    X, y = [], []\n    for i in range(len(data) - seq_len):\n        X.append(data[i : i + seq_len])\n        y.append(data[i + seq_len])\n    return np.array(X), np.array(y)\n\n# Données simulées (en pratique : yfinance, pandas)\nnp.random.seed(42)\nprices = np.cumsum(np.random.randn(1000)) + 100  # marche aléatoire\nprices = (prices - prices.mean()) / prices.std()  # normaliser\n\nX, y = create_sequences(prices, SEQ_LEN)\nX = X.reshape(X.shape[0], SEQ_LEN, 1)  # (batch, timesteps, features)\n\n# ── Architecture LSTM ────────────────────────────────\nmodel = keras.Sequential([\n    layers.LSTM(\n        64,\n        return_sequences=True,   # passer la séquence à la couche suivante\n        input_shape=(SEQ_LEN, 1)\n    ),\n    layers.Dropout(0.2),\n    layers.LSTM(32, return_sequences=False),  # dernière LSTM : un vecteur\n    layers.Dropout(0.2),\n    layers.Dense(16, activation='relu'),\n    layers.Dense(1)  # prédiction scalaire\n])\n\nmodel.compile(optimizer='adam', loss='mse', metrics=['mae'])\nmodel.summary()\n\n# ── Entraînement ────────────────────────────────────\nsplit = int(0.8 * len(X))\nX_train, X_test = X[:split], X[split:]\ny_train, y_test = y[:split], y[split:]\n\nhistory = model.fit(\n    X_train, y_train,\n    validation_data=(X_test, y_test),\n    epochs=50,\n    batch_size=32,\n    callbacks=[keras.callbacks.EarlyStopping(patience=5, restore_best_weights=True)]\n)\n\nprint(f'MAE test : {model.evaluate(X_test, y_test)[1]:.4f}')\n# Limitation : le LSTM traite la séquence séquentiellement → lent à entraîner\n# Les Transformers ont remplacé les LSTMs pour la plupart des tâches NLP en 2018-2020",
+            "contentJava": "// Java 11 avec Deeplearning4j (DL4J)\nimport org.deeplearning4j.nn.conf.NeuralNetConfiguration;\nimport org.deeplearning4j.nn.conf.layers.LSTM;\nimport org.deeplearning4j.nn.conf.layers.RnnOutputLayer;\nimport org.deeplearning4j.nn.multilayer.MultiLayerNetwork;\nimport org.deeplearning4j.optimize.listeners.ScoreIterationListener;\nimport org.nd4j.linalg.activations.Activation;\nimport org.nd4j.linalg.api.ndarray.INDArray;\nimport org.nd4j.linalg.dataset.DataSet;\nimport org.nd4j.linalg.factory.Nd4j;\nimport org.nd4j.linalg.learning.config.Adam;\nimport org.nd4j.linalg.lossfunctions.LossFunctions;\n\npublic class LSTMSeries {\n\n    static final int SEQ_LEN   = 30;  // fenêtre temporelle\n    static final int N_HIDDEN  = 64;  // cellules LSTM\n    static final int N_FEATURES = 1;  // un seul indicateur (prix normalisé)\n\n    public static void main(String[] args) throws Exception {\n\n        // ── Architecture LSTM ──────────────────────\n        MultiLayerNetwork model = new MultiLayerNetwork(\n            new NeuralNetConfiguration.Builder()\n                .updater(new Adam(1e-3))\n                .list()\n                // Couche 1 : LSTM avec 64 cellules\n                .layer(new LSTM.Builder()\n                    .nIn(N_FEATURES).nOut(N_HIDDEN)\n                    .activation(Activation.TANH)\n                    .build())\n                // Couche 2 : LSTM avec 32 cellules\n                .layer(new LSTM.Builder()\n                    .nIn(N_HIDDEN).nOut(32)\n                    .activation(Activation.TANH)\n                    .build())\n                // Sortie : prédiction scalaire\n                .layer(new RnnOutputLayer.Builder(\n                        LossFunctions.LossFunction.MSE)\n                    .nIn(32).nOut(1)\n                    .activation(Activation.IDENTITY)\n                    .build())\n                .build());\n\n        model.init();\n        model.setListeners(new ScoreIterationListener(10));\n\n        System.out.println(\"Paramètres : \" + model.numParams());\n\n        // ── Données simulées ───────────────────────\n        // En pratique : charger un CSV avec nd4j.readNumpy ou Smile\n        INDArray X = Nd4j.randn(new int[]{32, N_FEATURES, SEQ_LEN});\n        INDArray y = Nd4j.randn(new int[]{32, 1, SEQ_LEN});\n\n        for (int epoch = 0; epoch < 50; epoch++) {\n            model.fit(new DataSet(X, y));\n            model.rnnClearPreviousState();\n        }\n\n        System.out.println();\n        System.out.println(\"Pourquoi les LSTMs ont été remplacés par les Transformers :\");\n        System.out.println(\"  - Entraînement séquentiel → pas de parallélisation GPU\");\n        System.out.println(\"  - Attention locale limitée sur de longues séquences\");\n        System.out.println(\"  - Les Transformers (2017) parallélisent tout et capturent\");\n        System.out.println(\"    des dépendances sur des milliers de tokens en même temps\");\n    }\n}"
+          },
+          {
+            "type": "check",
+            "question": "Pourquoi les LSTMs ont-ils été largement remplacés par les Transformers pour le traitement du langage naturel ?",
+            "options": [
+              "Les LSTMs consomment trop de mémoire RAM",
+              "Les LSTMs ne peuvent pas traiter des séquences de plus de 10 tokens",
+              "Les LSTMs traitent les séquences token par token (séquentiel), ce qui empêche la parallélisation sur GPU et pose problème pour les longues dépendances",
+              "Les LSTMs ne fonctionnent que pour les images"
+            ],
+            "correct": 2,
+            "explanation": "Le défaut fondamental du LSTM est sa nature séquentielle : pour calculer l'état au token N, il faut avoir calculé les états 1 à N-1. Impossible de paralléliser sur GPU. Les Transformers utilisent l'attention pour connecter tous les tokens directement en une seule opération matricielle, permettant un entraînement 100× plus rapide sur de grands jeux de données."
+          },
+          {
+            "type": "compare",
+            "before": {
+              "label": "RNN / LSTM",
+              "items": [
+                "Traitement séquentiel : token par token (lent à entraîner)",
+                "Vanishing gradient sur les longues séquences (RNN simple)",
+                "LSTM résout partiellement avec cell state et 3 portes",
+                "Encore utile pour les séries temporelles courtes et l'embarqué"
+              ]
+            },
+            "after": {
+              "label": "Transformer (Attention)",
+              "items": [
+                "Traitement parallèle de tous les tokens en une passe",
+                "Attention globale : chaque token voit tous les autres directement",
+                "Entraînement 100× plus rapide grâce à la parallélisation GPU",
+                "Domine le NLP depuis 2018 (BERT, GPT, T5, LLaMA...)"
+              ]
+            }
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Les RNNs traitent les séquences token par token en maintenant un état caché — ils souffrent de vanishing gradient sur les longues séquences",
+              "Le LSTM (1997) résout ce problème avec trois portes (oubli, entrée, sortie) et un cell state pour la mémoire long terme",
+              "Le GRU est une version simplifiée du LSTM, plus rapide et souvent aussi performante",
+              "Les LSTMs ont été remplacés par les Transformers (2017) qui parallélisent tout sur GPU et gèrent des contextes de milliers de tokens",
+              "Les LSTMs restent pertinents pour les séries temporelles embarquées, l'audio temps réel et les cas où la taille du modèle est contrainte"
+            ]
           }
         ]
       }
@@ -701,6 +1258,29 @@
           {
             "type": "tip",
             "content": "Implication de coût : les LLMs sont facturés au token. 'ChatGPT est excellent!' = ~6 tokens. Un roman de 100k mots ≈ 133k tokens. Optimiser vos prompts = optimiser vos coûts."
+          },
+          {
+            "type": "check",
+            "question": "Pourquoi les LLMs utilisent-ils la tokenisation en sous-mots (BPE) plutôt qu'une tokenisation mot par mot ?",
+            "options": [
+              "C'est plus rapide à calculer",
+              "Elle permet un vocabulaire fixe (~50k tokens) qui gère n'importe quel texte, y compris les mots rares et les néologismes",
+              "Les mots entiers ne peuvent pas être représentés comme vecteurs",
+              "Pour réduire la taille des fichiers de modèle"
+            ],
+            "correct": 1,
+            "explanation": "Un vocabulaire de mots entiers serait soit trop petit (ne couvre pas les mots rares) soit trop grand (millions d'entrées). BPE représente les mots fréquents en un seul token et décompose les mots rares en sous-mots connus, donnant un vocabulaire fixe compact (~50k) qui couvre toute langue."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "La tokenisation convertit le texte en séquences de nombres (token IDs) compréhensibles par le modèle",
+              "BPE (Byte Pair Encoding) représente les mots fréquents en 1 token, les mots rares en plusieurs sous-mots",
+              "Règle pratique : ~1 token ≈ 0,75 mot en anglais et ~0,6 mot en français",
+              "Les LLMs sont facturés au token : optimiser ses prompts = optimiser ses coûts",
+              "GPT-4 utilise ~100 000 tokens dans son vocabulaire (cl100k_base encoding)"
+            ]
           }
         ]
       },
@@ -739,6 +1319,29 @@
             "label": "Embeddings avec Sentence Transformers (état de l'art)",
             "content": "from sentence_transformers import SentenceTransformer\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport numpy as np\n\n# Modèle all-MiniLM-L6-v2 : 80MB, excellent rapport perf/taille\nmodel = SentenceTransformer('all-MiniLM-L6-v2')\n\nsentences = [\n    \"L'IA va révolutionner la médecine\",\n    \"L'intelligence artificielle transforme la santé\",  # sémantiquement proche\n    \"J'adore les pizzas aux champignons\",               # non lié\n    \"Le deep learning améliore le diagnostic médical\",  # proche\n]\n\nembeddings = model.encode(sentences)\nprint(f'Forme des embeddings : {embeddings.shape}')  # (4, 384)\n\n# Matrice de similarité\nsim_matrix = cosine_similarity(embeddings)\n\nprint('\\nSimilarités cosinus :')\nfor i, s1 in enumerate(sentences[:2]):\n    for j, s2 in enumerate(sentences[1:], 1):\n        if i != j:\n            print(f'  [{i}] vs [{j}] : {sim_matrix[i,j]:.3f}')\n            \n# Application : moteur de recherche sémantique !\nquery = \"IA et santé\"\nquery_emb = model.encode([query])\nsimilarities = cosine_similarity(query_emb, embeddings)[0]\nbest_match = sentences[np.argmax(similarities)]\nprint(f'\\nRecherche \"{query}\" -> \"{best_match}\"')",
             "contentJava": "// Java 11 avec LangChain4j (port Java officiel de LangChain)\n// Dépendance Maven : langchain4j-open-ai:0.32.0\nimport dev.langchain4j.model.openai.OpenAiEmbeddingModel;\nimport dev.langchain4j.model.embedding.EmbeddingModel;\nimport dev.langchain4j.data.embedding.Embedding;\nimport java.util.*;\n\npublic class SentenceEmbeddings {\n    public static void main(String[] args) {\n        // Modèle text-embedding-3-small (1536 dimensions, très performant)\n        EmbeddingModel model = OpenAiEmbeddingModel.builder()\n            .apiKey(System.getenv(\"OPENAI_API_KEY\"))\n            .modelName(\"text-embedding-3-small\")\n            .build();\n\n        List<String> sentences = Arrays.asList(\n            \"L'IA va révolutionner la médecine\",\n            \"L'intelligence artificielle transforme la santé\",  // proche\n            \"J'adore les pizzas aux champignons\",               // non lié\n            \"Le deep learning améliore le diagnostic médical\"   // proche\n        );\n\n        // Encoder toutes les phrases\n        List<Embedding> embeddings = model.embedAll(\n            sentences.stream()\n                .map(dev.langchain4j.data.segment.TextSegment::from)\n                .collect(java.util.stream.Collectors.toList())\n        ).content();\n\n        System.out.println(\"Forme des embeddings : (\" + embeddings.size()\n            + \", \" + embeddings.get(0).vector().length + \")\");\n\n        // Calcul de similarité cosinus entre les deux premières phrases\n        float[] e0 = embeddings.get(0).vector();\n        float[] e1 = embeddings.get(1).vector();\n        System.out.printf(\"Similarité [0] vs [1] : %.3f%n\",\n            cosineSim(e0, e1)); // ~0.85 (très proches)\n\n        // Application : moteur de recherche sémantique !\n        System.out.println();\n        System.out.println(\"Recherche 'IA et santé' -> phrase la plus proche trouvée automatiquement\");\n    }\n\n    static float cosineSim(float[] a, float[] b) {\n        float dot = 0, na = 0, nb = 0;\n        for (int i = 0; i < a.length; i++) { dot += a[i]*b[i]; na += a[i]*a[i]; nb += b[i]*b[i]; }\n        return dot / ((float)Math.sqrt(na) * (float)Math.sqrt(nb));\n    }\n}"
+          },
+          {
+            "type": "check",
+            "question": "Quelle est la principale limite des embeddings Word2Vec comparés aux embeddings contextuels de BERT/GPT ?",
+            "options": [
+              "Word2Vec est trop lent à calculer",
+              "Word2Vec donne un vecteur FIXE par mot, indépendant du contexte — 'banque' (financière) a le même vecteur que 'banque' (rivière)",
+              "Word2Vec ne fonctionne qu'en anglais",
+              "Word2Vec nécessite plus de mémoire que BERT"
+            ],
+            "correct": 1,
+            "explanation": "Word2Vec apprend un vecteur unique par mot, sans tenir compte du contexte. BERT et GPT créent des embeddings contextuels : le même mot a des représentations différentes selon la phrase. Cela permet de capturer la polysémie (un mot, plusieurs sens)."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Les embeddings représentent les mots comme des vecteurs où la proximité géométrique reflète la proximité sémantique",
+              "Word2Vec apprend des vecteurs statiques : 'Roi - Homme + Femme ≈ Reine' — analogies géométriques",
+              "Les embeddings contextuels (BERT, GPT) produisent des vecteurs différents pour le même mot selon son contexte",
+              "La similarité cosinus mesure la proximité sémantique entre embeddings",
+              "Sentence Transformers (all-MiniLM) permettent de créer des moteurs de recherche sémantique efficaces"
+            ]
           }
         ]
       },
@@ -774,6 +1377,29 @@
           {
             "type": "tip",
             "content": "La 'Multi-Head Attention' des Transformers utilise plusieurs têtes d'attention en parallèle (8, 12, 16...), chacune apprenant à capturer différents types de relations : syntaxiques, sémantiques, coréférences..."
+          },
+          {
+            "type": "check",
+            "question": "Dans le mécanisme d'attention, que représente le score d'attention Q × K^T / √d_k ?",
+            "options": [
+              "La valeur finale produite par le token",
+              "Une mesure de pertinence entre chaque paire de tokens : à quel point un token doit 'regarder' un autre",
+              "Le gradient utilisé pour la backpropagation",
+              "L'embedding positionnel du token"
+            ],
+            "correct": 1,
+            "explanation": "Le produit Query × Key mesure l'alignement (pertinence) entre deux tokens. Divisé par √d_k pour éviter les gradients trop faibles après le softmax, ce score indique combien d'attention le token query doit accorder au token key lors du calcul de sa nouvelle représentation."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "L'attention permet à chaque token de 'regarder' tous les autres tokens pour construire sa représentation contextuelle",
+              "Trois vecteurs par token : Query (ce que je cherche), Key (ce que j'offre), Value (ce que je fournis si choisi)",
+              "Le score d'attention Q×K^T/√d_k est normalisé par Softmax pour obtenir des poids qui somment à 1",
+              "La Multi-Head Attention utilise plusieurs têtes en parallèle pour capturer différents types de relations",
+              "C'est ce mécanisme qui a rendu les Transformers possibles et révolutionné le NLP en 2017"
+            ]
           }
         ]
       }
@@ -843,6 +1469,33 @@
           {
             "type": "tip",
             "content": "La 'loi de Chinchilla' (Hoffmann et al., 2022) a montré que les modèles précédents étaient sous-entraînés. Pour un modèle optimal, il faut ~20 tokens d'entraînement par paramètre. LLaMA 3 a suivi cette recommandation avec 15T tokens pour un 70B."
+          },
+          {
+            "type": "check",
+            "question": "Quelle est la différence fondamentale entre un Encoder (BERT) et un Decoder (GPT) dans l'architecture Transformer ?",
+            "options": [
+              "L'encoder est plus grand que le decoder",
+              "L'encoder lit la séquence dans les deux sens (bidirectionnel) ; le decoder ne voit que les tokens passés (causal masking) pour générer token par token",
+              "L'encoder utilise ReLU et le decoder utilise GELU",
+              "L'encoder est utilisé pour les images, le decoder pour le texte"
+            ],
+            "correct": 1,
+            "explanation": "BERT (encoder) lit toute la séquence dans les deux directions → idéal pour COMPRENDRE le texte. GPT (decoder) applique un masque causal : chaque token ne voit que les tokens précédents → idéal pour GÉNÉRER du texte token par token."
+          },
+          {
+            "type": "interactive",
+            "widget": "temperature"
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Le Transformer ('Attention Is All You Need', 2017) abandonne les RNNs pour un mécanisme d'attention parallèle",
+              "Encoder (BERT) : bidirectionnel, idéal pour comprendre. Decoder (GPT) : causal, idéal pour générer",
+              "La température contrôle la créativité lors de la génération : T=0 greedy, T=0.8 équilibré, T=2 très créatif",
+              "Les Scaling Laws prévoient que performance ∝ paramètres × données × compute",
+              "La loi de Chinchilla : pour un modèle optimal, entraîner sur ~20 tokens par paramètre"
+            ]
           }
         ]
       },
@@ -866,6 +1519,29 @@
             "label": "Fine-tuning avec LoRA (Low-Rank Adaptation)",
             "content": "# LoRA : fine-tuner un LLM sans avoir besoin de 80GB de VRAM !\nfrom peft import LoraConfig, get_peft_model, TaskType\nfrom transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments\nfrom trl import SFTTrainer\nimport torch\n\n# Charger le modèle de base\nmodel_name = 'mistralai/Mistral-7B-v0.1'\ntokenizer = AutoTokenizer.from_pretrained(model_name)\nmodel = AutoModelForCausalLM.from_pretrained(\n    model_name,\n    torch_dtype=torch.float16,\n    device_map='auto'\n)\n\n# Configuration LoRA : seulement 0.1% des paramètres entraînés !\nlora_config = LoraConfig(\n    task_type=TaskType.CAUSAL_LM,\n    r=16,           # rang de la décomposition (8-64)\n    lora_alpha=32,  # facteur de scaling\n    lora_dropout=0.05,\n    # Cibler les matrices d'attention (Query et Value)\n    target_modules=['q_proj', 'v_proj', 'k_proj', 'o_proj']\n)\n\nmodel = get_peft_model(model, lora_config)\nmodel.print_trainable_parameters()\n# trainable params: 13,631,488 || all params: 7,254,218,752\n# -> seulement 0.19% des paramètres sont entraînés !\n\nprint('\\nAvantages LoRA :')\nprint('  ✅ Entraînable sur 1 GPU 24GB au lieu de 8x80GB')\nprint('  ✅ Adapter stockée séparément (2-100MB vs 14GB)')\nprint('  ✅ Multiples adapters sur le même modèle de base')",
             "contentJava": "// Java 11 — Fine-tuning via API Hugging Face ou OpenAI\n// Note : en Java, le fine-tuning low-level (LoRA) se fait via API REST.\n// DL4J supporte le fine-tuning complet ; pour LoRA, utilisez l'API HF.\n\nimport java.net.http.*;\nimport java.net.URI;\nimport java.nio.charset.StandardCharsets;\n\npublic class LoRAFineTuning {\n    public static void main(String[] args) {\n        System.out.println(\"=== Fine-tuning LoRA — Paramètres équivalents ===\");\n        System.out.println(\"  r (rang de décomposition) : 16   // 8-64\");\n        System.out.println(\"  lora_alpha               : 32   // facteur de scaling\");\n        System.out.println(\"  lora_dropout             : 0.05\");\n        System.out.println(\"  target_modules : [q_proj, v_proj, k_proj, o_proj]\");\n        System.out.println(\"  -> seulement ~0.19% des paramètres entraînés !\");\n        System.out.println();\n        System.out.println(\"Avantages LoRA :\");\n        System.out.println(\"  Entraînable sur 1 GPU 24GB au lieu de 8x80GB\");\n        System.out.println(\"  Adapter stockée séparément (2-100MB vs 14GB)\");\n        System.out.println(\"  Multiples adapters sur le même modèle de base\");\n        System.out.println();\n        System.out.println(\"Options fine-tuning en Java 11 :\");\n        System.out.println(\"  1. OpenAI Fine-Tuning API (gpt-3.5-turbo)\");\n        System.out.println(\"     POST https://api.openai.com/v1/fine_tuning/jobs\");\n        System.out.println(\"  2. Hugging Face AutoTrain REST API\");\n        System.out.println(\"  3. DL4J TransferLearning (fine-tuning complet)\");\n        System.out.println(\"  4. LangChain4j avec modèle Mistral/Llama via Ollama\");\n    }\n}"
+          },
+          {
+            "type": "check",
+            "question": "Quel est l'avantage principal de LoRA (Low-Rank Adaptation) pour le fine-tuning d'un LLM ?",
+            "options": [
+              "LoRA entraîne le modèle entier plus rapidement",
+              "LoRA entraîne seulement ~0.1-0.2% des paramètres en décomposant les mises à jour en matrices de bas rang, réduisant drastiquement la mémoire GPU nécessaire",
+              "LoRA améliore automatiquement la qualité des réponses sans données d'entraînement",
+              "LoRA est uniquement utilisable avec GPT-4"
+            ],
+            "correct": 1,
+            "explanation": "LoRA ajoute de petites matrices de rang r aux couches d'attention. Seules ces matrices sont entraînées (0.19% des paramètres pour un 7B). Résultat : fine-tuning sur 1 GPU 24GB au lieu de 8×80GB, avec des performances proches du fine-tuning complet."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Un LLM pré-entraîné prédit des tokens — le fine-tuning le transforme en assistant utile et aligné",
+              "Le pipeline RLHF : SFT (démonstrations) → Reward Model (préférences humaines) → PPO (RL pour maximiser la récompense)",
+              "LoRA entraîne moins de 0,2% des paramètres via des matrices de bas rang, rendant le fine-tuning accessible",
+              "Un adapter LoRA fait 2-100 MB vs 14 GB pour le modèle complet — plusieurs adapters sur la même base",
+              "InstructGPT a montré qu'un modèle 1,3B aligné surpasse souvent un modèle 175B non-aligné"
+            ]
           }
         ]
       }
@@ -931,6 +1607,29 @@
             "type": "example",
             "title": "Avant / Après : le même besoin, des résultats radicalement différents",
             "content": "❌ PROMPT MEDIOCRE :\n\"Écris une fonction Python pour analyser des logs\"\n\n✅ PROMPT EXPERT :\n\"Tu es un SRE senior Python. Écris une fonction parse_nginx_logs(filepath: str) -> list[dict] qui :\n- Parse les logs Nginx au format Combined Log (IP, date, méthode, URL, status, taille, referrer, user-agent)\n- Utilise uniquement la stdlib Python (re, datetime)\n- Gère les lignes malformées avec un log d'avertissement\n- Retourne une liste de dicts avec les clés : ip, timestamp, method, path, status, size\n- Inclut des type hints et une docstring Google style\n- Ajoute 3 exemples de test dans le docstring\"\n\nLa différence : le deuxième prompt élimine toute ambiguïté et contraint l'output à exactement ce dont vous avez besoin."
+          },
+          {
+            "type": "check",
+            "question": "Parmi les 5 composantes d'un prompt expert, laquelle réduit le plus l'ambiguïté dans la réponse ?",
+            "options": [
+              "Le rôle/persona",
+              "Le format de sortie (spécifier JSON, markdown, longueur, structure attendue)",
+              "Le contexte",
+              "La tâche précise"
+            ],
+            "correct": 1,
+            "explanation": "Le format de sortie est souvent oublié. Préciser 'Réponds en JSON avec les clés x, y, z' ou 'Réponds en bullet points, max 5 points, en français' contraint la réponse à une structure exploitable directement — sans reformatage post-traitement."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Un prompt est une interface de programmation en langage naturel — sa qualité détermine directement la qualité de la réponse",
+              "Les 5 composantes : Rôle, Contexte, Tâche précise, Format de sortie, Contraintes",
+              "Un prompt expert élimine toute ambiguïté et contraint l'output à exactement ce dont vous avez besoin",
+              "Le rôle/persona active les bons patterns : 'Tu es un SRE senior Python' produit un code plus robuste",
+              "Spécifier le format de sortie (JSON, markdown, longueur) évite tout post-traitement de la réponse"
+            ]
           }
         ]
       },
@@ -977,6 +1676,29 @@
           {
             "type": "tip",
             "content": "Technique bonus — le XML structuring : entourer les sections importantes de tags XML dans votre prompt (<context>, <instructions>, <examples>) aide les LLMs modernes (Claude surtout) à parser et suivre les instructions plus précisément."
+          },
+          {
+            "type": "check",
+            "question": "Quelle phrase suffit à activer le raisonnement Chain of Thought en mode Zero-Shot ?",
+            "options": [
+              "'Réponds en JSON'",
+              "'Réfléchissons étape par étape.' (ou 'Let's think step by step.')",
+              "'Tu es un expert en mathématiques'",
+              "'Donne-moi 5 options différentes'"
+            ],
+            "correct": 1,
+            "explanation": "La phrase 'Réfléchissons étape par étape.' (Zero-Shot CoT) active le raisonnement enchaîné sans fournir d'exemples. Cette technique simple, découverte par Kojima et al. (2022), améliore les performances sur les problèmes de raisonnement, mathématiques et logiques."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Chain of Thought (CoT) : demander au modèle de raisonner étape par étape améliore ses performances sur les tâches complexes",
+              "Zero-Shot CoT : ajouter 'Réfléchissons étape par étape.' suffit à activer le raisonnement enchaîné",
+              "Few-Shot : fournir des exemples (input → output) enseigne le format et le raisonnement attendus",
+              "ReAct alterne Pensée → Action → Observation pour résoudre des tâches nécessitant des outils externes",
+              "Le XML structuring (<role>, <context>, <instructions>) aide les LLMs modernes à parser les prompts complexes"
+            ]
           }
         ]
       },
@@ -1001,6 +1723,29 @@
             "language": "text",
             "label": "Template de prompt pour code review",
             "content": "# ══ TEMPLATE CODE REVIEW ═══════════════════════════════\n\n<role>\nTu es un tech lead expérimenté faisant une code review.\nSois direct et actionnable. Priorise les problèmes critiques.\n</role>\n\n<code>\n[COLLER LE CODE ICI]\n</code>\n\n<review_focus>\nAnalyse en priorité :\n1. 🔴 CRITIQUE : Sécurité, bugs, perte de données\n2. 🟠 IMPORTANT : Performance, scalabilité\n3. 🟡 MOYEN : Lisibilité, maintenabilité\n4. 🟢 MINEUR : Style, convention\n</review_focus>\n\n<output_format>\nPour chaque problème trouvé :\n- Niveau : [CRITIQUE|IMPORTANT|MOYEN|MINEUR]\n- Ligne : [numéro]\n- Problème : [description concise]\n- Fix suggéré : [code corrigé]\n\nEnsuite : un résumé de la qualité globale (1-10) avec justification.\n</output_format>"
+          },
+          {
+            "type": "check",
+            "question": "Dans un prompt de génération de code, pourquoi est-il important de spécifier les versions exactes des bibliothèques (ex: FastAPI 0.110, Pydantic v2) ?",
+            "options": [
+              "Pour impressionner le modèle avec nos connaissances techniques",
+              "Les APIs changent entre versions — sans version précisée, le modèle peut générer du code valide pour une ancienne version mais incompatible avec votre environnement",
+              "Pour que le modèle sache quelle documentation consulter en ligne",
+              "C'est uniquement utile pour les langages compilés"
+            ],
+            "correct": 1,
+            "explanation": "Les bibliothèques évoluent et peuvent avoir des changements d'API incompatibles entre versions (ex: Pydantic v1 → v2 a changé la syntaxe). Spécifier les versions exactes force le modèle à générer du code compatible avec votre environnement réel."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Pour la génération de code, spécifier le langage, les versions exactes des bibliothèques et toutes les contraintes (async, type hints...)",
+              "Un template de code review structuré par niveaux (CRITIQUE / IMPORTANT / MOYEN / MINEUR) donne des retours actionnables",
+              "Toujours inclure un format de sortie précis (type hints, docstrings Google style, tests pytest...)",
+              "La contrainte 'pas de TODO ni de ...' force le modèle à générer du code complet et fonctionnel",
+              "Les prompts de développeur sont des templates réutilisables — investir 30 min pour créer un excellent template vaut des heures"
+            ]
           }
         ]
       }
@@ -1058,6 +1803,29 @@
             "label": "RAG minimal avec LangChain",
             "content": "from langchain_community.document_loaders import PyPDFLoader\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\nfrom langchain_openai import OpenAIEmbeddings, ChatOpenAI\nfrom langchain_community.vectorstores import Chroma\nfrom langchain.chains import RetrievalQA\n\n# ─── ÉTAPE 1 : INDEXATION ────────────────────────────\n# Charger les documents\nloader = PyPDFLoader('documentation_technique.pdf')\ndocuments = loader.load()\n\n# Chunking : découper en morceaux avec overlap\nsplitter = RecursiveCharacterTextSplitter(\n    chunk_size=1000,      # ~750 mots par chunk\n    chunk_overlap=200,    # overlap pour éviter de couper le contexte\n    separators=['\\n\\n', '\\n', '.', ' ']\n)\nchunks = splitter.split_documents(documents)\nprint(f'{len(documents)} pages -> {len(chunks)} chunks')\n\n# Créer les embeddings et la base vectorielle\nembeddings = OpenAIEmbeddings(model='text-embedding-3-small')\nvectordb = Chroma.from_documents(\n    chunks,\n    embeddings,\n    persist_directory='./chroma_db'\n)\n\n# ─── ÉTAPE 2 & 3 : RETRIEVAL + GENERATION ───────────\nllm = ChatOpenAI(model='gpt-4o-mini', temperature=0)\n\nqa_chain = RetrievalQA.from_chain_type(\n    llm=llm,\n    chain_type='stuff',  # stuff = tout mettre dans le prompt\n    retriever=vectordb.as_retriever(\n        search_type='mmr',  # Maximum Marginal Relevance : diversité\n        search_kwargs={'k': 5, 'fetch_k': 20}\n    ),\n    return_source_documents=True\n)\n\nresponse = qa_chain.invoke({'query': 'Comment configurer l\\'authentification ?'})\nprint('Réponse:', response['result'])\nprint('Sources:', [doc.metadata['source'] for doc in response['source_documents']])",
             "contentJava": "// Java 11 avec LangChain4j (langchain4j:0.32.0)\nimport dev.langchain4j.data.document.*;\nimport dev.langchain4j.data.document.loader.FileSystemDocumentLoader;\nimport dev.langchain4j.data.document.splitter.DocumentSplitters;\nimport dev.langchain4j.data.segment.TextSegment;\nimport dev.langchain4j.model.embedding.EmbeddingModel;\nimport dev.langchain4j.model.openai.*;\nimport dev.langchain4j.store.embedding.*;\nimport dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;\nimport dev.langchain4j.chain.ConversationalRetrievalChain;\nimport java.util.List;\n\npublic class RAGLangChain4j {\n    public static void main(String[] args) {\n        // ─── ÉTAPE 1 : INDEXATION ────────────────────────\n        List<Document> documents =\n            FileSystemDocumentLoader.loadDocuments(\"./docs/\");\n        System.out.println(documents.size() + \" documents chargés\");\n\n        // Chunking : chunk_size=1000, overlap=200 (évite de couper le contexte)\n        DocumentSplitter splitter = DocumentSplitters.recursive(1000, 200);\n        List<TextSegment> chunks = splitter.splitAll(documents);\n        System.out.println(chunks.size() + \" chunks créés\");\n\n        // Embeddings et base vectorielle en mémoire\n        EmbeddingModel embeddingModel = OpenAiEmbeddingModel.builder()\n            .apiKey(System.getenv(\"OPENAI_API_KEY\"))\n            .modelName(\"text-embedding-3-small\")\n            .build();\n\n        EmbeddingStore<TextSegment> vectorStore = new InMemoryEmbeddingStore<>();\n\n        EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()\n            .documentSplitter(splitter)\n            .embeddingModel(embeddingModel)\n            .embeddingStore(vectorStore)\n            .build();\n        ingestor.ingest(documents);\n\n        // ─── ÉTAPE 2 & 3 : RETRIEVAL + GENERATION ───────\n        OpenAiChatModel llm = OpenAiChatModel.builder()\n            .apiKey(System.getenv(\"OPENAI_API_KEY\"))\n            .modelName(\"gpt-4o-mini\")\n            .temperature(0.0)\n            .build();\n\n        ConversationalRetrievalChain chain = ConversationalRetrievalChain.builder()\n            .chatLanguageModel(llm)\n            .retriever(EmbeddingStoreRetriever.from(\n                vectorStore, embeddingModel, 5))  // k=5 chunks les plus proches\n            .build();\n\n        String answer = chain.execute(\"Comment configurer l'authentification ?\");\n        System.out.println(\"Réponse: \" + answer);\n    }\n}"
+          },
+          {
+            "type": "check",
+            "question": "Pourquoi le RAG est-il préférable au fine-tuning pour intégrer des connaissances d'entreprise dans un LLM ?",
+            "options": [
+              "Le RAG est toujours moins coûteux que le fine-tuning",
+              "Le RAG permet de mettre à jour les connaissances sans réentraîner le modèle, cite ses sources et réduit les hallucinations sur des données factuelles",
+              "Le fine-tuning ne fonctionne pas avec des documents PDF",
+              "Le RAG produit toujours de meilleures réponses que le fine-tuning"
+            ],
+            "correct": 1,
+            "explanation": "Le RAG récupère les informations pertinentes au moment de la question — les connaissances sont modifiables sans réentraînement. Il cite ses sources, ce qui permet de vérifier les réponses. Le fine-tuning est préférable pour modifier le COMPORTEMENT ou le STYLE du modèle, pas pour lui injecter des faits."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Le RAG résout les deux limites des LLMs : connaissances figées à l'entraînement et ignorance des données privées",
+              "Pipeline en 3 étapes : Indexation (chunks → embeddings → base vectorielle), Retrieval (recherche similarité), Generation (LLM + contexte)",
+              "Le chunking (découpage des documents) est l'étape la plus critique pour la qualité du système RAG",
+              "La recherche vectorielle (cosine similarity) retrouve les chunks sémantiquement proches de la question",
+              "MMR (Maximum Marginal Relevance) équilibre pertinence et diversité dans les chunks récupérés"
+            ]
           }
         ]
       },
@@ -1091,6 +1859,29 @@
               "**Parent-child chunking** : indexer de petits chunks pour la précision, mais retourner le document parent pour le contexte",
               "**GraphRAG (Microsoft)** : construire un graphe de connaissances sur les documents pour capturer les relations complexes"
             ]
+          },
+          {
+            "type": "check",
+            "question": "Quelle stratégie de chunking est recommandée pour des documents structurés comme des wikis ou documentations techniques en Markdown ?",
+            "options": [
+              "Le chunking récursif avec une grande taille de chunk (2000 tokens)",
+              "Le chunking par headers Markdown qui respecte la structure du document",
+              "Le chunking sémantique basé sur les embeddings",
+              "Un chunk unique par document pour conserver tout le contexte"
+            ],
+            "correct": 1,
+            "explanation": "Pour des documents structurés avec des titres (Markdown, HTML), couper sur les headers respecte la cohérence sémantique : chaque chunk correspond à une section complète. Le chunking récursif aveugle peut couper en plein milieu d'un concept important."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "La qualité du RAG dépend à 80% de la qualité du chunking — c'est l'étape la plus impactante",
+              "Stratégies : Récursif (général), Header Markdown (docs structurées), Sémantique (haute précision, coûteux)",
+              "Taille optimale : 512-1024 tokens par chunk avec 10-20% d'overlap pour ne pas couper le contexte",
+              "Techniques avancées : HyDE, Reranking (Cohere), Query Expansion, Parent-Child chunking, GraphRAG",
+              "L'évaluation RAG se mesure avec RAGAS (faithfulness, answer relevancy, context precision)"
+            ]
           }
         ]
       },
@@ -1105,28 +1896,105 @@
             "content": "Une base vectorielle est optimisée pour la recherche par similarité dans des espaces de haute dimension (768, 1536, 3072 dimensions). Elle utilise des index approximatifs (HNSW, IVF) pour chercher parmi des millions de vecteurs en quelques millisecondes."
           },
           {
+            "type": "heading",
+            "content": "Pourquoi pas une base SQL classique ?"
+          },
+          {
+            "type": "text",
+            "content": "Une base SQL stocke des données structurées et répond à des requêtes exactes (WHERE email = 'x'). Pour la recherche sémantique, on cherche 'les documents dont le sens est proche de cette question' — notion d'inexactitude et de similarité que le SQL ne gère pas. Une base vectorielle stocke des vecteurs de haute dimension (768 à 3072 flottants) et répond à 'donne-moi les 5 vecteurs les plus proches de ce vecteur de requête'."
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine une bibliothèque où les livres ne sont pas classés par titre mais par 'thème'. Tu demandes 'un livre sur comment cuire des pâtes' et la bibliothécaire te donne les 5 livres dont le contenu ressemble le plus à ta demande — même s'ils ne contiennent pas exactement les mots 'cuire' ou 'pâtes'. C'est ça la recherche vectorielle."
+          },
+          {
+            "type": "heading",
+            "content": "HNSW vs IVF : les deux grands algorithmes d'index"
+          },
+          {
             "type": "cards",
             "items": [
               {
                 "title": "Chroma",
                 "icon": "🟢",
-                "description": "Open-source, Python natif, parfait pour prototyper. In-memory ou persisté localement. Idéal pour commencer et les projets de petite taille (<100k docs)."
+                "description": "Open-source, Python natif, parfait pour prototyper. In-memory ou persisté localement. Utilise HNSW. Idéal pour commencer et les POC (<100k docs)."
               },
               {
                 "title": "Pinecone",
                 "icon": "🔵",
-                "description": "Cloud managed, très haute performance. Pay-as-you-go. Le choix pour la production serverless. Géré automatiquement."
+                "description": "Cloud managed, très haute performance. Pay-as-you-go. Le choix pour la production serverless — zéro maintenance, scale automatique."
               },
               {
                 "title": "Weaviate",
                 "icon": "🟡",
-                "description": "Open-source avec module vectoriseurs intégrés. GraphQL API. Supporte le hybrid search (vectoriel + keyword). Auto-hébergeable."
+                "description": "Open-source avec module vectoriseurs intégrés. Supporte le hybrid search (vectoriel + BM25 keyword). Auto-hébergeable sur Kubernetes."
               },
               {
                 "title": "pgvector",
                 "icon": "🐘",
-                "description": "Extension PostgreSQL. Si vous avez déjà Postgres en production, c'est la solution la plus simple. Excellent jusqu'à ~1M vecteurs."
+                "description": "Extension PostgreSQL. Si vous avez déjà Postgres en production, c'est la solution la plus simple. Excellent jusqu'à ~1M vecteurs avec l'index HNSW."
+              },
+              {
+                "title": "Qdrant",
+                "icon": "⚡",
+                "description": "Écrit en Rust, très performant. Filtrage payload avancé, quantification intégrée. Excellent pour les cas où la précision ET la vitesse sont critiques."
+              },
+              {
+                "title": "FAISS (Meta)",
+                "icon": "🔬",
+                "description": "Bibliothèque bas niveau pour des milliards de vecteurs. Optimisé GPU. À utiliser directement quand les solutions managées sont trop coûteuses."
               }
+            ]
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Créer une collection Chroma et effectuer une recherche",
+            "content": "import chromadb\nfrom chromadb.utils import embedding_functions\n\n# ── Initialiser Chroma (persisté sur disque) ─────────\nclient = chromadb.PersistentClient(path='./chroma_db')\n\n# Utiliser les embeddings OpenAI (1536 dimensions)\nopenai_ef = embedding_functions.OpenAIEmbeddingFunction(\n    api_key='YOUR_KEY',\n    model_name='text-embedding-3-small'\n)\n\ncollection = client.get_or_create_collection(\n    name='documentation',\n    embedding_function=openai_ef,\n    metadata={'hnsw:space': 'cosine'}  # métrique de similarité\n)\n\n# ── Indexer des documents ────────────────────────────\ndocuments = [\n    'FastAPI est un framework web Python moderne basé sur les type hints.',\n    'Spring Boot simplifie le développement d\\'applications Java.',\n    'PostgreSQL est une base de données relationnelle open-source.',\n    'Redis est une base de données clé-valeur en mémoire très rapide.',\n    'Docker permet de conteneuriser des applications de façon reproductible.',\n]\n\ncollection.add(\n    documents=documents,\n    ids=[f'doc_{i}' for i in range(len(documents))],\n    metadatas=[{'source': f'article_{i}.md'} for i in range(len(documents))]\n)\nprint(f'{collection.count()} documents indexés')\n\n# ── Recherche sémantique ─────────────────────────────\nquery = 'Comment déployer une application web Python ?'\nresults = collection.query(\n    query_texts=[query],\n    n_results=3,\n    include=['documents', 'distances', 'metadatas']\n)\n\nprint(f'\\nRequête : \"{query}\"')\nfor i, (doc, dist) in enumerate(zip(\n    results['documents'][0],\n    results['distances'][0]\n)):\n    score = 1 - dist  # distance cosinus -> similarité\n    print(f'  {i+1}. [{score:.3f}] {doc[:60]}...')",
+            "contentJava": "// Java 11 avec LangChain4j + Chroma\nimport dev.langchain4j.data.embedding.Embedding;\nimport dev.langchain4j.data.segment.TextSegment;\nimport dev.langchain4j.model.embedding.EmbeddingModel;\nimport dev.langchain4j.model.openai.OpenAiEmbeddingModel;\nimport dev.langchain4j.store.embedding.EmbeddingMatch;\nimport dev.langchain4j.store.embedding.EmbeddingStore;\nimport dev.langchain4j.store.embedding.chroma.ChromaEmbeddingStore;\nimport java.util.List;\n\npublic class BaseVectorielleChroma {\n    public static void main(String[] args) {\n        // ── Embeddings OpenAI (1536 dimensions) ──────────────\n        EmbeddingModel embeddingModel = OpenAiEmbeddingModel.builder()\n            .apiKey(System.getenv(\"OPENAI_API_KEY\"))\n            .modelName(\"text-embedding-3-small\")\n            .build();\n\n        // ── Connexion Chroma (serveur local) ─────────────────\n        EmbeddingStore<TextSegment> store = ChromaEmbeddingStore.builder()\n            .baseUrl(\"http://localhost:8000\")\n            .collectionName(\"documentation\")\n            .build();\n\n        // ── Indexer des documents ─────────────────────────────\n        List<String> documents = List.of(\n            \"FastAPI est un framework web Python moderne.\",\n            \"Spring Boot simplifie le developpement d'applications Java.\",\n            \"PostgreSQL est une base de donnees relationnelle open-source.\",\n            \"Redis est une base de donnees cle-valeur en memoire.\",\n            \"Docker permet de conteneuriser des applications.\"\n        );\n\n        for (String doc : documents) {\n            TextSegment segment = TextSegment.from(doc);\n            Embedding embedding = embeddingModel.embed(segment).content();\n            store.add(embedding, segment);\n        }\n        System.out.println(documents.size() + \" documents indexes\");\n\n        // ── Recherche sémantique ──────────────────────────────\n        String query = \"Comment deployer une application web Python ?\";\n        Embedding queryEmbedding = embeddingModel\n            .embed(TextSegment.from(query)).content();\n\n        List<EmbeddingMatch<TextSegment>> results =\n            store.findRelevant(queryEmbedding, 3, 0.0);\n\n        System.out.println(\"\\nRequete : \\\"\" + query + \"\\\"\");\n        for (int i = 0; i < results.size(); i++) {\n            EmbeddingMatch<TextSegment> match = results.get(i);\n            String preview = match.embedded().text().substring(\n                0, Math.min(60, match.embedded().text().length()));\n            System.out.printf(\"  %d. [%.3f] %s...%n\",\n                i + 1, match.score(), preview);\n        }\n    }\n}"
+          },
+          {
+            "type": "compare",
+            "before": {
+              "label": "Base SQL (PostgreSQL sans pgvector)",
+              "items": [
+                "SELECT * WHERE description LIKE '%python%' → recherche par mot-clé exact",
+                "Ne comprend pas que 'serpent' et 'python' peuvent être liés",
+                "Impossible de classer par pertinence sémantique",
+                "Lent sur des millions de textes sans index full-text"
+              ]
+            },
+            "after": {
+              "label": "Base Vectorielle (Chroma / pgvector)",
+              "items": [
+                "Recherche par similarité cosinus dans l'espace des embeddings",
+                "Comprend la sémantique : 'déployer' ≈ 'mettre en production' ≈ 'docker'",
+                "Retourne les résultats triés par score de similarité (0 à 1)",
+                "HNSW permet de chercher en O(log n) parmi des millions de vecteurs"
+              ]
+            }
+          },
+          {
+            "type": "check",
+            "question": "Quelle est la principale différence entre une base de données SQL et une base vectorielle pour la recherche ?",
+            "options": [
+              "La base vectorielle est toujours plus rapide que le SQL",
+              "La base vectorielle recherche par similarité sémantique (distance cosinus dans un espace vectoriel) ; le SQL recherche par correspondance exacte de valeurs",
+              "Les bases vectorielles ne supportent pas les filtres",
+              "pgvector est toujours le meilleur choix en production"
+            ],
+            "correct": 1,
+            "explanation": "Une base SQL répond à 'qui a exactement cette valeur'. Une base vectorielle répond à 'quels documents ont un sens proche de cette requête'. Elle travaille avec des embeddings (vecteurs de flottants) et calcule des distances (cosinus, L2) pour trouver les voisins les plus proches."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Une base vectorielle stocke des embeddings (vecteurs de 768 à 3072 flottants) et recherche par similarité cosinus",
+              "HNSW (Chroma, pgvector, Qdrant) : index en graphe hiérarchique, rapide et précis pour moins d'un milliard de vecteurs",
+              "Solutions recommandées : Chroma (POC), pgvector (si déjà Postgres), Pinecone (prod managée), Qdrant (haute performance)",
+              "La recherche hybride (vectorielle + keyword BM25) combine le meilleur des deux mondes pour des résultats plus pertinents",
+              "Le choix de la base vectorielle dépend du volume, des contraintes d'hébergement et du budget — pas de solution universelle"
             ]
           }
         ]
@@ -1173,6 +2041,50 @@
           {
             "type": "warning",
             "content": "Sécurité agents : un agent avec accès à un shell Python peut exécuter du code arbitraire. En production, toujours : sandboxer l'exécution, limiter les permissions, logger toutes les actions, implémenter un circuit breaker."
+          },
+          {
+            "type": "check",
+            "question": "Quelle architecture de raisonnement utilise un agent pour décider de ses actions en alternant pensée, action et observation ?",
+            "options": [
+              "Chain of Thought (CoT)",
+              "ReAct (Reasoning + Acting) : le modèle produit une Pensée → choisit une Action → observe le Résultat → recommence",
+              "RLHF (Reinforcement Learning from Human Feedback)",
+              "Tree of Thought (ToT)"
+            ],
+            "correct": 1,
+            "explanation": "ReAct (Reasoning + Acting) structure la boucle agentique : le LLM produit explicitement une pensée (Thought), choisit une action (Action) parmi ses outils, reçoit l'observation (Observation), puis recommence. Cette trace permet au modèle de corriger son raisonnement à chaque étape."
+          },
+          {
+            "type": "compare",
+            "before": {
+              "label": "LLM seul (sans agent)",
+              "items": [
+                "Connaissance figée à la date d'entraînement",
+                "Ne peut pas exécuter de code ni appeler d'APIs",
+                "Hallucine les informations factuelles récentes",
+                "Limité au contexte de la conversation"
+              ]
+            },
+            "after": {
+              "label": "Agent IA (LLM + outils)",
+              "items": [
+                "Accès à des informations en temps réel (web search)",
+                "Exécute du code Python, appelle des APIs, lit des fichiers",
+                "Vérifie les faits avant de répondre",
+                "Accomplit des tâches multi-étapes de façon autonome"
+              ]
+            }
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Un agent IA est un LLM augmenté d'outils : recherche web, exécution de code, appels d'APIs",
+              "La boucle agentique ReAct alterne Pensée → Action → Observation jusqu'à l'accomplissement de la tâche",
+              "LangChain et LangChain4j permettent de créer des agents en quelques lignes avec des outils prédéfinis",
+              "En production : sandboxer l'exécution, limiter les permissions, logger et mettre un circuit breaker",
+              "Les LLMs les plus performants pour l'agentique : GPT-4o et Claude 3.5 Sonnet (meilleure capacité de raisonnement)"
+            ]
           }
         ]
       },
@@ -1191,7 +2103,55 @@
             "language": "python",
             "label": "Système multi-agents avec AutoGen",
             "content": "import autogen\n\n# Configuration du LLM\nconfig_list = [{'model': 'gpt-4o', 'api_key': 'YOUR_KEY'}]\nllm_config = {'config_list': config_list, 'temperature': 0}\n\n# ── Définir les agents spécialisés ─────────────────\nuser_proxy = autogen.UserProxyAgent(\n    name='User',\n    human_input_mode='NEVER',\n    max_consecutive_auto_reply=10,\n    code_execution_config={'work_dir': 'coding', 'use_docker': False}\n)\n\narchitect = autogen.AssistantAgent(\n    name='Architect',\n    system_message='''Tu es un architecte logiciel senior.\n    Conçois des architectures claires et robustes.\n    Documente tes décisions (ADR). Ne code pas toi-même.''',\n    llm_config=llm_config\n)\n\ndeveloper = autogen.AssistantAgent(\n    name='Developer',\n    system_message='''Tu es un développeur senior Python.\n    Implémente uniquement ce que l\\'architecte a conçu.\n    Écris du code complet, testé, typé.''',\n    llm_config=llm_config\n)\n\nreviewer = autogen.AssistantAgent(\n    name='Reviewer',\n    system_message='''Tu es un expert en code review et sécurité.\n    Valide le code du développeur.\n    Signal APPROVED quand le code est prêt pour la prod.''',\n    llm_config=llm_config\n)\n\n# ── Créer le groupe de chat ───────────────────────\ngroupchat = autogen.GroupChat(\n    agents=[user_proxy, architect, developer, reviewer],\n    messages=[],\n    max_round=20,\n    speaker_selection_method='auto'  # GPT-4 choisit qui parle\n)\n\nmanager = autogen.GroupChatManager(groupchat=groupchat, llm_config=llm_config)\n\n# ── Lancer la tâche ───────────────────────────────\nuser_proxy.initiate_chat(\n    manager,\n    message='Créez une API FastAPI avec authentification JWT et CRUD utilisateurs'\n)",
-            "contentJava": "// Java 11 avec LangChain4j — Simulation d'un pipeline multi-agents\n// (AutoGen n'a pas d'equivalent Java officiel — LangChain4j AiServices\n//  permet de creer des agents specialises similaires)\nimport dev.langchain4j.model.openai.OpenAiChatModel;\nimport dev.langchain4j.service.AiServices;\nimport dev.langchain4j.service.SystemMessage;\nimport dev.langchain4j.service.UserMessage;\n\npublic class MultiAgentsPipeline {\n\n    // Agent 1 : Architecte logiciel\n    interface Architect {\n        @SystemMessage(\"Tu es un architecte logiciel senior Java/Spring. \" +\n            \"Propose une architecture claire et robuste. Ne code pas toi-meme.\")\n        String design(@UserMessage String requirement);\n    }\n\n    // Agent 2 : Développeur\n    interface Developer {\n        @SystemMessage(\"Tu es un developpeur senior Java 11. \" +\n            \"Implemente ce que l'architecte a concu. Code complet, type, teste.\")\n        String implement(@UserMessage String architecture);\n    }\n\n    // Agent 3 : Reviewer\n    interface Reviewer {\n        @SystemMessage(\"Tu es un expert en code review et securite Java. \" +\n            \"Valide le code. Repond APPROVED quand le code est pret pour la prod.\")\n        String review(@UserMessage String code);\n    }\n\n    public static void main(String[] args) {\n        OpenAiChatModel llm = OpenAiChatModel.builder()\n            .apiKey(System.getenv(\"OPENAI_API_KEY\"))\n            .modelName(\"gpt-4o\")\n            .temperature(0.0)\n            .build();\n\n        Architect architect = AiServices.create(Architect.class, llm);\n        Developer developer = AiServices.create(Developer.class, llm);\n        Reviewer  reviewer  = AiServices.create(Reviewer.class,  llm);\n\n        String task = \"API Spring Boot avec authentification JWT et CRUD utilisateurs\";\n\n        System.out.println(\"=== ARCHITECTE ===\");\n        String architecture = architect.design(task);\n        System.out.println(architecture);\n\n        System.out.println();\n        System.out.println(\"=== DÉVELOPPEUR ===\");\n        String code = developer.implement(architecture);\n        System.out.println(code);\n\n        System.out.println();\n        System.out.println(\"=== REVIEWER ===\");\n        String verdict = reviewer.review(code);\n        System.out.println(verdict);\n    }\n}"
+            "contentJava": "// Java 11 avec LangChain4j — Pipeline multi-agents\nimport dev.langchain4j.model.openai.OpenAiChatModel;\nimport dev.langchain4j.service.AiServices;\nimport dev.langchain4j.service.SystemMessage;\nimport dev.langchain4j.service.UserMessage;\n\npublic class MultiAgentsPipeline {\n\n    // Agent 1 : Architecte logiciel\n    interface Architect {\n        @SystemMessage(\"Tu es un architecte logiciel senior Java/Spring. \" +\n            \"Propose une architecture claire et robuste. Ne code pas toi-meme.\")\n        String design(@UserMessage String requirement);\n    }\n\n    // Agent 2 : Développeur\n    interface Developer {\n        @SystemMessage(\"Tu es un developpeur senior Java 11. \" +\n            \"Implemente ce que l'architecte a concu. Code complet, type, teste.\")\n        String implement(@UserMessage String architecture);\n    }\n\n    // Agent 3 : Reviewer\n    interface Reviewer {\n        @SystemMessage(\"Tu es un expert en code review et securite Java. \" +\n            \"Valide le code. Repond APPROVED quand le code est pret pour la prod.\")\n        String review(@UserMessage String code);\n    }\n\n    public static void main(String[] args) {\n        OpenAiChatModel llm = OpenAiChatModel.builder()\n            .apiKey(System.getenv(\"OPENAI_API_KEY\"))\n            .modelName(\"gpt-4o\")\n            .temperature(0.0)\n            .build();\n\n        Architect architect = AiServices.create(Architect.class, llm);\n        Developer developer = AiServices.create(Developer.class, llm);\n        Reviewer  reviewer  = AiServices.create(Reviewer.class,  llm);\n\n        String task = \"API Spring Boot avec authentification JWT et CRUD utilisateurs\";\n\n        System.out.println(\"=== ARCHITECTE ===\");\n        String architecture = architect.design(task);\n        System.out.println(architecture);\n\n        System.out.println();\n        System.out.println(\"=== DÉVELOPPEUR ===\");\n        String code = developer.implement(architecture);\n        System.out.println(code);\n\n        System.out.println();\n        System.out.println(\"=== REVIEWER ===\");\n        String verdict = reviewer.review(code);\n        System.out.println(verdict);\n    }\n}"
+          },
+          {
+            "type": "tip",
+            "content": "**Patterns multi-agents :** Orchestrateur/Workers (un chef dirige des spécialistes), Pipeline séquentiel (chaque agent raffine la sortie du précédent), Debate (plusieurs agents argumentent puis convergent), Vote majoritaire (3 agents, on prend le consensus). Choisir selon la complexité de la tâche."
+          },
+          {
+            "type": "check",
+            "question": "Quel est l'avantage principal d'un système multi-agents par rapport à un agent unique pour une tâche complexe ?",
+            "options": [
+              "Les multi-agents coûtent moins de tokens",
+              "La spécialisation et la parallélisation : chaque agent est expert de son domaine et plusieurs agents peuvent travailler simultanément",
+              "Les multi-agents n'ont jamais de boucles infinies",
+              "AutoGen fonctionne sans LLM"
+            ],
+            "correct": 1,
+            "explanation": "Un agent unique cumule toutes les responsabilités et peut perdre le fil sur des tâches longues. Les systèmes multi-agents bénéficient de la spécialisation (chaque agent a un rôle précis), de la parallélisation (les agents travaillent en simultané) et de la vérification croisée (un reviewer valide le travail du developer)."
+          },
+          {
+            "type": "compare",
+            "before": {
+              "label": "Agent unique",
+              "items": [
+                "Un seul LLM gère tout : conception, code, review",
+                "Contexte saturé rapidement sur les longues tâches",
+                "Pas de vérification croisée — erreurs non détectées",
+                "Séquentiel : une tâche à la fois"
+              ]
+            },
+            "after": {
+              "label": "Système Multi-Agents",
+              "items": [
+                "Architecte, Developer, Reviewer : chacun son expertise",
+                "Contexte distribué : chaque agent garde un historique focalisé",
+                "Le Reviewer détecte les bugs que le Developer n'a pas vus",
+                "Parallélisation possible : plusieurs agents travaillent en simultané"
+              ]
+            }
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "Les systèmes multi-agents décomposent les tâches complexes entre agents spécialisés (Architecte, Developer, Reviewer...)",
+              "AutoGen (Microsoft) : agents avec profils conversationnels, groupchat géré par un manager",
+              "LangChain4j AiServices : créer des agents Java déclaratifs avec @SystemMessage et @Tool",
+              "Patterns : orchestrateur/workers, pipeline séquentiel, debate, vote majoritaire",
+              "Défis en production : boucles infinies (max_iterations), coût des tokens, debugging de la chaîne de raisonnement"
+            ]
           }
         ]
       }
@@ -1253,6 +2213,29 @@
           {
             "type": "tip",
             "content": "MCP vs Function Calling : Function Calling est spécifique à chaque fournisseur LLM. MCP est universel — un serveur MCP fonctionne avec Claude, Cursor, VS Code Copilot, et tout client compatible MCP. C'est l'interopérabilité par design."
+          },
+          {
+            "type": "check",
+            "question": "Quelle est la différence fondamentale entre MCP et le Function Calling classique ?",
+            "options": [
+              "MCP est plus rapide que Function Calling",
+              "Function Calling ne supporte que Python",
+              "MCP est universel et interopérable : un serveur MCP fonctionne avec n'importe quel client compatible (Claude, Cursor, VS Code...), contrairement au Function Calling lié à un fournisseur LLM spécifique",
+              "MCP ne peut accéder qu'aux fichiers locaux"
+            ],
+            "correct": 2,
+            "explanation": "Le Function Calling est propriétaire : la syntaxe OpenAI ne fonctionne pas avec Anthropic, et vice versa. MCP standardise l'interface — un serveur MCP exposant vos données métier fonctionne avec tous les clients compatibles MCP sans modification. C'est l'équivalent USB-C pour les intégrations IA."
+          },
+          {
+            "type": "summary",
+            "title": "Ce qu'on a appris",
+            "items": [
+              "MCP (Model Context Protocol) est un protocole open-source Anthropic (nov. 2024) qui standardise la communication entre LLMs et outils externes",
+              "Architecture en trois couches : Host (app LLM), Client (connexion 1:1), Server (expose Resources, Tools, Prompts)",
+              "Un serveur MCP expose des outils via JSON-RPC sur stdio ou SSE — n'importe quel client MCP peut les utiliser",
+              "MCP est universel (Claude, Cursor, VS Code Copilot...) contrairement au Function Calling lié à chaque fournisseur",
+              "Pour créer un serveur MCP : déclarer les outils avec leur schéma JSON, implémenter call_tool(), configurer claude_desktop_config.json"
+            ]
           }
         ]
       },
