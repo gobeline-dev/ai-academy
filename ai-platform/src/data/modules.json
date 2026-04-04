@@ -50,7 +50,7 @@
               },
               {
                 "year": "2017",
-                "event": "Architecture Transformer — révolution du NLP"
+                "event": "Architecture Transformer — révolution du NLP (Natural Language Processing — traitement automatique du langage)"
               },
               {
                 "year": "2022",
@@ -70,14 +70,14 @@
             "type": "cards",
             "items": [
               {
-                "title": "IA Symbolique (GOFAI)",
+                "title": "IA Symbolique (GOFAI — Good Old-Fashioned AI)",
                 "icon": "📐",
                 "description": "Basée sur des règles explicites et la logique formelle. Puissante pour des domaines bien définis mais fragile face à l'incertitude. Ex: systèmes experts, Prolog."
               },
               {
                 "title": "Machine Learning",
                 "icon": "📊",
-                "description": "L'algorithme apprend à partir de données plutôt que de règles explicites. Le système découvre des patterns statistiques. Ex: Random Forest, SVM."
+                "description": "L'algorithme apprend à partir de données plutôt que de règles explicites. Le système découvre des patterns statistiques. Ex: Random Forest, SVM (Support Vector Machine — algorithme qui cherche la meilleure frontière entre deux groupes)."
               },
               {
                 "title": "Deep Learning",
@@ -199,6 +199,10 @@
             "content": "L'IA est fondamentalement probabiliste. Un modèle ne 'sait' pas — il calcule des probabilités. Comprendre ces bases permet de mieux interpréter les prédictions et les incertitudes d'un modèle."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine que tu lances un dé des milliers de fois. Si tu notes combien de fois tu obtiens chaque chiffre, tu obtiens une 'distribution'. En IA, une distribution de probabilité c'est pareil : elle dit combien de fois le modèle s'attend à voir chaque résultat possible. Quand GPT choisit le prochain mot, il regarde sa distribution et pioche un mot — les mots probables sont tirés souvent, les improbables rarement."
+          },
+          {
             "type": "heading",
             "content": "Distributions et espérance"
           },
@@ -218,13 +222,21 @@
             "content": "Le Théorème de Bayes — l'IA qui met à jour ses croyances"
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Tu vois quelqu'un en blouse blanche avec un stéthoscope. Tu penses 'c'est sûrement un médecin' (ta conviction de départ). Puis tu remarques qu'il est dans un couloir d'hôpital (nouvelle information). Ta conviction augmente. Puis il prend une radiographie (encore une info). Tu en es presque certain. Bayes, c'est exactement ça : **chaque nouvelle information met à jour ta conviction**. C'est le fondement de la détection de spam, du diagnostic médical par IA, et bien plus."
+          },
+          {
             "type": "text",
-            "content": "P(A|B) = P(B|A) × P(A) / P(B) — Cette formule simple est au cœur de nombreux systèmes d'IA. Elle permet de mettre à jour une croyance (prior) à la lumière de nouvelles preuves."
+            "content": "P(A|B) = P(B|A) × P(A) / P(B). Ne t'arrête pas sur la formule — l'essentiel est l'idée : **si tu obtiens une nouvelle information, mets à jour ta probabilité**. C'est exactement ce que fait un filtre anti-spam : chaque nouveau mot suspect augmente sa conviction que c'est du spam."
           },
           {
             "type": "example",
             "title": "Exemple concret : détection de spam",
             "content": "Problème : un email contient le mot 'gratuit'. Est-ce un spam ?\n\n• P(spam) = 0.2 (20% des emails sont des spams — notre prior)\n• P('gratuit'|spam) = 0.6 (60% des spams contiennent 'gratuit')\n• P('gratuit') = 0.15 (15% de tous les emails ont 'gratuit')\n\nBayes : P(spam|'gratuit') = (0.6 × 0.2) / 0.15 = **0.80**\n\nConclusion : si l'email contient 'gratuit', probabilité de spam = 80% !"
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** La fonction de perte, c'est comme le score d'un jeu : plus tu fais d'erreurs, plus ton score est élevé (et c'est mauvais). L'objectif du modèle est de faire baisser ce score au minimum. Quand tu prédit 'chat' alors que c'était 'chien', la perte est grande. Quand tu prédit presque juste, elle est faible. C'est ce signal — 'combien je me suis trompé ?' — qui guide tout l'apprentissage."
           },
           {
             "type": "heading",
@@ -270,8 +282,12 @@
             "content": "Imaginez-vous sur une montagne brumeuse et vous voulez atteindre la vallée (minimum). Vous ne voyez qu'à quelques mètres. Stratégie : regarder dans quelle direction le sol descend (gradient) et faire un petit pas dans cette direction. Répéter."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Le gradient est une boussole pour l'erreur. Imagine que tu cherches le point le plus bas d'un terrain accidenté et que tu as une boussole qui pointe toujours vers le haut. Tu fais l'inverse de ce qu'elle indique — tu vas dans la direction opposée à la montée. Le réseau fait pareil : la boussole (gradient) lui dit où l'erreur augmente, et il fait exactement l'opposé."
+          },
+          {
             "type": "text",
-            "content": "Mathématiquement : le gradient ∇L(w) est le vecteur des dérivées partielles de la perte par rapport à chaque paramètre. Il indique la direction de montée la plus rapide — donc on va dans la direction opposée."
+            "content": "En termes mathématiques, le **gradient** est une boussole : il te dit dans quelle direction l'erreur *augmente*. Donc le réseau fait l'opposé — il va dans la direction où l'erreur *diminue*. (Pour les curieux : c'est le vecteur des dérivées partielles ∇L(w), mais l'intuition suffit pour la suite.)"
           },
           {
             "type": "code",
@@ -369,11 +385,11 @@
             "type": "list",
             "items": [
               "**Collecte et nettoyage des données** : garbage in, garbage out — c'est 70% du travail réel",
-              "**Feature engineering** : créer les bonnes variables d'entrée",
+              "**Feature engineering** : choisir et transformer les bonnes variables d'entrée (ex: transformer une date en \"jour de la semaine\" plutôt que laisser le chiffre brut)",
               "**Split train/validation/test** : ne jamais évaluer sur les données d'entraînement",
               "**Entraînement et tuning** : choisir et optimiser le modèle",
-              "**Évaluation** : métriques adaptées au problème (accuracy, F1, AUC-ROC...)",
-              "**Déploiement et monitoring** : le modèle en production peut dériver (data drift)"
+              "**Évaluation** : mesurer la qualité du modèle — accuracy (% bien classés), F1 (équilibre précision/rappel), AUC-ROC (score global sur tous les seuils)",
+              "**Déploiement et monitoring** : en production, le comportement réel change avec le temps (data drift — dérive des données : le modèle se dégrade car le monde a changé) — un modèle de détection de fraude de 2022 peut être obsolète en 2024"
             ]
           }
         ]
@@ -676,11 +692,11 @@
           },
           {
             "type": "heading",
-            "content": "BPE : Byte Pair Encoding"
+            "content": "BPE : Byte Pair Encoding — algorithme qui découpe les mots en morceaux fréquents"
           },
           {
             "type": "text",
-            "content": "GPT utilise BPE : les mots fréquents obtiennent un token unique ('chat' = 1 token), les mots rares sont divisés en sous-mots ('extraordinaire' = 'extra' + 'ordin' + 'aire' = 3 tokens). Cela permet un vocabulaire fixe (~50k tokens) tout en gérant n'importe quel texte."
+            "content": "GPT utilise BPE (Byte Pair Encoding — algorithme qui découpe les mots en morceaux fréquents) : les mots fréquents obtiennent un token unique ('chat' = 1 token), les mots rares sont divisés en sous-mots ('extraordinaire' = 'extra' + 'ordin' + 'aire' = 3 tokens). Cela permet un vocabulaire fixe (~50k tokens) tout en gérant n'importe quel texte."
           },
           {
             "type": "tip",
