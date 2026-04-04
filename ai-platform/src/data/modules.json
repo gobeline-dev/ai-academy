@@ -108,6 +108,10 @@
             "content": "Vecteurs : l'unité de base"
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine que tu dois expliquer où tu habites à quelqu'un sans carte. Tu donnes 2 chiffres : latitude et longitude. C'est un vecteur de dimension 2. En IA, on décrit les choses avec beaucoup plus de chiffres : une photo 28×28 pixels, c'est 784 chiffres (un vecteur de dimension 784). Un mot comme 'chat', c'est 768 chiffres. Plus il y a de chiffres, plus la description est riche et précise."
+          },
+          {
             "type": "text",
             "content": "Un vecteur est simplement une liste ordonnée de nombres. En IA, on représente tout sous forme de vecteurs : une image 28x28 pixels devient un vecteur de 784 nombres, le mot 'chat' devient un vecteur de 768 dimensions (embedding)."
           },
@@ -120,6 +124,10 @@
           {
             "type": "heading",
             "content": "Matrices : transformer les données"
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Une matrice c'est un tableau comme dans Excel — des lignes et des colonnes de chiffres. Quand on 'multiplie' deux matrices, c'est comme appliquer un filtre Instagram à une photo : tu transformes l'image originale en quelque chose de nouveau. Dans un réseau de neurones, chaque couche est un filtre qui transforme les données pour les rendre plus utiles à la couche suivante."
           },
           {
             "type": "text",
@@ -138,6 +146,10 @@
           {
             "type": "heading",
             "content": "La décomposition SVD et les embeddings"
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine que tu analyses les goûts musicaux de milliers de personnes. Tu remarques que certaines aiment le rock ET le métal (un groupe), d'autres le jazz ET la soul (un autre groupe). La SVD détecte automatiquement ces 'super-catégories cachées' dans un grand tableau de données — sans qu'on lui dise quoi chercher. Netflix l'a utilisé pour découvrir que 'les gens qui aiment les films d'action avec de l'humour' forment un groupe naturel, sans jamais nommer cette catégorie."
           },
           {
             "type": "text",
@@ -221,6 +233,10 @@
           {
             "type": "heading",
             "content": "L'intuition : descendre une montagne"
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Tu es dans le brouillard total sur une montagne et tu veux atteindre la vallée. Tu ne vois rien à plus de 2 mètres. Que fais-tu ? Tu regardes le sol autour de toi et tu fais un petit pas vers l'endroit qui descend le plus. Tu répètes ça des milliers de fois jusqu'à arriver en bas. C'est exactement ce que fait un réseau de neurones : il 'tâte' dans quelle direction ses erreurs diminuent, fait un petit pas dans cette direction, et recommence jusqu'à être le plus précis possible."
           },
           {
             "type": "text",
@@ -450,6 +466,10 @@
             "content": "La backpropagation est l'algorithme qui permet d'entraîner un réseau de neurones. Il utilise la règle de chaîne du calcul différentiel pour propager le gradient de la perte vers chaque poids du réseau, permettant à chaque paramètre de savoir dans quelle direction il doit évoluer."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine que tu fais une recette de gâteau avec ta mamie, mais le résultat est trop sucré. Vous cherchez d'où vient le problème en remontant la recette à l'envers : 'Le glaçage est trop sucré → à cause du sucre en poudre → parce qu'on en a mis 2 fois trop.' Vous corrigez chaque étape. C'est exactement la backpropagation : le réseau fait une erreur, puis remonte couche par couche pour comprendre qui est responsable et corriger chaque poids d'un tout petit peu."
+          },
+          {
             "type": "text",
             "content": "Forward pass : les données traversent le réseau pour produire une prédiction. Backward pass : l'erreur remonte vers l'entrée, couche par couche, en multipliant les gradients (règle de chaîne). Chaque poids reçoit son gradient et est mis à jour."
           },
@@ -641,6 +661,10 @@
             "content": "Comment donner du 'sens' aux mots pour une machine ? Les embeddings représentent les mots comme des vecteurs dans un espace de haute dimension où les mots sémantiquement proches sont géométriquement proches. 'Roi' - 'Homme' + 'Femme' ≈ 'Reine'."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine une grande carte de France où les villes proches géographiquement sont aussi proches sur la carte. Les embeddings font la même chose avec les mots, mais dans un espace invisible avec des centaines de dimensions. Sur cette 'carte des mots', 'chat' et 'chaton' sont côte à côte. 'Paris', 'Lyon', 'Marseille' forment un quartier 'villes françaises'. Et la magie : 'Roi' est à 'Reine' la même distance que 'Homme' est à 'Femme' — le modèle a appris le concept de genre sans qu'on le lui explique !"
+          },
+          {
             "type": "code",
             "language": "python",
             "label": "Word2Vec et opérations sémantiques",
@@ -675,6 +699,10 @@
           {
             "type": "heading",
             "content": "Queries, Keys et Values"
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine une bibliothèque. Tu arrives avec une question (ta **Query** = 'je cherche un livre sur les dinosaures'). Chaque livre a une étiquette sur le dos (sa **Key** = 'préhistoire, reptiles, extinction'). Tu compares ta question avec chaque étiquette pour voir lesquelles correspondent le mieux. Les livres qui correspondent le mieux, tu les lis vraiment (leur **Value**). L'attention en IA fait exactement ça : pour chaque mot d'une phrase, elle cherche quels autres mots sont les plus utiles à consulter pour comprendre ce mot."
           },
           {
             "type": "text",
