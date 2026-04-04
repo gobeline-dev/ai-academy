@@ -26,10 +26,17 @@ function getXPInfo(xp) {
 export default function Header({ modules, progressHook, theme, toggleTheme }) {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
-  const location = useLocation()
-  const menuRef = useRef(null)
-  const { getOverallProgress, progress } = progressHook
+  const [saveOpen, setSaveOpen] = useState(false)
+  const [importError, setImportError] = useState(null)
+  const [importOk, setImportOk] = useState(false)
+  const [resetConfirm, setResetConfirm] = useState(false)
 
+  const location = useLocation()
+  const headerRef = useRef(null)
+  const saveRef = useRef(null)
+  const fileInputRef = useRef(null)
+
+  const { getOverallProgress, progress, exportProgress, importProgress, resetProgress } = progressHook
   const overall = getOverallProgress(modules)
   const unlockedCount = (progress.unlockedAchievements || []).length
   const { level, next, progress: xpPct } = getXPInfo(progress.totalXP)
@@ -40,22 +47,59 @@ export default function Header({ modules, progressHook, theme, toggleTheme }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
 
-  // Close mobile menu on route change
-  useEffect(() => { setMobileOpen(false) }, [location.pathname])
+  useEffect(() => { setMobileOpen(false); setSaveOpen(false); setResetConfirm(false) }, [location.pathname])
 
   // Close mobile menu on outside click
   useEffect(() => {
     if (!mobileOpen) return
     const handler = (e) => {
-      if (menuRef.current && !menuRef.current.contains(e.target)) setMobileOpen(false)
+      if (headerRef.current && !headerRef.current.contains(e.target)) setMobileOpen(false)
     }
     document.addEventListener('pointerdown', handler)
     return () => document.removeEventListener('pointerdown', handler)
   }, [mobileOpen])
 
+  // Close save dropdown on outside click
+  useEffect(() => {
+    if (!saveOpen) return
+    const handler = (e) => {
+      if (saveRef.current && !saveRef.current.contains(e.target)) {
+        setSaveOpen(false)
+        setResetConfirm(false)
+      }
+    }
+    document.addEventListener('pointerdown', handler)
+    return () => document.removeEventListener('pointerdown', handler)
+  }, [saveOpen])
+
+  const handleImport = (file) => {
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (ev) => {
+      const ok = importProgress(ev.target.result)
+      if (ok) {
+        setImportOk(true)
+        setImportError(null)
+        setSaveOpen(false)
+        setTimeout(() => setImportOk(false), 3000)
+      } else {
+        setImportError('Fichier invalide')
+        setTimeout(() => setImportError(null), 3000)
+      }
+    }
+    reader.readAsText(file)
+    fileInputRef.current.value = ''
+  }
+
+  const handleReset = () => {
+    resetProgress()
+    setSaveOpen(false)
+    setResetConfirm(false)
+  }
+
   return (
     <header
-      ref={menuRef}
+      ref={headerRef}
       style={{
         position: 'sticky', top: 0, zIndex: 100,
         transition: 'all 0.3s ease',
@@ -149,6 +193,108 @@ export default function Header({ modules, progressHook, theme, toggleTheme }) {
             </div>
           )}
 
+          {/* ── Save / Progression dropdown ── */}
+          <div ref={saveRef} style={{ position: 'relative' }}>
+            <button
+              onClick={() => { setSaveOpen(o => !o); setResetConfirm(false) }}
+              title="Progression — exporter / importer"
+              style={{
+                width: 36, height: 36, borderRadius: 'var(--radius-md)',
+                background: saveOpen ? 'rgba(99,102,241,0.15)' : 'rgba(255,255,255,0.05)',
+                border: `1px solid ${saveOpen ? 'rgba(99,102,241,0.4)' : 'var(--border-subtle)'}`,
+                cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: '1rem', transition: 'all 0.2s ease', flexShrink: 0,
+                color: saveOpen ? 'var(--color-primary-light)' : 'var(--text-secondary)',
+              }}
+              onMouseEnter={e => { if (!saveOpen) e.currentTarget.style.background = 'rgba(255,255,255,0.1)' }}
+              onMouseLeave={e => { if (!saveOpen) e.currentTarget.style.background = 'rgba(255,255,255,0.05)' }}
+            >
+              💾
+            </button>
+
+            {/* Dropdown */}
+            {saveOpen && (
+              <div style={{
+                position: 'absolute', top: 'calc(100% + 8px)', right: 0,
+                width: 220, zIndex: 300,
+                background: 'rgba(10,14,30,0.98)',
+                border: '1px solid rgba(99,102,241,0.25)',
+                borderRadius: 'var(--radius-lg)',
+                padding: '8px',
+                boxShadow: '0 12px 40px rgba(0,0,0,0.6), 0 0 20px rgba(99,102,241,0.1)',
+                backdropFilter: 'blur(20px)',
+                animation: 'slideDown 0.15s ease',
+              }}>
+                <div style={{ padding: '4px 8px 8px', fontSize: '0.68rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)', letterSpacing: '0.06em', textTransform: 'uppercase' }}>
+                  Progression
+                </div>
+
+                <DropdownBtn
+                  icon="⬇"
+                  label="Exporter (.json)"
+                  onClick={() => { exportProgress(); setSaveOpen(false) }}
+                  color="var(--color-primary-light)"
+                />
+                <DropdownBtn
+                  icon="⬆"
+                  label="Importer"
+                  onClick={() => fileInputRef.current?.click()}
+                  color="#34d399"
+                />
+
+                <div style={{ height: 1, background: 'rgba(255,255,255,0.06)', margin: '6px 0' }} />
+
+                {resetConfirm ? (
+                  <div style={{ padding: '6px 8px' }}>
+                    <div style={{ fontSize: '0.75rem', color: '#f87171', marginBottom: 8 }}>
+                      Effacer toute la progression ?
+                    </div>
+                    <div style={{ display: 'flex', gap: 6 }}>
+                      <button onClick={handleReset} style={{
+                        flex: 1, padding: '6px', borderRadius: 8,
+                        background: 'rgba(239,68,68,0.15)', border: '1px solid rgba(239,68,68,0.35)',
+                        color: '#f87171', fontSize: '0.78rem', fontWeight: 700, cursor: 'pointer',
+                      }}>Confirmer</button>
+                      <button onClick={() => setResetConfirm(false)} style={{
+                        flex: 1, padding: '6px', borderRadius: 8,
+                        background: 'transparent', border: '1px solid rgba(255,255,255,0.08)',
+                        color: 'var(--text-muted)', fontSize: '0.78rem', cursor: 'pointer',
+                      }}>Annuler</button>
+                    </div>
+                  </div>
+                ) : (
+                  <DropdownBtn
+                    icon="🗑"
+                    label="Réinitialiser"
+                    onClick={() => setResetConfirm(true)}
+                    color="#f87171"
+                  />
+                )}
+
+                {/* Feedback */}
+                {importOk && (
+                  <div style={{ padding: '6px 8px', fontSize: '0.75rem', color: '#34d399', display: 'flex', alignItems: 'center', gap: 5 }}>
+                    ✓ Importé avec succès
+                  </div>
+                )}
+                {importError && (
+                  <div style={{ padding: '6px 8px', fontSize: '0.75rem', color: '#f87171' }}>
+                    ✗ {importError}
+                  </div>
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Hidden file input for import */}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json"
+            style={{ display: 'none' }}
+            onChange={e => handleImport(e.target.files?.[0])}
+          />
+
           {/* Theme toggle */}
           <button
             onClick={toggleTheme}
@@ -192,12 +338,11 @@ export default function Header({ modules, progressHook, theme, toggleTheme }) {
             active={location.pathname === '/achievements'}
           />
 
-          {/* Divider */}
           <div style={{ height: 1, background: 'var(--border-subtle)', margin: '8px 0' }} />
 
           {/* XP in mobile menu */}
           {progress.totalXP > 0 && (
-            <div style={{ padding: '8px 12px', borderRadius: 'var(--radius-md)', background: 'rgba(255,255,255,0.04)' }}>
+            <div style={{ padding: '8px 12px', borderRadius: 'var(--radius-md)', background: 'rgba(255,255,255,0.04)', marginBottom: 4 }}>
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 6 }}>
                 <span style={{ fontSize: '0.78rem', fontWeight: 700, color: level.color }}>{level.name}</span>
                 <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)' }}>⚡ {progress.totalXP} XP</span>
@@ -209,15 +354,31 @@ export default function Header({ modules, progressHook, theme, toggleTheme }) {
                   borderRadius: 99,
                 }} />
               </div>
-              {next && (
-                <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 4 }}>
-                  Prochain niveau : {next.name} ({next.min} XP)
-                </div>
-              )}
+              {next && <div style={{ fontSize: '0.68rem', color: 'var(--text-muted)', marginTop: 4 }}>Prochain : {next.name} ({next.min} XP)</div>}
             </div>
           )}
 
-          {/* Start CTA */}
+          {/* Progression actions in mobile */}
+          <div style={{ display: 'flex', gap: 6 }}>
+            <button onClick={() => { exportProgress(); setMobileOpen(false) }} style={{
+              flex: 1, padding: '10px', borderRadius: 'var(--radius-md)',
+              background: 'rgba(99,102,241,0.1)', border: '1px solid rgba(99,102,241,0.25)',
+              color: 'var(--color-primary-light)', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+            }}>
+              ⬇ Exporter
+            </button>
+            <button onClick={() => fileInputRef.current?.click()} style={{
+              flex: 1, padding: '10px', borderRadius: 'var(--radius-md)',
+              background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.2)',
+              color: '#34d399', fontSize: '0.82rem', fontWeight: 600, cursor: 'pointer',
+            }}>
+              ⬆ Importer
+            </button>
+          </div>
+
+          {importOk && <div style={{ fontSize: '0.78rem', color: '#34d399', padding: '4px 0' }}>✓ Importé avec succès</div>}
+          {importError && <div style={{ fontSize: '0.78rem', color: '#f87171', padding: '4px 0' }}>✗ {importError}</div>}
+
           <Link to="/modules" className="btn btn-primary" style={{ marginTop: 4, textAlign: 'center' }}>
             Commencer l'apprentissage →
           </Link>
@@ -235,6 +396,29 @@ export default function Header({ modules, progressHook, theme, toggleTheme }) {
         }
       `}</style>
     </header>
+  )
+}
+
+function DropdownBtn({ icon, label, onClick, color }) {
+  const [hovered, setHovered] = useState(false)
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        width: '100%', display: 'flex', alignItems: 'center', gap: 10,
+        padding: '8px 10px', borderRadius: 8, border: 'none',
+        background: hovered ? 'rgba(255,255,255,0.06)' : 'transparent',
+        cursor: 'pointer', transition: 'background 0.15s ease',
+        textAlign: 'left',
+      }}
+    >
+      <span style={{ fontSize: '0.9rem', width: 18, textAlign: 'center' }}>{icon}</span>
+      <span style={{ fontSize: '0.82rem', fontWeight: 600, color: hovered ? color : 'var(--text-secondary)', transition: 'color 0.15s ease' }}>
+        {label}
+      </span>
+    </button>
   )
 }
 

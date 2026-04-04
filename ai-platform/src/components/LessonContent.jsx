@@ -126,7 +126,7 @@ function CodeBlock({ content, contentJava, label, language = 'python', lang, onL
               borderRadius: 6, padding: 2,
               border: '1px solid rgba(255,255,255,0.06)',
             }}>
-              {['python', 'java'].map(l => (
+              {['java', 'python'].map(l => (
                 <button
                   key={l}
                   onClick={() => onLangChange(l)}
@@ -194,7 +194,7 @@ function RichText({ text, style, tag = 'p' }) {
 
 // ── LessonContent — owns the language preference ──────────────────────────────
 export default function LessonContent({ sections }) {
-  const [lang, setLang] = useState(() => localStorage.getItem(LANG_KEY) || 'python')
+  const [lang, setLang] = useState(() => localStorage.getItem(LANG_KEY) || 'java')
 
   const handleLangChange = (newLang) => {
     localStorage.setItem(LANG_KEY, newLang)
