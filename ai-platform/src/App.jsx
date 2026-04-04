@@ -34,7 +34,7 @@ export default function App() {
         color: 'var(--text-muted)',
         fontSize: '0.85rem',
       }}>
-        <span>AI Academy © 2025 — </span>
+        <span>AI Academy © 2026 — </span>
         <span style={{ background: 'var(--gradient-primary)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>
           L'IA expliquée de A à Z
         </span>
