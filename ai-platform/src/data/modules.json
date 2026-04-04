@@ -1,0 +1,1235 @@
+[
+  {
+    "id": 1,
+    "slug": "fondations",
+    "title": "Les Fondations",
+    "subtitle": "Maths, Stats & Probabilités",
+    "icon": "🧮",
+    "color": "#6366f1",
+    "colorLight": "#818cf8",
+    "gradient": "linear-gradient(135deg, #4f46e5, #6366f1)",
+    "level": "Débutant",
+    "duration": "3h",
+    "lessons": [
+      {
+        "id": "1-1",
+        "title": "Qu'est-ce que l'Intelligence Artificielle ?",
+        "duration": "20 min",
+        "icon": "🤖",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "L'Intelligence Artificielle (IA) est un ensemble de théories et techniques visant à créer des machines capables de simuler l'intelligence humaine. Mais d'où vient-elle et pourquoi est-elle si puissante aujourd'hui ?"
+          },
+          {
+            "type": "heading",
+            "content": "Une brève histoire de l'IA"
+          },
+          {
+            "type": "text",
+            "content": "L'histoire de l'IA commence dans les années 1950 avec Alan Turing qui pose la question fondamentale : 'Les machines peuvent-elles penser ?' Son célèbre test de Turing (1950) propose d'évaluer l'intelligence d'une machine par sa capacité à imiter une conversation humaine."
+          },
+          {
+            "type": "timeline",
+            "items": [
+              { "year": "1950", "event": "Test de Turing — Alan Turing pose les bases théoriques" },
+              { "year": "1956", "event": "Conférence de Dartmouth — naissance officielle du terme IA" },
+              { "year": "1986", "event": "Résurgence du backpropagation — renaissance des réseaux de neurones" },
+              { "year": "2012", "event": "AlexNet révolutionne la vision par ordinateur avec le deep learning" },
+              { "year": "2017", "event": "Architecture Transformer — révolution du NLP" },
+              { "year": "2022", "event": "ChatGPT — l'IA générative entre dans le grand public" },
+              { "year": "2024-25", "event": "Agents IA, MCP, modèles multimodaux — l'IA agentique" }
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Les trois grandes familles de l'IA"
+          },
+          {
+            "type": "cards",
+            "items": [
+              {
+                "title": "IA Symbolique (GOFAI)",
+                "icon": "📐",
+                "description": "Basée sur des règles explicites et la logique formelle. Puissante pour des domaines bien définis mais fragile face à l'incertitude. Ex: systèmes experts, Prolog."
+              },
+              {
+                "title": "Machine Learning",
+                "icon": "📊",
+                "description": "L'algorithme apprend à partir de données plutôt que de règles explicites. Le système découvre des patterns statistiques. Ex: Random Forest, SVM."
+              },
+              {
+                "title": "Deep Learning",
+                "icon": "🧠",
+                "description": "Sous-ensemble du ML utilisant des réseaux de neurones profonds. Révolutionnaire pour la vision, le langage et l'audio. Ex: GPT, ResNet."
+              }
+            ]
+          },
+          {
+            "type": "tip",
+            "content": "Retenir : IA ⊃ Machine Learning ⊃ Deep Learning. Le Deep Learning est une sous-catégorie du ML, qui lui-même est une sous-catégorie de l'IA."
+          },
+          {
+            "type": "heading",
+            "content": "Pourquoi maintenant ?"
+          },
+          {
+            "type": "text",
+            "content": "Trois facteurs ont convergé pour créer l'explosion de l'IA moderne :"
+          },
+          {
+            "type": "list",
+            "items": [
+              "**Les données** : Internet a généré des exaoctets de données texte, images, vidéos — le carburant de l'apprentissage",
+              "**La puissance de calcul** : Les GPU (cartes graphiques) permettent des calculs parallèles massifs, indispensables pour entraîner des réseaux de neurones",
+              "**Les algorithmes** : Des architectures comme les Transformers ont révolutionné ce qu'il est possible d'apprendre automatiquement"
+            ]
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Votre premier classifieur IA en 5 lignes",
+            "content": "from sklearn.ensemble import RandomForestClassifier\nimport numpy as np\n\n# Données : [heures_étude, heures_sommeil] -> réussite (0/1)\nX = np.array([[2, 5], [8, 7], [3, 4], [9, 8], [1, 3]])\ny = np.array([0, 1, 0, 1, 0])\n\nclf = RandomForestClassifier()\nclf.fit(X, y)\n\n# Prédiction : 7h d'étude, 8h de sommeil\nprint(clf.predict([[7, 8]]))  # -> [1] : succès prédit !"
+          }
+        ]
+      },
+      {
+        "id": "1-2",
+        "title": "Algèbre Linéaire pour l'IA",
+        "duration": "25 min",
+        "icon": "📐",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Vecteurs, matrices, produit scalaire — ces concepts mathématiques sont le langage natif de l'IA. Chaque image, mot ou donnée est représenté comme un vecteur dans un espace de haute dimension."
+          },
+          {
+            "type": "heading",
+            "content": "Vecteurs : l'unité de base"
+          },
+          {
+            "type": "text",
+            "content": "Un vecteur est simplement une liste ordonnée de nombres. En IA, on représente tout sous forme de vecteurs : une image 28x28 pixels devient un vecteur de 784 nombres, le mot 'chat' devient un vecteur de 768 dimensions (embedding)."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Vecteurs et opérations fondamentales",
+            "content": "import numpy as np\n\n# Un vecteur représente un point dans l'espace\nprix = np.array([150, 200, 80])     # 3 produits\npoids = np.array([0.5, 0.3, 0.2])  # importance de chaque produit\n\n# Produit scalaire : mesure de similarité / pondération\nscore = np.dot(prix, poids)\nprint(f'Score pondéré : {score}')   # 150*0.5 + 200*0.3 + 80*0.2 = 151\n\n# Norme : 'longueur' d'un vecteur\nnorme = np.linalg.norm(prix)\nprint(f'Norme : {norme:.2f}')       # 266.27\n\n# Cosine similarity : angle entre vecteurs (utilisé en NLP !)\nv1 = np.array([1, 2, 3])\nv2 = np.array([2, 4, 6])   # même direction\ncos_sim = np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2))\nprint(f'Similarité cosinus : {cos_sim:.4f}')  # 1.0 = identiques"
+          },
+          {
+            "type": "heading",
+            "content": "Matrices : transformer les données"
+          },
+          {
+            "type": "text",
+            "content": "Une matrice est un tableau 2D de nombres. Dans un réseau de neurones, chaque couche est une matrice de poids qui transforme les données d'entrée. La multiplication matricielle est l'opération centrale du deep learning."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Matrices : le cœur d'une couche neuronale",
+            "content": "import numpy as np\n\n# Une couche dense = multiplication matricielle + biais\n# Entrée : 3 features, Sortie : 2 neurones\nW = np.array([[0.2, -0.1],    # matrice de poids (3x2)\n              [0.5,  0.3],\n              [-0.2, 0.8]])\nb = np.array([0.1, -0.2])     # biais\n\nx = np.array([1.0, 2.0, 3.0]) # données d'entrée\n\n# Forward pass : x @ W + b\noutput = x @ W + b\nprint(f'Sortie de la couche : {output}')  # [0.7, 2.1]\n\n# C'est exactement ce que fait une Dense layer Keras !\n# model.add(Dense(2))  -> fait exactement ce calcul"
+          },
+          {
+            "type": "tip",
+            "content": "Le produit matriciel X @ W est l'opération la plus importante du deep learning. Elle permet de projeter des données dans de nouveaux espaces où les patterns sont plus visibles."
+          },
+          {
+            "type": "heading",
+            "content": "La décomposition SVD et les embeddings"
+          },
+          {
+            "type": "text",
+            "content": "La Singular Value Decomposition (SVD) décompose une matrice en facteurs fondamentaux. C'est la base des premiers systèmes de recommandation (Netflix Prize) et une intuition clé pour comprendre les embeddings modernes."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "SVD : trouver la structure cachée des données",
+            "content": "import numpy as np\n\n# Matrice films x utilisateurs (notes)\nratings = np.array([\n    [5, 4, 0, 1],   # Alice\n    [4, 5, 0, 2],   # Bob (similaire à Alice)\n    [0, 1, 5, 4],   # Carol\n    [1, 0, 4, 5],   # Dave (similaire à Carol)\n])\n\nU, S, Vt = np.linalg.svd(ratings, full_matrices=False)\n\n# U : embeddings utilisateurs dans l'espace latent\n# S : importance de chaque dimension latente\n# Vt : embeddings des films\n\nprint(f'Dimensions latentes : {S.round(2)}')\n# [9.63, 3.96, ...] -> 2 concepts principaux\n# Concept 1 : films d'action, Concept 2 : films romantiques"
+          }
+        ]
+      },
+      {
+        "id": "1-3",
+        "title": "Statistiques & Probabilités",
+        "duration": "20 min",
+        "icon": "📈",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "L'IA est fondamentalement probabiliste. Un modèle ne 'sait' pas — il calcule des probabilités. Comprendre ces bases permet de mieux interpréter les prédictions et les incertitudes d'un modèle."
+          },
+          {
+            "type": "heading",
+            "content": "Distributions et espérance"
+          },
+          {
+            "type": "text",
+            "content": "Une distribution de probabilité décrit comment les valeurs sont réparties. La distribution normale (ou gaussienne) est omniprésente : erreurs de mesure, scores de test, etc. Les LLMs génèrent du texte en échantillonnant des distributions de probabilité sur des tokens."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Distributions — comment un LLM choisit le prochain mot",
+            "content": "import numpy as np\n\n# Simulation d'un LLM choisissant le prochain token\nvocabulaire = ['chat', 'chien', 'oiseau', 'poisson']\n\n# Scores bruts du modèle (logits)\nlogits = np.array([3.2, 1.5, 0.8, 0.3])\n\n# Softmax : convertit en probabilités (somme = 1)\ndef softmax(x):\n    exp_x = np.exp(x - np.max(x))  # stabilité numérique\n    return exp_x / exp_x.sum()\n\nprobs = softmax(logits)\nfor mot, p in zip(vocabulaire, probs):\n    print(f'{mot:10} : {p:.1%} {\"█\" * int(p*20)}')\n\n# Température : contrôle la 'créativité'\n# T=0.5 -> plus déterministe  |  T=2.0 -> plus aléatoire\nprint('\\nAvec température T=0.5:')\nprobs_cold = softmax(logits / 0.5)\nfor mot, p in zip(vocabulaire, probs_cold):\n    print(f'{mot:10} : {p:.1%}')"
+          },
+          {
+            "type": "heading",
+            "content": "Le Théorème de Bayes — l'IA qui met à jour ses croyances"
+          },
+          {
+            "type": "text",
+            "content": "P(A|B) = P(B|A) × P(A) / P(B) — Cette formule simple est au cœur de nombreux systèmes d'IA. Elle permet de mettre à jour une croyance (prior) à la lumière de nouvelles preuves."
+          },
+          {
+            "type": "example",
+            "title": "Exemple concret : détection de spam",
+            "content": "Problème : un email contient le mot 'gratuit'. Est-ce un spam ?\n\n• P(spam) = 0.2 (20% des emails sont des spams — notre prior)\n• P('gratuit'|spam) = 0.6 (60% des spams contiennent 'gratuit')\n• P('gratuit') = 0.15 (15% de tous les emails ont 'gratuit')\n\nBayes : P(spam|'gratuit') = (0.6 × 0.2) / 0.15 = **0.80**\n\nConclusion : si l'email contient 'gratuit', probabilité de spam = 80% !"
+          },
+          {
+            "type": "heading",
+            "content": "La fonction de perte : mesurer l'erreur"
+          },
+          {
+            "type": "text",
+            "content": "Entraîner un modèle = minimiser une fonction de perte. Cette fonction mesure à quel point les prédictions s'écartent de la réalité. C'est le signal qui guide l'apprentissage."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "MSE, Cross-Entropy : les deux pertes essentielles",
+            "content": "import numpy as np\n\n# 1. MSE (Mean Squared Error) — pour la régression\ny_true = np.array([3.0, 5.0, 2.0, 8.0])\ny_pred = np.array([2.5, 5.5, 2.2, 7.5])\nmse = np.mean((y_true - y_pred) ** 2)\nprint(f'MSE : {mse:.4f}')   # 0.1850\n\n# 2. Cross-Entropy — pour la classification\n# Exemple : classer entre chat/chien\ny_true_onehot = np.array([1, 0])      # c'est un chat\ny_pred_proba  = np.array([0.8, 0.2]) # modèle dit : 80% chat\n\ndef cross_entropy(y_true, y_pred):\n    return -np.sum(y_true * np.log(y_pred + 1e-8))\n\nloss = cross_entropy(y_true_onehot, y_pred_proba)\nprint(f'Cross-Entropy : {loss:.4f}')  # 0.2231 (bonne prédiction)\n\ny_pred_mauvais = np.array([0.1, 0.9])\nloss_mauvais = cross_entropy(y_true_onehot, y_pred_mauvais)\nprint(f'Mauvaise prédiction : {loss_mauvais:.4f}')  # 2.3026 (forte pénalité)"
+          },
+          {
+            "type": "tip",
+            "content": "Règle d'or : MSE pour prédire des valeurs continues (prix, température), Cross-Entropy pour prédire des classes (chat/chien, spam/ham, prochain token)."
+          }
+        ]
+      },
+      {
+        "id": "1-4",
+        "title": "Gradient Descent & Optimisation",
+        "duration": "20 min",
+        "icon": "⛰️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Comment un modèle apprend-il ? En descendant une montagne à tâtons les yeux bandés. Le gradient descent est l'algorithme qui permet à un réseau de neurones de trouver les meilleurs paramètres en minimisant son erreur."
+          },
+          {
+            "type": "heading",
+            "content": "L'intuition : descendre une montagne"
+          },
+          {
+            "type": "text",
+            "content": "Imaginez-vous sur une montagne brumeuse et vous voulez atteindre la vallée (minimum). Vous ne voyez qu'à quelques mètres. Stratégie : regarder dans quelle direction le sol descend (gradient) et faire un petit pas dans cette direction. Répéter."
+          },
+          {
+            "type": "text",
+            "content": "Mathématiquement : le gradient ∇L(w) est le vecteur des dérivées partielles de la perte par rapport à chaque paramètre. Il indique la direction de montée la plus rapide — donc on va dans la direction opposée."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Gradient Descent from scratch",
+            "content": "import numpy as np\nimport matplotlib\n\n# Problème : trouver w qui minimise L(w) = (w - 3)²\ndef loss(w):\n    return (w - 3) ** 2\n\ndef gradient(w):\n    return 2 * (w - 3)   # dérivée analytique\n\n# Hyperparamètres\nw = -2.0          # point de départ aléatoire\nlr = 0.1          # learning rate (taille du pas)\nn_iter = 30       # nombre d'itérations\n\nprint(f'Départ : w={w:.2f}, perte={loss(w):.2f}')\nfor i in range(n_iter):\n    grad = gradient(w)\n    w = w - lr * grad    # mise à jour du paramètre\n    if i % 5 == 0:\n        print(f'Iter {i+1:2d}: w={w:.4f}, perte={loss(w):.6f}')\n\nprint(f'\\nConvergé vers w={w:.4f} (optimal: 3.0)')"
+          },
+          {
+            "type": "heading",
+            "content": "SGD, Adam et les optimiseurs modernes"
+          },
+          {
+            "type": "cards",
+            "items": [
+              {
+                "title": "SGD (Stochastic GD)",
+                "icon": "🚶",
+                "description": "Calcule le gradient sur un seul exemple (ou mini-batch). Plus rapide mais bruyant. Learning rate fixe. Simple et efficace pour des tâches simples."
+              },
+              {
+                "title": "Momentum",
+                "icon": "⚽",
+                "description": "Accumule la vélocité des gradients passés. Évite d'osciller dans les vallées étroites. Accélère la convergence sur les plateaux."
+              },
+              {
+                "title": "Adam",
+                "icon": "🚀",
+                "description": "Adaptive Moment Estimation. Combine Momentum + learning rates adaptatifs par paramètre. Le choix par défaut en 2024 pour la plupart des architectures."
+              }
+            ]
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Adam optimizer simplifié",
+            "content": "import numpy as np\n\nclass AdamOptimizer:\n    def __init__(self, lr=0.001, beta1=0.9, beta2=0.999, eps=1e-8):\n        self.lr = lr\n        self.beta1 = beta1    # decay du 1er moment (momentum)\n        self.beta2 = beta2    # decay du 2ème moment (RMSProp)\n        self.eps = eps\n        self.m = 0    # 1er moment (moyenne des gradients)\n        self.v = 0    # 2ème moment (variance des gradients)\n        self.t = 0    # timestep\n    \n    def step(self, grad, param):\n        self.t += 1\n        self.m = self.beta1 * self.m + (1 - self.beta1) * grad\n        self.v = self.beta2 * self.v + (1 - self.beta2) * grad**2\n        \n        # Correction du biais (important aux premières itérations)\n        m_hat = self.m / (1 - self.beta1**self.t)\n        v_hat = self.v / (1 - self.beta2**self.t)\n        \n        return param - self.lr * m_hat / (np.sqrt(v_hat) + self.eps)\n\n# Utilisation\noptimizer = AdamOptimizer(lr=0.01)\nw = -2.0\nfor _ in range(100):\n    grad = 2 * (w - 3)   # gradient de (w-3)²\n    w = optimizer.step(grad, w)\nprint(f'Adam convergé: w={w:.6f}')  # ~3.000000"
+          },
+          {
+            "type": "warning",
+            "content": "Piège classique : un learning rate trop grand fait osciller sans converger. Trop petit et l'entraînement prend une éternité. Commencez avec lr=0.001 pour Adam — c'est un bon défaut."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 2,
+    "slug": "machine-learning",
+    "title": "Machine Learning Classique",
+    "subtitle": "Régression, Classification & Clustering",
+    "icon": "📊",
+    "color": "#8b5cf6",
+    "colorLight": "#a78bfa",
+    "gradient": "linear-gradient(135deg, #7c3aed, #8b5cf6)",
+    "level": "Débutant",
+    "duration": "4h",
+    "lessons": [
+      {
+        "id": "2-1",
+        "title": "Types d'apprentissage automatique",
+        "duration": "15 min",
+        "icon": "🗂️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Il existe trois grands paradigmes d'apprentissage : supervisé (avec des exemples étiquetés), non-supervisé (trouver la structure seul) et par renforcement (apprendre par essai-erreur avec des récompenses)."
+          },
+          {
+            "type": "cards",
+            "items": [
+              {
+                "title": "Apprentissage Supervisé",
+                "icon": "👨‍🏫",
+                "description": "Le modèle apprend sur des données étiquetées (X → y). C'est le cas le plus courant : classification d'emails, détection de fraude, prédiction de prix. 80% des cas en production."
+              },
+              {
+                "title": "Apprentissage Non-Supervisé",
+                "icon": "🔍",
+                "description": "Pas de labels. Le modèle découvre la structure cachée des données : clustering clients, détection d'anomalies, compression. Très utile quand annoter est coûteux."
+              },
+              {
+                "title": "Apprentissage par Renforcement",
+                "icon": "🎮",
+                "description": "Un agent prend des actions dans un environnement et reçoit des récompenses. Utilisé pour les jeux (AlphaGo), la robotique, et le fine-tuning des LLMs (RLHF)."
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Le pipeline ML standard"
+          },
+          {
+            "type": "list",
+            "items": [
+              "**Collecte et nettoyage des données** : garbage in, garbage out — c'est 70% du travail réel",
+              "**Feature engineering** : créer les bonnes variables d'entrée",
+              "**Split train/validation/test** : ne jamais évaluer sur les données d'entraînement",
+              "**Entraînement et tuning** : choisir et optimiser le modèle",
+              "**Évaluation** : métriques adaptées au problème (accuracy, F1, AUC-ROC...)",
+              "**Déploiement et monitoring** : le modèle en production peut dériver (data drift)"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "2-2",
+        "title": "Régression Linéaire & Logistique",
+        "duration": "20 min",
+        "icon": "📉",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "La régression linéaire prédit une valeur continue. La régression logistique prédit une probabilité (0 à 1). Ces deux modèles simples sont la fondation de la compréhension du ML — et restent très utilisés en production."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Régression linéaire : prédire un prix",
+            "content": "from sklearn.linear_model import LinearRegression, LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import mean_absolute_error, accuracy_score\nimport numpy as np\n\n# ── RÉGRESSION LINÉAIRE ──────────────────────────────\n# Prédire le prix d'une maison (en k€)\nnp.random.seed(42)\nn = 200\nsurface = np.random.uniform(30, 200, n)\nnb_pieces = np.random.randint(1, 8, n).astype(float)\nprix = 1.2 * surface + 15 * nb_pieces + np.random.normal(0, 20, n)\n\nX = np.column_stack([surface, nb_pieces])\nX_train, X_test, y_train, y_test = train_test_split(X, prix, test_size=0.2)\n\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\n\npred = model.predict(X_test)\nprint(f'MAE: {mean_absolute_error(y_test, pred):.0f}k€')\nprint(f'Coefs: surface={model.coef_[0]:.2f}, pièces={model.coef_[1]:.2f}')\n\n# ── RÉGRESSION LOGISTIQUE ────────────────────────────\n# Prédire si un client va churner (0/1)\nX_clf = np.column_stack([\n    np.random.normal(50, 15, n),   # âge\n    np.random.normal(500, 200, n), # dépense mensuelle\n    np.random.randint(0, 5, n)     # nb réclamations\n])\ny_clf = (X_clf[:,1] < 350).astype(int)  # churne si dépense < 350€\n\nX_tr, X_te, y_tr, y_te = train_test_split(X_clf, y_clf, test_size=0.2)\nlog_reg = LogisticRegression()\nlog_reg.fit(X_tr, y_tr)\nprint(f'\\nAccuracy churn: {accuracy_score(y_te, log_reg.predict(X_te)):.1%}')"
+          },
+          {
+            "type": "tip",
+            "content": "La régression logistique donne des probabilités calibrées, idéales pour décider d'un seuil. Ex: envoyer une offre de rétention uniquement aux clients avec P(churn) > 0.7."
+          }
+        ]
+      },
+      {
+        "id": "2-3",
+        "title": "Arbres de Décision & Random Forest",
+        "duration": "20 min",
+        "icon": "🌳",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Les arbres de décision sont intuitivement interprétables : une série de if/else sur les features. Les Random Forests combinent des centaines d'arbres pour obtenir des prédictions robustes — un des algorithmes les plus efficaces sur données tabulaires."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Random Forest + importance des features",
+            "content": "from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\n# Génération d'un dataset de classification\nX, y = make_classification(\n    n_samples=1000, n_features=10,\n    n_informative=5, n_redundant=2,\n    random_state=42\n)\n\nfeature_names = [f'feature_{i}' for i in range(10)]\n\n# Random Forest\nrf = RandomForestClassifier(n_estimators=100, random_state=42)\nscores = cross_val_score(rf, X, y, cv=5, scoring='accuracy')\nprint(f'Random Forest : {scores.mean():.3f} ± {scores.std():.3f}')\n\n# Entraîner pour voir l'importance des features\nrf.fit(X, y)\nimportances = rf.feature_importances_\nranked = sorted(zip(feature_names, importances), key=lambda x: -x[1])\n\nprint('\\nImportance des features :')\nfor name, imp in ranked[:5]:\n    bar = '█' * int(imp * 100)\n    print(f'  {name}: {imp:.3f} {bar}')\n\n# XGBoost-like : Gradient Boosting\ngb = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1)\nscores_gb = cross_val_score(gb, X, y, cv=5, scoring='accuracy')\nprint(f'\\nGradient Boosting : {scores_gb.mean():.3f} ± {scores_gb.std():.3f}')"
+          },
+          {
+            "type": "warning",
+            "content": "Random Forest vs XGBoost : XGBoost (gradient boosting) bat souvent Random Forest sur données tabulaires compétitives. Mais Random Forest est plus simple à tuner et moins susceptible d'overfitter."
+          }
+        ]
+      },
+      {
+        "id": "2-4",
+        "title": "Clustering & Apprentissage Non-Supervisé",
+        "duration": "15 min",
+        "icon": "🔮",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Quand on n'a pas de labels, on cherche la structure naturelle des données. K-Means regroupe les points en k clusters. DBSCAN détecte des formes arbitraires et des anomalies. Ces techniques sont cruciales pour la segmentation clients et la détection d'anomalies."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "K-Means : segmentation clients",
+            "content": "from sklearn.cluster import KMeans, DBSCAN\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.datasets import make_blobs\nimport numpy as np\n\n# Simulation de données clients\nnp.random.seed(42)\nclients = np.random.randn(300, 2)\n\n# Normalisation OBLIGATOIRE pour le clustering\nscaler = StandardScaler()\nclients_scaled = scaler.fit_transform(clients)\n\n# K-Means : chercher 3 segments\nkmeans = KMeans(n_clusters=3, random_state=42, n_init=10)\nlabels = kmeans.fit_predict(clients_scaled)\n\nfor i in range(3):\n    segment = clients[labels == i]\n    print(f'Segment {i+1}: {len(segment)} clients')\n    print(f'  Centre: {scaler.inverse_transform([kmeans.cluster_centers_[i]])[0].round(2)}')\n\n# Trouver le bon k : méthode du coude\ninertias = []\nfor k in range(2, 10):\n    km = KMeans(n_clusters=k, random_state=42, n_init=10)\n    km.fit(clients_scaled)\n    inertias.append(km.inertia_)\n    \nprint('\\nInertie par k (cherchez le coude) :')\nfor k, inertia in zip(range(2, 10), inertias):\n    print(f'  k={k}: {inertia:.1f}')"
+          },
+          {
+            "type": "tip",
+            "content": "Toujours normaliser les données avant de clusterer ! K-Means est sensible aux échelles. Une variable en milliers d'euros dominera une variable en 0-5 étoiles sans normalisation."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 3,
+    "slug": "reseaux-neurones",
+    "title": "Réseaux de Neurones",
+    "subtitle": "Perceptron, Backprop & Activations",
+    "icon": "🧠",
+    "color": "#ec4899",
+    "colorLight": "#f472b6",
+    "gradient": "linear-gradient(135deg, #db2777, #ec4899)",
+    "level": "Intermédiaire",
+    "duration": "4h",
+    "lessons": [
+      {
+        "id": "3-1",
+        "title": "Le Perceptron et les réseaux MLP",
+        "duration": "25 min",
+        "icon": "⚡",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Le neurone artificiel s'inspire (vaguement) du neurone biologique. Il reçoit des entrées pondérées, les somme, applique une fonction d'activation, et produit une sortie. Empilés en couches, ces neurones forment un réseau capable d'apprendre des patterns complexes."
+          },
+          {
+            "type": "heading",
+            "content": "Anatomie d'un neurone"
+          },
+          {
+            "type": "text",
+            "content": "Un neurone calcule : sortie = f(w₁x₁ + w₂x₂ + ... + wₙxₙ + b) où f est la fonction d'activation, wᵢ les poids, xᵢ les entrées et b le biais. Les poids et biais sont les paramètres appris pendant l'entraînement."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "MLP from scratch avec NumPy",
+            "content": "import numpy as np\n\nclass MLP:\n    \"\"\"Multi-Layer Perceptron (réseau fully-connected)\"\"\"\n    \n    def __init__(self, layer_sizes):\n        self.weights = []\n        self.biases = []\n        for i in range(len(layer_sizes) - 1):\n            # Initialisation He (pour ReLU)\n            W = np.random.randn(layer_sizes[i], layer_sizes[i+1]) * np.sqrt(2/layer_sizes[i])\n            b = np.zeros(layer_sizes[i+1])\n            self.weights.append(W)\n            self.biases.append(b)\n    \n    def relu(self, x):\n        return np.maximum(0, x)\n    \n    def sigmoid(self, x):\n        return 1 / (1 + np.exp(-x))\n    \n    def forward(self, x):\n        self.activations = [x]\n        current = x\n        for i, (W, b) in enumerate(zip(self.weights, self.biases)):\n            z = current @ W + b\n            # ReLU pour les couches cachées, sigmoid en sortie\n            if i < len(self.weights) - 1:\n                current = self.relu(z)\n            else:\n                current = self.sigmoid(z)\n            self.activations.append(current)\n        return current\n\n# Architecture : 2 entrées -> 4 neurones -> 3 neurones -> 1 sortie\nmlp = MLP([2, 4, 3, 1])\nx = np.array([[0.5, -0.3]])\noutput = mlp.forward(x)\nprint(f'Prédiction : {output[0,0]:.4f}')\nprint(f'Paramètres totaux : {sum(W.size + b.size for W,b in zip(mlp.weights, mlp.biases))}')"
+          }
+        ]
+      },
+      {
+        "id": "3-2",
+        "title": "Backpropagation",
+        "duration": "30 min",
+        "icon": "🔄",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "La backpropagation est l'algorithme qui permet d'entraîner un réseau de neurones. Il utilise la règle de chaîne du calcul différentiel pour propager le gradient de la perte vers chaque poids du réseau, permettant à chaque paramètre de savoir dans quelle direction il doit évoluer."
+          },
+          {
+            "type": "text",
+            "content": "Forward pass : les données traversent le réseau pour produire une prédiction. Backward pass : l'erreur remonte vers l'entrée, couche par couche, en multipliant les gradients (règle de chaîne). Chaque poids reçoit son gradient et est mis à jour."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Backprop illustrée sur un réseau simple",
+            "content": "import numpy as np\n\n# Réseau très simple : 1 couche cachée\n# Pour illustrer la mécanique du backprop\n\nnp.random.seed(0)\n# Architecture : 2 -> 3 -> 1\nW1 = np.random.randn(2, 3) * 0.1\nb1 = np.zeros(3)\nW2 = np.random.randn(3, 1) * 0.1\nb2 = np.zeros(1)\n\ndef sigmoid(x): return 1 / (1 + np.exp(-x))\ndef sig_deriv(x): s = sigmoid(x); return s * (1 - s)\n\n# Données : XOR\nX = np.array([[0,0],[0,1],[1,0],[1,1]], dtype=float)\ny = np.array([[0],[1],[1],[0]], dtype=float)\n\nlr = 0.5\nlosses = []\n\nfor epoch in range(5000):\n    # ─── FORWARD PASS ───────────────────────\n    z1 = X @ W1 + b1        # (4,3)\n    a1 = sigmoid(z1)        # activation couche cachée\n    z2 = a1 @ W2 + b2       # (4,1)\n    a2 = sigmoid(z2)        # sortie\n    \n    # Perte MSE\n    loss = np.mean((a2 - y) ** 2)\n    losses.append(loss)\n    \n    # ─── BACKWARD PASS ──────────────────────\n    # Gradient de la perte par rapport à la sortie\n    d_loss = 2 * (a2 - y) / len(X)          # (4,1)\n    d_z2 = d_loss * sig_deriv(z2)           # (4,1)\n    d_W2 = a1.T @ d_z2                      # (3,1)\n    d_b2 = d_z2.sum(axis=0)\n    \n    # Propager vers la couche 1\n    d_a1 = d_z2 @ W2.T                      # (4,3)\n    d_z1 = d_a1 * sig_deriv(z1)             # (4,3)\n    d_W1 = X.T @ d_z1                       # (2,3)\n    d_b1 = d_z1.sum(axis=0)\n    \n    # ─── MISE À JOUR DES POIDS ──────────────\n    W2 -= lr * d_W2;  b2 -= lr * d_b2\n    W1 -= lr * d_W1;  b1 -= lr * d_b1\n\nprint(f'Perte finale : {losses[-1]:.6f}')\nprint(f'Prédictions XOR : {a2.flatten().round(3)}')\n# Attendu : [~0, ~1, ~1, ~0]"
+          },
+          {
+            "type": "tip",
+            "content": "En pratique, on n'implémente jamais backprop manuellement. PyTorch et TensorFlow le font automatiquement via l'autograd. Mais comprendre la mécanique permet de déboguer les problèmes de gradient (vanishing, exploding)."
+          }
+        ]
+      },
+      {
+        "id": "3-3",
+        "title": "Fonctions d'Activation",
+        "duration": "15 min",
+        "icon": "⚙️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Sans fonctions d'activation non-linéaires, un réseau de neurones profond équivaudrait à une simple régression linéaire. Les activations introduisent la non-linéarité qui permet au réseau d'apprendre des patterns complexes."
+          },
+          {
+            "type": "cards",
+            "items": [
+              {
+                "title": "ReLU",
+                "icon": "📈",
+                "description": "max(0, x). Simple, efficace, le choix par défaut pour les couches cachées. Problème : 'dying ReLU' si le neurone reste toujours à 0."
+              },
+              {
+                "title": "GELU",
+                "icon": "🌊",
+                "description": "Gaussian Error Linear Unit. Lissée, non-monotone. Utilisée dans BERT, GPT et la majorité des LLMs modernes. Légèrement plus performante que ReLU."
+              },
+              {
+                "title": "Softmax",
+                "icon": "📊",
+                "description": "Convertit un vecteur de scores en distribution de probabilités (somme = 1). Utilisée en sortie pour la classification multi-classe et dans l'attention des Transformers."
+              },
+              {
+                "title": "Sigmoid / Tanh",
+                "icon": "〰️",
+                "description": "Historiques. Sigmoid pour la sortie binaire (0-1). Tanh centrée en 0 (-1,1). Éviter dans les couches cachées profondes à cause du vanishing gradient."
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "3-4",
+        "title": "Overfitting & Régularisation",
+        "duration": "20 min",
+        "icon": "🎯",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "L'overfitting est le fléau du ML : le modèle apprend le bruit des données d'entraînement par cœur plutôt que les patterns généralisables. Il performe excellemment en train mais échoue sur de nouvelles données."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Techniques de régularisation avec Keras",
+            "content": "import tensorflow as tf\nfrom tensorflow import keras\nimport numpy as np\n\n# Génération de données\nX_train = np.random.randn(1000, 20)\ny_train = (X_train[:, 0] + X_train[:, 1] > 0).astype(float)\n\n# Modèle SANS régularisation (va overfitter)\nmodel_overfit = keras.Sequential([\n    keras.layers.Dense(256, activation='relu', input_shape=(20,)),\n    keras.layers.Dense(256, activation='relu'),\n    keras.layers.Dense(1, activation='sigmoid')\n])\n\n# Modèle AVEC régularisation\nmodel_regularized = keras.Sequential([\n    # L2 : pénalise les gros poids (weight decay)\n    keras.layers.Dense(256, activation='relu',\n                      kernel_regularizer=keras.regularizers.l2(0.001)),\n    # Dropout : désactive 30% des neurones aléatoirement pendant l'entraînement\n    keras.layers.Dropout(0.3),\n    keras.layers.Dense(256, activation='relu',\n                      kernel_regularizer=keras.regularizers.l2(0.001)),\n    keras.layers.Dropout(0.3),\n    # BatchNormalization : stabilise les activations\n    keras.layers.BatchNormalization(),\n    keras.layers.Dense(1, activation='sigmoid')\n])\n\nmodel_regularized.compile(optimizer='adam', loss='binary_crossentropy',\n                           metrics=['accuracy'])\n\n# Early stopping : arrêter quand la validation ne s'améliore plus\nearly_stop = keras.callbacks.EarlyStopping(\n    monitor='val_loss', patience=5, restore_best_weights=True\n)\n\nprint('Techniques clés anti-overfitting :')\nprint('  1. Plus de données (le meilleur remède)')\nprint('  2. Dropout (0.2-0.5 selon la couche)')\nprint('  3. L2 regularization (weight decay = 1e-4 à 1e-2)')\nprint('  4. Early stopping')\nprint('  5. Data augmentation (pour les images/textes)')"
+          },
+          {
+            "type": "warning",
+            "content": "Règle d'or : commencez par overfitter intentionnellement sur un petit batch (vérification du modèle), puis ajoutez de la régularisation progressivement. Un modèle qui ne peut pas overfitter a souvent un bug."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 4,
+    "slug": "deep-learning",
+    "title": "Deep Learning",
+    "subtitle": "CNN, RNN & Architectures Avancées",
+    "icon": "🔬",
+    "color": "#f59e0b",
+    "colorLight": "#fbbf24",
+    "gradient": "linear-gradient(135deg, #d97706, #f59e0b)",
+    "level": "Intermédiaire",
+    "duration": "5h",
+    "lessons": [
+      {
+        "id": "4-1",
+        "title": "CNN — Réseaux de Neurones Convolutifs",
+        "duration": "30 min",
+        "icon": "🖼️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Les CNNs sont la révolution de la vision par ordinateur. Au lieu de connecter chaque pixel à chaque neurone (ingérable pour une image 1080p), ils utilisent des filtres qui 'glissent' sur l'image, détectant des patterns locaux : bords, textures, formes."
+          },
+          {
+            "type": "text",
+            "content": "Une convolution applique un filtre (kernel) sur une région locale de l'image. Le réseau apprend automatiquement les meilleurs filtres. Les premières couches détectent des bords, les couches profondes des formes complexes (oreilles de chat, roues de voiture...)."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "CNN pour classification d'images (CIFAR-10)",
+            "content": "import tensorflow as tf\nfrom tensorflow import keras\n\n# Chargement CIFAR-10 (60k images 32x32 couleur, 10 classes)\n(X_train, y_train), (X_test, y_test) = keras.datasets.cifar10.load_data()\nX_train, X_test = X_train / 255.0, X_test / 255.0  # normalisation [0,1]\n\nCLASS_NAMES = ['avion', 'voiture', 'oiseau', 'chat', 'cerf',\n               'chien', 'grenouille', 'cheval', 'bateau', 'camion']\n\n# Architecture CNN moderne (style ResNet léger)\nmodel = keras.Sequential([\n    # Bloc 1 : détecter des features simples\n    keras.layers.Conv2D(32, 3, activation='relu', padding='same'),\n    keras.layers.BatchNormalization(),\n    keras.layers.Conv2D(32, 3, activation='relu', padding='same'),\n    keras.layers.MaxPooling2D(2),    # réduire 32x32 -> 16x16\n    keras.layers.Dropout(0.25),\n    \n    # Bloc 2 : features plus complexes\n    keras.layers.Conv2D(64, 3, activation='relu', padding='same'),\n    keras.layers.BatchNormalization(),\n    keras.layers.Conv2D(64, 3, activation='relu', padding='same'),\n    keras.layers.MaxPooling2D(2),    # 16x16 -> 8x8\n    keras.layers.Dropout(0.25),\n    \n    # Bloc 3 : features de haut niveau\n    keras.layers.Conv2D(128, 3, activation='relu', padding='same'),\n    keras.layers.GlobalAveragePooling2D(),  # agrège spatialement\n    \n    # Classificateur\n    keras.layers.Dense(256, activation='relu'),\n    keras.layers.Dropout(0.5),\n    keras.layers.Dense(10, activation='softmax')  # 10 classes\n])\n\nmodel.compile(\n    optimizer=keras.optimizers.Adam(1e-3),\n    loss='sparse_categorical_crossentropy',\n    metrics=['accuracy']\n)\n\nmodel.summary()\n# ~80% accuracy sur CIFAR-10 en ~20 epochs"
+          },
+          {
+            "type": "tip",
+            "content": "MaxPooling vs GlobalAveragePooling : MaxPooling garde les features spatiales (bon pour la détection), GlobalAveragePooling agrège tout (bon pour la classification). Les architectures modernes préfèrent GlobalAveragePooling."
+          }
+        ]
+      },
+      {
+        "id": "4-2",
+        "title": "Transfer Learning",
+        "duration": "20 min",
+        "icon": "♻️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Le Transfer Learning est probablement la technique la plus impactante du deep learning pratique : utiliser un modèle pré-entraîné sur des millions d'images (ImageNet) comme point de départ pour votre propre tâche, même avec peu de données."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Fine-tuning EfficientNet sur vos données",
+            "content": "import tensorflow as tf\nfrom tensorflow import keras\n\n# Charger EfficientNetB0 pré-entraîné sur ImageNet (1.4M images, 1000 classes)\nbase_model = keras.applications.EfficientNetB0(\n    include_top=False,           # sans la tête de classification\n    weights='imagenet',          # poids pré-entraînés\n    input_shape=(224, 224, 3)\n)\n\n# Phase 1 : Feature extraction (geler les poids de base)\nbase_model.trainable = False     # GELER le backbone\n\nmodel = keras.Sequential([\n    base_model,\n    keras.layers.GlobalAveragePooling2D(),\n    keras.layers.Dense(256, activation='relu'),\n    keras.layers.Dropout(0.3),\n    keras.layers.Dense(5, activation='softmax')  # 5 classes personnalisées\n])\n\nmodel.compile(optimizer=keras.optimizers.Adam(1e-3),\n              loss='sparse_categorical_crossentropy',\n              metrics=['accuracy'])\n\n# Entraîner seulement la tête (rapide, ~5 epochs)\nprint('Phase 1 : Feature extraction')\nprint(f'Paramètres entraînables : {model.trainable_variables.__len__()}')\n\n# Phase 2 : Fine-tuning (dégeler les dernières couches)\nbase_model.trainable = True\nfor layer in base_model.layers[:-20]:  # garder les 20 dernières couches\n    layer.trainable = False\n\n# Learning rate plus faible pour ne pas détruire les poids appris\nmodel.compile(optimizer=keras.optimizers.Adam(1e-5),\n              loss='sparse_categorical_crossentropy',\n              metrics=['accuracy'])\n\nprint('\\nPhase 2 : Fine-tuning (quelques epochs supplémentaires)')\nprint('Résultat typique : 90%+ accuracy avec seulement 500 images par classe!')"
+          },
+          {
+            "type": "tip",
+            "content": "Règle des 500 : avec 500 images par classe, le transfer learning depuis ImageNet donne souvent de très bons résultats. Avec 50 images, c'est encore faisable. Avec 5000+, le fine-tuning complet devient intéressant."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 5,
+    "slug": "nlp-embeddings",
+    "title": "NLP & Embeddings",
+    "subtitle": "Tokenisation, Word2Vec & Attention",
+    "icon": "💬",
+    "color": "#10b981",
+    "colorLight": "#34d399",
+    "gradient": "linear-gradient(135deg, #059669, #10b981)",
+    "level": "Intermédiaire",
+    "duration": "4h",
+    "lessons": [
+      {
+        "id": "5-1",
+        "title": "Tokenisation : découper le texte",
+        "duration": "20 min",
+        "icon": "✂️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Avant qu'un modèle puisse traiter du texte, il faut le convertir en nombres. La tokenisation est cette étape cruciale : découper le texte en unités (tokens) et les mapper sur des indices numériques."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Tokenisation : des mots aux sous-mots (BPE)",
+            "content": "# Tokenisation moderne avec Hugging Face Transformers\nfrom transformers import AutoTokenizer\n\ntokenizer = AutoTokenizer.from_pretrained('gpt2')\n\ntext = \"L'intelligence artificielle transforme le monde en 2024!\"\n\n# Tokenisation\ntokens = tokenizer.encode(text)\nprint(f'Texte : {text}')\nprint(f'Tokens (IDs) : {tokens}')\nprint(f'Nombre de tokens : {len(tokens)}')\n\n# Décoder pour voir les sous-mots\ndecoded_tokens = [tokenizer.decode([t]) for t in tokens]\nprint(f'\\nTokens décodés : {decoded_tokens}')\n# ['L', \"'\", 'intelligence', ' artificielle', ' transforme', ...]\n\n# Exemple avec GPT-4 Tokenizer (tiktoken)\nimport tiktoken\nenc = tiktoken.get_encoding('cl100k_base')  # GPT-4 encoding\n\nexample = 'Hello world! Bonjour le monde!'\ntokens_gpt4 = enc.encode(example)\nprint(f'\\nGPT-4 tokens : {tokens_gpt4}')\nprint(f'Nb tokens : {len(tokens_gpt4)}')\nprint('Règle pratique : ~1 token = 0.75 mot en anglais, ~0.6 mot en français')"
+          },
+          {
+            "type": "heading",
+            "content": "BPE : Byte Pair Encoding"
+          },
+          {
+            "type": "text",
+            "content": "GPT utilise BPE : les mots fréquents obtiennent un token unique ('chat' = 1 token), les mots rares sont divisés en sous-mots ('extraordinaire' = 'extra' + 'ordin' + 'aire' = 3 tokens). Cela permet un vocabulaire fixe (~50k tokens) tout en gérant n'importe quel texte."
+          },
+          {
+            "type": "tip",
+            "content": "Implication de coût : les LLMs sont facturés au token. 'ChatGPT est excellent!' = ~6 tokens. Un roman de 100k mots ≈ 133k tokens. Optimiser vos prompts = optimiser vos coûts."
+          }
+        ]
+      },
+      {
+        "id": "5-2",
+        "title": "Word Embeddings : le sens en vecteurs",
+        "duration": "25 min",
+        "icon": "🌐",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Comment donner du 'sens' aux mots pour une machine ? Les embeddings représentent les mots comme des vecteurs dans un espace de haute dimension où les mots sémantiquement proches sont géométriquement proches. 'Roi' - 'Homme' + 'Femme' ≈ 'Reine'."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Word2Vec et opérations sémantiques",
+            "content": "from gensim.models import Word2Vec\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport numpy as np\n\n# Entraîner Word2Vec sur un corpus (ici simplifié)\ncorpus = [\n    ['chat', 'animal', 'domestique', 'poil', 'miauler'],\n    ['chien', 'animal', 'domestique', 'aboyer', 'fidèle'],\n    ['voiture', 'transport', 'moteur', 'roues', 'conduire'],\n    ['vélo', 'transport', 'roues', 'pédales', 'sport'],\n    ['roi', 'homme', 'château', 'couronne', 'pouvoir'],\n    ['reine', 'femme', 'château', 'couronne', 'pouvoir'],\n    # En pratique : Wikipedia entier (des milliards de tokens)\n]\n\nmodel = Word2Vec(corpus, vector_size=100, window=3, min_count=1, epochs=100)\n\n# Trouver les mots similaires\nprint('Mots proches de \"chat\" :')\ntry:\n    for word, score in model.wv.most_similar('chat', topn=3):\n        print(f'  {word}: {score:.3f}')\nexcept:\n    print('  (corpus trop petit pour cet exemple)')\n\n# L'analogie célèbre : roi - homme + femme = reine\ntry:\n    result = model.wv.most_similar(\n        positive=['roi', 'femme'],\n        negative=['homme'],\n        topn=1\n    )\n    print(f'\\nroi - homme + femme = {result[0][0]}')\nexcept:\n    print('\\nAnalogies fonctionnent sur de grands corpus (Word2Vec Google News)')\n\nprint('\\n✨ Les LLMs modernes (BERT, GPT) créent des embeddings')\nprint('   CONTEXTUELS : le même mot a des vecteurs différents selon le contexte!')\nprint('   \"banque\" dans \"banque financière\" ≠ \"banque\" dans \"banque de rivière\"')"
+          },
+          {
+            "type": "heading",
+            "content": "Embeddings contextuels (BERT, GPT)"
+          },
+          {
+            "type": "text",
+            "content": "Word2Vec donne un vecteur fixe par mot. BERT et GPT créent des embeddings contextuels : le vecteur de 'banque' change selon le contexte de la phrase. C'est ce qui rend les LLMs si puissants pour comprendre la nuance du langage."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Embeddings avec Sentence Transformers (état de l'art)",
+            "content": "from sentence_transformers import SentenceTransformer\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport numpy as np\n\n# Modèle all-MiniLM-L6-v2 : 80MB, excellent rapport perf/taille\nmodel = SentenceTransformer('all-MiniLM-L6-v2')\n\nsentences = [\n    \"L'IA va révolutionner la médecine\",\n    \"L'intelligence artificielle transforme la santé\",  # sémantiquement proche\n    \"J'adore les pizzas aux champignons\",               # non lié\n    \"Le deep learning améliore le diagnostic médical\",  # proche\n]\n\nembeddings = model.encode(sentences)\nprint(f'Forme des embeddings : {embeddings.shape}')  # (4, 384)\n\n# Matrice de similarité\nsim_matrix = cosine_similarity(embeddings)\n\nprint('\\nSimilarités cosinus :')\nfor i, s1 in enumerate(sentences[:2]):\n    for j, s2 in enumerate(sentences[1:], 1):\n        if i != j:\n            print(f'  [{i}] vs [{j}] : {sim_matrix[i,j]:.3f}')\n            \n# Application : moteur de recherche sémantique !\nquery = \"IA et santé\"\nquery_emb = model.encode([query])\nsimilarities = cosine_similarity(query_emb, embeddings)[0]\nbest_match = sentences[np.argmax(similarities)]\nprint(f'\\nRecherche \"{query}\" -> \"{best_match}\"')"
+          }
+        ]
+      },
+      {
+        "id": "5-3",
+        "title": "Mécanisme d'Attention",
+        "duration": "30 min",
+        "icon": "👁️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "L'attention est la révolution qui a mené aux Transformers et aux LLMs. Au lieu de traiter chaque mot de manière isolée, l'attention permet à chaque token de 'regarder' tous les autres tokens et de décider lesquels sont pertinents pour son contexte."
+          },
+          {
+            "type": "heading",
+            "content": "Queries, Keys et Values"
+          },
+          {
+            "type": "text",
+            "content": "Chaque token génère 3 vecteurs : Query (ce que je cherche), Key (ce que j'offre), Value (ce que je donne si on me choisit). Le score d'attention est le produit scalaire Query × Key, normalisé par softmax. Le résultat est une somme pondérée des Values."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Self-Attention from scratch",
+            "content": "import numpy as np\n\ndef scaled_dot_product_attention(Q, K, V, mask=None):\n    \"\"\"\n    Q : (seq_len, d_k) - Queries\n    K : (seq_len, d_k) - Keys  \n    V : (seq_len, d_v) - Values\n    \"\"\"\n    d_k = Q.shape[-1]\n    \n    # Score d'attention : Q × K^T / sqrt(d_k)\n    scores = Q @ K.T / np.sqrt(d_k)\n    \n    # Masque optionnel (pour le causal masking dans GPT)\n    if mask is not None:\n        scores = np.where(mask, scores, -1e9)\n    \n    # Softmax : convertit en poids d'attention (somme = 1)\n    weights = np.exp(scores - scores.max(axis=-1, keepdims=True))\n    weights /= weights.sum(axis=-1, keepdims=True)\n    \n    # Somme pondérée des Values\n    output = weights @ V\n    return output, weights\n\n# Simulation : phrase 'Le chat mange la souris'\n# 5 tokens, dimension 4\nnp.random.seed(42)\nseq_len, d_model = 5, 4\n\n# Matrices de projection apprenables (dans un vrai Transformer)\nWQ = np.random.randn(d_model, d_model) * 0.1\nWK = np.random.randn(d_model, d_model) * 0.1\nWV = np.random.randn(d_model, d_model) * 0.1\n\n# Embeddings des tokens (normalement appris)\nX = np.random.randn(seq_len, d_model)\n\nQ = X @ WQ\nK = X @ WK  \nV = X @ WV\n\noutput, attn_weights = scaled_dot_product_attention(Q, K, V)\n\nprint('Poids d\\'attention (quelle attention chaque token porte aux autres) :')\ntoken_names = ['Le', 'chat', 'mange', 'la', 'souris']\nfor i, (name, weights) in enumerate(zip(token_names, attn_weights)):\n    top_idx = np.argmax(weights)\n    print(f'  \"{name}\" attend le plus à \"{token_names[top_idx]}\" ({weights[top_idx]:.3f})')"
+          },
+          {
+            "type": "tip",
+            "content": "La 'Multi-Head Attention' des Transformers utilise plusieurs têtes d'attention en parallèle (8, 12, 16...), chacune apprenant à capturer différents types de relations : syntaxiques, sémantiques, coréférences..."
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 6,
+    "slug": "transformers-llm",
+    "title": "Transformers & LLMs",
+    "subtitle": "GPT, BERT & l'Architecture Révolutionnaire",
+    "icon": "⚡",
+    "color": "#f97316",
+    "colorLight": "#fb923c",
+    "gradient": "linear-gradient(135deg, #ea580c, #f97316)",
+    "level": "Avancé",
+    "duration": "5h",
+    "lessons": [
+      {
+        "id": "6-1",
+        "title": "Architecture Transformer",
+        "duration": "35 min",
+        "icon": "🏗️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "\"Attention Is All You Need\" (Vaswani et al., 2017) — ce papier a tout changé. L'architecture Transformer abandonne les RNNs séquentiels pour un mécanisme d'attention parallèle, permettant d'entraîner des modèles de centaines de milliards de paramètres."
+          },
+          {
+            "type": "heading",
+            "content": "Encoder-Decoder vs Decoder-only"
+          },
+          {
+            "type": "cards",
+            "items": [
+              {
+                "title": "Encoder (BERT)",
+                "icon": "🔍",
+                "description": "Lit la séquence entière dans les deux sens (bidirectionnel). Idéal pour comprendre le texte : classification, NER, Q&A. BERT, RoBERTa, DeBERTa."
+              },
+              {
+                "title": "Decoder (GPT)",
+                "icon": "✍️",
+                "description": "Génère token par token, ne voit que le passé (causal masking). Idéal pour la génération : texte, code, conversation. GPT-4, Claude, LLaMA."
+              },
+              {
+                "title": "Encoder-Decoder (T5)",
+                "icon": "🔄",
+                "description": "Encode le contexte, décode la réponse. Idéal pour la traduction, le résumé, Q&A extractif. T5, BART, mBART, FLAN-T5."
+              }
+            ]
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Utiliser GPT-2 pour la génération de texte",
+            "content": "from transformers import GPT2LMHeadModel, GPT2Tokenizer\nimport torch\n\ntokenizer = GPT2Tokenizer.from_pretrained('gpt2')\nmodel = GPT2LMHeadModel.from_pretrained('gpt2')\nmodel.eval()\n\nprompt = \"L'intelligence artificielle va\"\ninputs = tokenizer.encode(prompt, return_tensors='pt')\n\n# Génération avec différentes stratégies\nwith torch.no_grad():\n    # Greedy : toujours le token le plus probable (déterministe)\n    greedy = model.generate(inputs, max_new_tokens=30)\n    \n    # Sampling avec température\n    sampled = model.generate(\n        inputs, max_new_tokens=30,\n        do_sample=True,\n        temperature=0.8,     # <1 = plus focalisé, >1 = plus créatif\n        top_p=0.9,           # nucleus sampling : top 90% de la proba\n        top_k=50,            # considérer seulement les 50 meilleurs tokens\n        repetition_penalty=1.2  # pénaliser les répétitions\n    )\n\nprint('Prompt:', prompt)\nprint('Greedy:', tokenizer.decode(greedy[0], skip_special_tokens=True))\nprint('Sampled:', tokenizer.decode(sampled[0], skip_special_tokens=True))"
+          },
+          {
+            "type": "heading",
+            "content": "Scaling Laws : plus grand = plus intelligent ?"
+          },
+          {
+            "type": "text",
+            "content": "Les Scaling Laws (Kaplan et al., 2020) ont montré que la performance des LLMs suit des lois de puissance prévisibles avec le nombre de paramètres, la quantité de données et le compute. GPT-3 : 175B paramètres. GPT-4 : ~1.8T (estimé). Claude 3 Opus : ~2T (estimé)."
+          },
+          {
+            "type": "tip",
+            "content": "La 'loi de Chinchilla' (Hoffmann et al., 2022) a montré que les modèles précédents étaient sous-entraînés. Pour un modèle optimal, il faut ~20 tokens d'entraînement par paramètre. LLaMA 3 a suivi cette recommandation avec 15T tokens pour un 70B."
+          }
+        ]
+      },
+      {
+        "id": "6-2",
+        "title": "Fine-tuning & RLHF",
+        "duration": "25 min",
+        "icon": "🎓",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Un LLM pré-entraîné prédit des tokens — il n'est pas un assistant. Le fine-tuning le transforme en assistant utile, inoffensif et honnête. RLHF (Reinforcement Learning from Human Feedback) est la clé qui a fait de GPT-3 (pas impressionnant) → InstructGPT/ChatGPT (révolutionnaire)."
+          },
+          {
+            "type": "text",
+            "content": "Pipeline InstructGPT/ChatGPT :\n1. Supervised Fine-Tuning (SFT) sur des démos humaines de conversations\n2. Reward Model : humains rankent des réponses, on apprend leurs préférences\n3. PPO (Proximal Policy Optimization) : RL pour maximiser la récompense humaine"
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Fine-tuning avec LoRA (Low-Rank Adaptation)",
+            "content": "# LoRA : fine-tuner un LLM sans avoir besoin de 80GB de VRAM !\nfrom peft import LoraConfig, get_peft_model, TaskType\nfrom transformers import AutoModelForCausalLM, AutoTokenizer, TrainingArguments\nfrom trl import SFTTrainer\nimport torch\n\n# Charger le modèle de base\nmodel_name = 'mistralai/Mistral-7B-v0.1'\ntokenizer = AutoTokenizer.from_pretrained(model_name)\nmodel = AutoModelForCausalLM.from_pretrained(\n    model_name,\n    torch_dtype=torch.float16,\n    device_map='auto'\n)\n\n# Configuration LoRA : seulement 0.1% des paramètres entraînés !\nlora_config = LoraConfig(\n    task_type=TaskType.CAUSAL_LM,\n    r=16,           # rang de la décomposition (8-64)\n    lora_alpha=32,  # facteur de scaling\n    lora_dropout=0.05,\n    # Cibler les matrices d'attention (Query et Value)\n    target_modules=['q_proj', 'v_proj', 'k_proj', 'o_proj']\n)\n\nmodel = get_peft_model(model, lora_config)\nmodel.print_trainable_parameters()\n# trainable params: 13,631,488 || all params: 7,254,218,752\n# -> seulement 0.19% des paramètres sont entraînés !\n\nprint('\\nAvantages LoRA :')\nprint('  ✅ Entraînable sur 1 GPU 24GB au lieu de 8x80GB')\nprint('  ✅ Adapter stockée séparément (2-100MB vs 14GB)')\nprint('  ✅ Multiples adapters sur le même modèle de base')"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 7,
+    "slug": "prompt-engineering",
+    "title": "Prompt Engineering",
+    "subtitle": "Maîtriser l'Art de Communiquer avec les LLMs",
+    "icon": "✍️",
+    "color": "#06b6d4",
+    "colorLight": "#22d3ee",
+    "gradient": "linear-gradient(135deg, #0891b2, #06b6d4)",
+    "level": "Tous niveaux",
+    "duration": "3h",
+    "lessons": [
+      {
+        "id": "7-1",
+        "title": "Anatomie d'un Prompt Efficace",
+        "duration": "20 min",
+        "icon": "🏗️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Un prompt n'est pas une simple requête — c'est une interface de programmation en langage naturel. La différence entre un prompt médiocre et un prompt excellent peut être la différence entre une réponse inutilisable et un livrable prêt à l'emploi."
+          },
+          {
+            "type": "heading",
+            "content": "Les 5 composantes d'un prompt expert"
+          },
+          {
+            "type": "cards",
+            "items": [
+              {
+                "title": "1. Rôle / Persona",
+                "icon": "🎭",
+                "description": "Définissez qui est le modèle. 'Tu es un expert en cybersécurité avec 15 ans d'expérience' active les bons patterns. Plus spécifique = meilleur résultat."
+              },
+              {
+                "title": "2. Contexte",
+                "icon": "📋",
+                "description": "Donnez les informations nécessaires : tech stack, contraintes, audience, objectif. Le modèle ne lit pas dans vos pensées."
+              },
+              {
+                "title": "3. Tâche précise",
+                "icon": "🎯",
+                "description": "Soyez spécifique sur ce que vous voulez. 'Améliore ce code' vs 'Optimise cette fonction pour réduire la complexité de O(n²) à O(n log n)'."
+              },
+              {
+                "title": "4. Format de sortie",
+                "icon": "📄",
+                "description": "Spécifiez la structure attendue : JSON, markdown, bullet points, longueur, langue. Idéalement donnez un exemple (few-shot)."
+              },
+              {
+                "title": "5. Contraintes",
+                "icon": "⚠️",
+                "description": "Ce qu'il ne faut PAS faire est aussi important. 'Ne pas utiliser de dépendances externes', 'Répondre uniquement en français', 'Max 200 tokens'."
+              }
+            ]
+          },
+          {
+            "type": "example",
+            "title": "Avant / Après : le même besoin, des résultats radicalement différents",
+            "content": "❌ PROMPT MEDIOCRE :\n\"Écris une fonction Python pour analyser des logs\"\n\n✅ PROMPT EXPERT :\n\"Tu es un SRE senior Python. Écris une fonction parse_nginx_logs(filepath: str) -> list[dict] qui :\n- Parse les logs Nginx au format Combined Log (IP, date, méthode, URL, status, taille, referrer, user-agent)\n- Utilise uniquement la stdlib Python (re, datetime)\n- Gère les lignes malformées avec un log d'avertissement\n- Retourne une liste de dicts avec les clés : ip, timestamp, method, path, status, size\n- Inclut des type hints et une docstring Google style\n- Ajoute 3 exemples de test dans le docstring\"\n\nLa différence : le deuxième prompt élimine toute ambiguïté et contraint l'output à exactement ce dont vous avez besoin."
+          }
+        ]
+      },
+      {
+        "id": "7-2",
+        "title": "Techniques Avancées de Prompting",
+        "duration": "25 min",
+        "icon": "🚀",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Au-delà du prompt basique, des techniques éprouvées permettent d'extraire bien plus des LLMs : faire raisonner étape par étape, utiliser des exemples, ou décomposer des problèmes complexes."
+          },
+          {
+            "type": "heading",
+            "content": "Chain of Thought (CoT) : faire raisonner le modèle"
+          },
+          {
+            "type": "code",
+            "language": "text",
+            "label": "Zero-shot vs Chain of Thought",
+            "content": "# ─── ZERO-SHOT (sans CoT) ───────────────────────────\nPrompt: \"Roger a 5 balles de tennis. Il achète 2 boîtes de 3 balles.\nCombien de balles a-t-il maintenant ?\"\nRéponse GPT: \"11\" ← Souvent incorrect sur des problèmes complexes\n\n# ─── CHAIN OF THOUGHT ────────────────────────────────\nPrompt: \"Roger a 5 balles de tennis. Il achète 2 boîtes de 3 balles.\nCombien de balles a-t-il maintenant ? Réfléchis étape par étape.\"\nRéponse GPT:\n  \"Roger commence avec 5 balles.\n   Il achète 2 boîtes de 3 balles = 6 nouvelles balles.\n   Total : 5 + 6 = 11 balles.\"\n← Même résultat ici mais CoT améliore drastiquement les problèmes complexes !\n\n# ─── ZERO-SHOT CoT : le trick magique ────────────────\n# Ajouter simplement cette phrase à la fin du prompt :\n\"Réfléchissons étape par étape.\"\n# Ou en anglais : \"Let's think step by step.\"\n# Cette phrase active le raisonnement enchaîné automatiquement !"
+          },
+          {
+            "type": "heading",
+            "content": "Few-Shot Learning : montrer des exemples"
+          },
+          {
+            "type": "code",
+            "language": "text",
+            "label": "Few-shot : enseigner le format par l'exemple",
+            "content": "# Problème : classifier le sentiment de reviews produit\n# avec un format de sortie très précis\n\nPrompt:\n\"\"\"Classifie le sentiment de reviews avec ce format exact.\n\nReview: \"Ce produit est incroyable, je l'adore!\"\nSentiment: POSITIF\nScore: 0.95\nMots-clés: incroyable, adoré\n\nReview: \"Livraison catastrophique, jamais reçu ma commande.\"\nSentiment: NÉGATIF\nScore: 0.05\nMots-clés: catastrophique, jamais reçu\n\nReview: \"Produit correct, rien de spécial.\"\nSentiment: NEUTRE\nScore: 0.50\nMots-clés: correct, rien de spécial\n\nMaintenant classifie cette review :\nReview: \"Qualité acceptable mais le prix est trop élevé pour ce que c'est.\"\n\"\"\"\n# Le modèle suivra EXACTEMENT le format des exemples."
+          },
+          {
+            "type": "heading",
+            "content": "ReAct : Reasoning + Acting"
+          },
+          {
+            "type": "code",
+            "language": "text",
+            "label": "ReAct Pattern pour les agents",
+            "content": "# ReAct : le modèle alterne Pensée → Action → Observation\n# Utilisé par les agents LangChain, LlamaIndex, etc.\n\nPrompt system:\n\"\"\"Tu es un assistant qui a accès aux outils suivants :\n- search(query): recherche sur le web\n- calculator(expr): calcule une expression\n- get_current_date(): retourne la date actuelle\n\nFormat de réponse :\nPensée: [ton raisonnement]\nAction: [nom_outil(paramètre)]\nObservation: [résultat de l'action]\n... (répéter si nécessaire)\nRéponse finale: [réponse à l'utilisateur]\"\"\"\n\n# Exemple de trace ReAct :\nQuestion: \"Quel âge a Elon Musk et quelle est son entreprise principale ?\"\n\nPensée: Je dois chercher des informations sur Elon Musk.\nAction: search('Elon Musk âge et entreprises')\nObservation: Elon Musk né le 28 juin 1971, PDG de Tesla et SpaceX...\n\nPensée: Je dois calculer son âge actuel.\nAction: calculator('2024 - 1971')\nObservation: 53\n\nRéponse finale: Elon Musk a 53 ans (né le 28 juin 1971).\nSon entreprise principale est Tesla (véhicules électriques),\nbien qu'il dirige aussi SpaceX et X (ex-Twitter)."
+          },
+          {
+            "type": "tip",
+            "content": "Technique bonus — le XML structuring : entourer les sections importantes de tags XML dans votre prompt (<context>, <instructions>, <examples>) aide les LLMs modernes (Claude surtout) à parser et suivre les instructions plus précisément."
+          }
+        ]
+      },
+      {
+        "id": "7-3",
+        "title": "Prompting pour Développeurs",
+        "duration": "20 min",
+        "icon": "💻",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "En tant que développeur, vous utilisez les LLMs pour du code. Des techniques spécifiques permettent d'obtenir du code de production de qualité, des révisions pertinentes et des architectures bien pensées."
+          },
+          {
+            "type": "code",
+            "language": "text",
+            "label": "Template de prompt pour génération de code",
+            "content": "# ══ TEMPLATE PRODUCTION-GRADE CODE GENERATION ══════════\n\n<role>\nTu es un ingénieur senior Python (10 ans d'expérience).\nTu produis du code production-ready : type-safe, testé, documenté.\n</role>\n\n<context>\n- Projet : API REST FastAPI pour un système de gestion d'inventaire\n- Python 3.12, FastAPI 0.110, SQLAlchemy 2.0, Pydantic v2\n- Base de données : PostgreSQL\n- Contrainte : async/await partout\n</context>\n\n<task>\nImplémente un endpoint POST /items qui :\n1. Valide les données entrantes avec Pydantic\n2. Vérifie l'unicité du SKU en base\n3. Crée l'item en base\n4. Retourne l'item créé avec son ID\n5. Gère les erreurs avec les bon status HTTP\n</task>\n\n<output_format>\n1. Le schéma Pydantic (ItemCreate, ItemResponse)\n2. Le router FastAPI avec l'endpoint\n3. Les tests pytest (succès + erreurs)\n4. Les migrations Alembic si nécessaire\n</output_format>\n\n<constraints>\n- Pas de TODO ni de ... (code complet)\n- Type hints stricts sur tout\n- Docstrings Google style\n- Gestion explicite des exceptions\n</constraints>"
+          },
+          {
+            "type": "code",
+            "language": "text",
+            "label": "Template de prompt pour code review",
+            "content": "# ══ TEMPLATE CODE REVIEW ═══════════════════════════════\n\n<role>\nTu es un tech lead expérimenté faisant une code review.\nSois direct et actionnable. Priorise les problèmes critiques.\n</role>\n\n<code>\n[COLLER LE CODE ICI]\n</code>\n\n<review_focus>\nAnalyse en priorité :\n1. 🔴 CRITIQUE : Sécurité, bugs, perte de données\n2. 🟠 IMPORTANT : Performance, scalabilité\n3. 🟡 MOYEN : Lisibilité, maintenabilité\n4. 🟢 MINEUR : Style, convention\n</review_focus>\n\n<output_format>\nPour chaque problème trouvé :\n- Niveau : [CRITIQUE|IMPORTANT|MOYEN|MINEUR]\n- Ligne : [numéro]\n- Problème : [description concise]\n- Fix suggéré : [code corrigé]\n\nEnsuite : un résumé de la qualité globale (1-10) avec justification.\n</output_format>"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 8,
+    "slug": "rag",
+    "title": "RAG",
+    "subtitle": "Retrieval Augmented Generation",
+    "icon": "📚",
+    "color": "#84cc16",
+    "colorLight": "#a3e635",
+    "gradient": "linear-gradient(135deg, #65a30d, #84cc16)",
+    "level": "Avancé",
+    "duration": "4h",
+    "lessons": [
+      {
+        "id": "8-1",
+        "title": "Qu'est-ce que le RAG ?",
+        "duration": "20 min",
+        "icon": "🔍",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Les LLMs ont un problème : leur connaissance est figée à leur date d'entraînement, et ils ne connaissent pas vos données privées. Le RAG résout cela en permettant au LLM de consulter une base de connaissance externe avant de répondre."
+          },
+          {
+            "type": "heading",
+            "content": "Le pipeline RAG en 3 étapes"
+          },
+          {
+            "type": "cards",
+            "items": [
+              {
+                "title": "1. Indexation",
+                "icon": "📥",
+                "description": "Vos documents sont découpés en chunks, convertis en embeddings numériques, et stockés dans une base vectorielle (Pinecone, Weaviate, Chroma). Se fait une fois."
+              },
+              {
+                "title": "2. Retrieval",
+                "icon": "🔎",
+                "description": "La question de l'utilisateur est convertie en embedding. On cherche les k chunks les plus similaires dans la base vectorielle (cosine similarity)."
+              },
+              {
+                "title": "3. Generation",
+                "icon": "✍️",
+                "description": "Les chunks pertinents + la question sont injectés dans le prompt du LLM. Le modèle génère une réponse basée sur ce contexte (grounded generation)."
+              }
+            ]
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "RAG minimal avec LangChain",
+            "content": "from langchain_community.document_loaders import PyPDFLoader\nfrom langchain.text_splitter import RecursiveCharacterTextSplitter\nfrom langchain_openai import OpenAIEmbeddings, ChatOpenAI\nfrom langchain_community.vectorstores import Chroma\nfrom langchain.chains import RetrievalQA\n\n# ─── ÉTAPE 1 : INDEXATION ────────────────────────────\n# Charger les documents\nloader = PyPDFLoader('documentation_technique.pdf')\ndocuments = loader.load()\n\n# Chunking : découper en morceaux avec overlap\nsplitter = RecursiveCharacterTextSplitter(\n    chunk_size=1000,      # ~750 mots par chunk\n    chunk_overlap=200,    # overlap pour éviter de couper le contexte\n    separators=['\\n\\n', '\\n', '.', ' ']\n)\nchunks = splitter.split_documents(documents)\nprint(f'{len(documents)} pages -> {len(chunks)} chunks')\n\n# Créer les embeddings et la base vectorielle\nembeddings = OpenAIEmbeddings(model='text-embedding-3-small')\nvectordb = Chroma.from_documents(\n    chunks,\n    embeddings,\n    persist_directory='./chroma_db'\n)\n\n# ─── ÉTAPE 2 & 3 : RETRIEVAL + GENERATION ───────────\nllm = ChatOpenAI(model='gpt-4o-mini', temperature=0)\n\nqa_chain = RetrievalQA.from_chain_type(\n    llm=llm,\n    chain_type='stuff',  # stuff = tout mettre dans le prompt\n    retriever=vectordb.as_retriever(\n        search_type='mmr',  # Maximum Marginal Relevance : diversité\n        search_kwargs={'k': 5, 'fetch_k': 20}\n    ),\n    return_source_documents=True\n)\n\nresponse = qa_chain.invoke({'query': 'Comment configurer l\\'authentification ?'})\nprint('Réponse:', response['result'])\nprint('Sources:', [doc.metadata['source'] for doc in response['source_documents']])"
+          }
+        ]
+      },
+      {
+        "id": "8-2",
+        "title": "Chunking & Stratégies Avancées",
+        "duration": "25 min",
+        "icon": "✂️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "La qualité d'un système RAG dépend à 80% de la qualité du chunking. Un bon chunk contient une idée complète, ni trop long (dilue la précision) ni trop court (perd le contexte)."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Stratégies de chunking comparées",
+            "content": "from langchain.text_splitter import (\n    RecursiveCharacterTextSplitter,\n    MarkdownHeaderTextSplitter,\n    SemanticChunker\n)\nfrom langchain_openai import OpenAIEmbeddings\n\ntext = \"\"\"# Introduction à FastAPI\n\nFastAPI est un framework web moderne pour Python.\nIl est basé sur les type hints Python 3.6+.\n\n## Installation\n\nInstaller FastAPI avec : pip install fastapi uvicorn\n\n## Premier exemple\n\nCréer un fichier main.py avec le code suivant...\"\"\"\n\n# ── Stratégie 1 : Récursif (le plus courant) ──────────\nrecursive = RecursiveCharacterTextSplitter(\n    chunk_size=500, chunk_overlap=50\n)\nchunks_r = recursive.split_text(text)\nprint(f'Récursif : {len(chunks_r)} chunks')\n\n# ── Stratégie 2 : Par headers Markdown (structure doc) ─\nmarkdown_splitter = MarkdownHeaderTextSplitter(\n    headers_to_split_on=[\n        ('#', 'titre'),\n        ('##', 'section'),\n    ]\n)\nchunks_md = markdown_splitter.split_text(text)\nfor chunk in chunks_md:\n    print(f'Section [{chunk.metadata}]: {chunk.page_content[:50]}...')\n\n# ── Stratégie 3 : Sémantique (le meilleur, le plus cher) ─\n# Regroupe les phrases similaires sémantiquement\nembeddings = OpenAIEmbeddings()\nsemantic_splitter = SemanticChunker(\n    embeddings,\n    breakpoint_threshold_type='percentile',\n    breakpoint_threshold_amount=85  # couper si similarité < 85e percentile\n)\nchunks_s = semantic_splitter.split_text(text)\nprint(f'Sémantique : {len(chunks_s)} chunks')\n\nprint(\"\"\"\nConseils de chunking :\n  📄 Documents structurés (docs, wikis) → MarkdownHeader\n  📝 Texte général → Récursif avec overlap 10-20%\n  🔬 Haute précision requise → Sémantique (coût x10)\n  🎯 Optimal : chunk_size 512-1024 tokens\n\"\"\")"
+          },
+          {
+            "type": "heading",
+            "content": "RAG Avancé : au-delà du naïf"
+          },
+          {
+            "type": "list",
+            "items": [
+              "**HyDE (Hypothetical Document Embeddings)** : générer un document hypothétique avec le LLM, puis l'utiliser comme query d'embedding (meilleure précision)",
+              "**Reranking** : utiliser un cross-encoder (Cohere Rerank, BGE Reranker) pour re-scorer les k résultats récupérés",
+              "**Query expansion** : générer plusieurs variantes de la question pour couvrir différentes formulations",
+              "**Parent-child chunking** : indexer de petits chunks pour la précision, mais retourner le document parent pour le contexte",
+              "**GraphRAG (Microsoft)** : construire un graphe de connaissances sur les documents pour capturer les relations complexes"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "8-3",
+        "title": "Bases Vectorielles",
+        "duration": "20 min",
+        "icon": "🗃️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Une base vectorielle est optimisée pour la recherche par similarité dans des espaces de haute dimension (768, 1536, 3072 dimensions). Elle utilise des index approximatifs (HNSW, IVF) pour chercher parmi des millions de vecteurs en quelques millisecondes."
+          },
+          {
+            "type": "cards",
+            "items": [
+              {
+                "title": "Chroma",
+                "icon": "🟢",
+                "description": "Open-source, Python natif, parfait pour prototyper. In-memory ou persisté localement. Idéal pour commencer et les projets de petite taille (<100k docs)."
+              },
+              {
+                "title": "Pinecone",
+                "icon": "🔵",
+                "description": "Cloud managed, très haute performance. Pay-as-you-go. Le choix pour la production serverless. Géré automatiquement."
+              },
+              {
+                "title": "Weaviate",
+                "icon": "🟡",
+                "description": "Open-source avec module vectoriseurs intégrés. GraphQL API. Supporte le hybrid search (vectoriel + keyword). Auto-hébergeable."
+              },
+              {
+                "title": "pgvector",
+                "icon": "🐘",
+                "description": "Extension PostgreSQL. Si vous avez déjà Postgres en production, c'est la solution la plus simple. Excellent jusqu'à ~1M vecteurs."
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 9,
+    "slug": "agents",
+    "title": "Agents & IA Agentique",
+    "subtitle": "Autonomie, Outils & Multi-agents",
+    "icon": "🤖",
+    "color": "#ef4444",
+    "colorLight": "#f87171",
+    "gradient": "linear-gradient(135deg, #dc2626, #ef4444)",
+    "level": "Expert",
+    "duration": "4h",
+    "lessons": [
+      {
+        "id": "9-1",
+        "title": "Qu'est-ce qu'un Agent IA ?",
+        "duration": "20 min",
+        "icon": "🧬",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Un agent IA est un LLM qui peut prendre des actions dans le monde réel : chercher sur internet, exécuter du code, appeler des APIs, lire des fichiers. C'est le passage du LLM comme outil passif à l'IA comme acteur autonome."
+          },
+          {
+            "type": "heading",
+            "content": "La boucle agentique"
+          },
+          {
+            "type": "text",
+            "content": "Un agent suit une boucle : Percevoir → Planifier → Agir → Observer → Planifier... jusqu'à accomplir la tâche. Le LLM est le cerveau qui décide des prochaines actions basées sur les observations passées."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Agent simple avec LangChain",
+            "content": "from langchain_openai import ChatOpenAI\nfrom langchain.agents import create_react_agent, AgentExecutor\nfrom langchain.tools import Tool, DuckDuckGoSearchRun\nfrom langchain_experimental.tools import PythonREPLTool\nfrom langchain import hub\n\n# ── Définir les outils disponibles ──────────────────\nsearch = DuckDuckGoSearchRun()\npython_repl = PythonREPLTool()\n\ntools = [\n    Tool(\n        name='WebSearch',\n        func=search.run,\n        description='Recherche des informations actuelles sur internet. Input: query string.'\n    ),\n    Tool(\n        name='PythonREPL',\n        func=python_repl.run,\n        description='Exécute du code Python. Utile pour calculs, analyse de données. Input: code Python.'\n    )\n]\n\n# ── Créer le modèle et l'agent ────────────────────\nllm = ChatOpenAI(model='gpt-4o', temperature=0)\nprompt = hub.pull('hwchase17/react')  # prompt ReAct standard\n\nagent = create_react_agent(llm=llm, tools=tools, prompt=prompt)\n\nexecutor = AgentExecutor(\n    agent=agent,\n    tools=tools,\n    verbose=True,          # voir le raisonnement\n    max_iterations=10,     # éviter les boucles infinies\n    handle_parsing_errors=True\n)\n\n# ── Lancer l'agent ────────────────────────────────\nresult = executor.invoke({\n    'input': 'Cherche le cours actuel du Bitcoin et calcule combien 0.5 BTC vaut en euros'\n})\nprint(result['output'])"
+          },
+          {
+            "type": "warning",
+            "content": "Sécurité agents : un agent avec accès à un shell Python peut exécuter du code arbitraire. En production, toujours : sandboxer l'exécution, limiter les permissions, logger toutes les actions, implémenter un circuit breaker."
+          }
+        ]
+      },
+      {
+        "id": "9-2",
+        "title": "Systèmes Multi-Agents",
+        "duration": "25 min",
+        "icon": "🕸️",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Pour les tâches complexes, un seul agent est insuffisant. Les systèmes multi-agents décomposent les problèmes : un agent chercheur, un agent codeur, un agent réviseur... comme une équipe qui collabore."
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Système multi-agents avec AutoGen",
+            "content": "import autogen\n\n# Configuration du LLM\nconfig_list = [{'model': 'gpt-4o', 'api_key': 'YOUR_KEY'}]\nllm_config = {'config_list': config_list, 'temperature': 0}\n\n# ── Définir les agents spécialisés ─────────────────\nuser_proxy = autogen.UserProxyAgent(\n    name='User',\n    human_input_mode='NEVER',\n    max_consecutive_auto_reply=10,\n    code_execution_config={'work_dir': 'coding', 'use_docker': False}\n)\n\narchitect = autogen.AssistantAgent(\n    name='Architect',\n    system_message='''Tu es un architecte logiciel senior.\n    Conçois des architectures claires et robustes.\n    Documente tes décisions (ADR). Ne code pas toi-même.''',\n    llm_config=llm_config\n)\n\ndeveloper = autogen.AssistantAgent(\n    name='Developer',\n    system_message='''Tu es un développeur senior Python.\n    Implémente uniquement ce que l\\'architecte a conçu.\n    Écris du code complet, testé, typé.''',\n    llm_config=llm_config\n)\n\nreviewer = autogen.AssistantAgent(\n    name='Reviewer',\n    system_message='''Tu es un expert en code review et sécurité.\n    Valide le code du développeur.\n    Signal APPROVED quand le code est prêt pour la prod.''',\n    llm_config=llm_config\n)\n\n# ── Créer le groupe de chat ───────────────────────\ngroupchat = autogen.GroupChat(\n    agents=[user_proxy, architect, developer, reviewer],\n    messages=[],\n    max_round=20,\n    speaker_selection_method='auto'  # GPT-4 choisit qui parle\n)\n\nmanager = autogen.GroupChatManager(groupchat=groupchat, llm_config=llm_config)\n\n# ── Lancer la tâche ───────────────────────────────\nuser_proxy.initiate_chat(\n    manager,\n    message='Créez une API FastAPI avec authentification JWT et CRUD utilisateurs'\n)"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 10,
+    "slug": "mcp-modern-ai",
+    "title": "MCP & IA Moderne",
+    "subtitle": "Model Context Protocol & État de l'Art",
+    "icon": "🌐",
+    "color": "#a855f7",
+    "colorLight": "#c084fc",
+    "gradient": "linear-gradient(135deg, #9333ea, #a855f7)",
+    "level": "Expert",
+    "duration": "3h",
+    "lessons": [
+      {
+        "id": "10-1",
+        "title": "Model Context Protocol (MCP)",
+        "duration": "30 min",
+        "icon": "🔌",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Le MCP (Model Context Protocol) est un protocole open-source créé par Anthropic en novembre 2024. Il standardise la façon dont les LLMs communiquent avec des sources de données et des outils externes — pensez à lui comme l'USB-C pour les intégrations IA."
+          },
+          {
+            "type": "heading",
+            "content": "Architecture MCP"
+          },
+          {
+            "type": "cards",
+            "items": [
+              {
+                "title": "MCP Host",
+                "icon": "🖥️",
+                "description": "L'application LLM (Claude Desktop, VS Code, Cursor). Orchestre la communication entre le LLM et les serveurs MCP."
+              },
+              {
+                "title": "MCP Server",
+                "icon": "🔌",
+                "description": "Expose des capacités : Resources (données), Tools (actions), Prompts (templates). Peut être local (filesystem) ou distant (GitHub API)."
+              },
+              {
+                "title": "MCP Client",
+                "icon": "📡",
+                "description": "Maintient une connexion 1:1 avec un serveur. Gère le protocole JSON-RPC via stdio ou SSE."
+              }
+            ]
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Créer un serveur MCP custom",
+            "content": "from mcp.server import Server\nfrom mcp.server.stdio import stdio_server\nfrom mcp.types import Tool, TextContent\nimport asyncio\nimport json\n\n# Créer un serveur MCP personnalisé\napp = Server('mon-serveur-metier')\n\n# ── Déclarer les outils disponibles ──────────────\n@app.list_tools()\nasync def list_tools() -> list[Tool]:\n    return [\n        Tool(\n            name='get_product_info',\n            description='Récupère les infos d\\'un produit par son SKU',\n            inputSchema={\n                'type': 'object',\n                'properties': {\n                    'sku': {'type': 'string', 'description': 'SKU du produit'}\n                },\n                'required': ['sku']\n            }\n        ),\n        Tool(\n            name='check_stock',\n            description='Vérifie le stock disponible d\\'un produit',\n            inputSchema={\n                'type': 'object',\n                'properties': {\n                    'sku': {'type': 'string'},\n                    'warehouse': {'type': 'string', 'default': 'PARIS'}\n                },\n                'required': ['sku']\n            }\n        )\n    ]\n\n# ── Implémenter l'exécution des outils ───────────\n@app.call_tool()\nasync def call_tool(name: str, arguments: dict):\n    if name == 'get_product_info':\n        sku = arguments['sku']\n        # En réalité : appel base de données\n        product = {'sku': sku, 'name': 'Produit Demo', 'price': 29.99}\n        return [TextContent(type='text', text=json.dumps(product))]\n    \n    elif name == 'check_stock':\n        sku = arguments['sku']\n        warehouse = arguments.get('warehouse', 'PARIS')\n        stock = {'sku': sku, 'warehouse': warehouse, 'quantity': 42}\n        return [TextContent(type='text', text=json.dumps(stock))]\n\n# ── Lancer le serveur ─────────────────────────────\nasync def main():\n    async with stdio_server() as (read_stream, write_stream):\n        await app.run(read_stream, write_stream, app.create_initialization_options())\n\nif __name__ == '__main__':\n    asyncio.run(main())\n\n# claude_desktop_config.json :\n# {\"mcpServers\": {\"mon-serveur\": {\"command\": \"python\", \"args\": [\"server.py\"]}}}"
+          },
+          {
+            "type": "tip",
+            "content": "MCP vs Function Calling : Function Calling est spécifique à chaque fournisseur LLM. MCP est universel — un serveur MCP fonctionne avec Claude, Cursor, VS Code Copilot, et tout client compatible MCP. C'est l'interopérabilité par design."
+          }
+        ]
+      },
+      {
+        "id": "10-2",
+        "title": "L'IA en 2025 : État de l'Art",
+        "duration": "20 min",
+        "icon": "🚀",
+        "sections": [
+          {
+            "type": "intro",
+            "content": "Le paysage de l'IA évolue à une vitesse vertigineuse. Voici les avancées les plus importantes de 2024-2025 et les directions que prend le domaine."
+          },
+          {
+            "type": "heading",
+            "content": "Les grandes tendances 2024-2025"
+          },
+          {
+            "type": "cards",
+            "items": [
+              {
+                "title": "Multimodalité Native",
+                "icon": "👁️",
+                "description": "GPT-4o, Gemini 1.5, Claude 3.5 traitent nativement texte, image, audio et vidéo. Les modèles 'vision' ne sont plus des add-ons mais la norme."
+              },
+              {
+                "title": "Long Context",
+                "icon": "📜",
+                "description": "Gemini 1.5 Pro : 2 millions de tokens. Claude 3.5 : 200k. GPT-4o : 128k. Toute une codebase dans le contexte — nouvelle paradigme de développement."
+              },
+              {
+                "title": "Reasoning Models",
+                "icon": "🧩",
+                "description": "o1, o3, DeepSeek-R1 : les modèles qui 'pensent avant de répondre' (Chain of Thought interne). Révolutionnaires pour les maths, la programmation, la logique."
+              },
+              {
+                "title": "Edge AI",
+                "icon": "📱",
+                "description": "Llama 3.2, Phi-3, Gemma 2 : des LLMs performants qui tournent sur téléphone ou laptop. Confidentialité, latence nulle, pas de coût API."
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "content": "Les frameworks incontournables 2025"
+          },
+          {
+            "type": "list",
+            "items": [
+              "**LangChain / LangGraph** : orchestration LLM, le plus populaire mais verbeux. LangGraph pour les workflows complexes avec états",
+              "**LlamaIndex** : spécialisé RAG, excellent pour l'indexation de documents complexes",
+              "**AutoGen / CrewAI** : frameworks multi-agents, conversations entre agents spécialisés",
+              "**DSPy** : programmer les LLMs plutôt que les prompter, optimisation automatique",
+              "**Instructor** : extraction structurée avec Pydantic, l'alternative à function calling",
+              "**Vercel AI SDK** : pour les web apps React/Next.js avec streaming LLM"
+            ]
+          },
+          {
+            "type": "code",
+            "language": "python",
+            "label": "Stack IA moderne en production (2025)",
+            "content": "# ══ STACK IA PRODUCTION 2025 ══════════════════════════\n\n# COUCHE 1 : INFÉRENCE\n# ─────────────────────────────────────────────────────\n# Pour des réponses générales : Claude 3.5 Sonnet ou GPT-4o\n# Pour du raisonnement : o3-mini ou DeepSeek-R1\n# Pour de l'embedding : text-embedding-3-small (OpenAI) ou\n#                       nomic-embed-text (local)\n\n# COUCHE 2 : RAG\n# ─────────────────────────────────────────────────────\nfrom langchain_anthropic import ChatAnthropic\nfrom langchain_openai import OpenAIEmbeddings\nfrom langchain_community.vectorstores import PGVector  # pgvector en prod\n\nllm = ChatAnthropic(model='claude-3-5-sonnet-20241022')\nembeddings = OpenAIEmbeddings(model='text-embedding-3-small')\n\nvectorstore = PGVector(\n    connection_string='postgresql://user:pass@host/db',\n    embedding_function=embeddings,\n    collection_name='documents'\n)\n\n# COUCHE 3 : ORCHESTRATION\n# ─────────────────────────────────────────────────────\nfrom langchain_core.messages import HumanMessage, SystemMessage\nfrom langchain_core.output_parsers import StrOutputParser\nfrom langchain_core.runnables import RunnablePassthrough\n\n# LCEL (LangChain Expression Language) - pipelines déclaratifs\nretriever = vectorstore.as_retriever(search_kwargs={'k': 5})\n\nrag_chain = (\n    {'context': retriever, 'question': RunnablePassthrough()}\n    | ChatAnthropic(model='claude-3-5-sonnet-20241022')\n    | StrOutputParser()\n)\n\n# COUCHE 4 : OBSERVABILITÉ (ESSENTIELLE EN PROD !)\n# ─────────────────────────────────────────────────────\nimport langsmith  # ou Langfuse, Phoenix, Weave\n# Tracer automatiquement toutes les calls LLM\n# Métriques : latence, coût, qualité des réponses\n\n# COUCHE 5 : CACHE\n# ─────────────────────────────────────────────────────\nfrom langchain.cache import RedisSemanticCache\nfrom langchain.globals import set_llm_cache\n\n# Cache sémantique : requêtes similaires -> même réponse\nset_llm_cache(RedisSemanticCache(\n    redis_url='redis://localhost:6379',\n    embedding=embeddings\n))\n\nprint('Stack prête ! Économies estimées : 60-80% sur les coûts LLM via cache.')"
+          },
+          {
+            "type": "tip",
+            "content": "Le futur : les reasoning models (o3, R1) + les agents avec MCP + la multimodalité native = une IA capable de travailler en autonomie sur des tâches de plusieurs heures. Claude Code, Devin, et les agents de coding ne sont que le début de cette ère agentique."
+          }
+        ]
+      }
+    ]
+  }
+]

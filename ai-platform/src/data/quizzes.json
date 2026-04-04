@@ -1,0 +1,382 @@
+{
+  "fondations": [
+    {
+      "id": "q1-1",
+      "question": "Quelle relation est correcte entre IA, ML et Deep Learning ?",
+      "options": [
+        "Machine Learning ⊃ Deep Learning ⊃ IA",
+        "IA ⊃ Machine Learning ⊃ Deep Learning",
+        "Deep Learning ⊃ IA ⊃ Machine Learning",
+        "Ce sont trois domaines totalement séparés"
+      ],
+      "correct": 1,
+      "explanation": "L'IA est le domaine le plus large. Le Machine Learning est une sous-catégorie de l'IA (apprentissage automatique). Le Deep Learning est une sous-catégorie du ML utilisant des réseaux de neurones profonds."
+    },
+    {
+      "id": "q1-2",
+      "question": "Dans un réseau de neurones, que représente le produit scalaire w·x + b ?",
+      "options": [
+        "La perte du modèle",
+        "La sortie après activation d'un neurone",
+        "La somme pondérée des entrées avant activation",
+        "Le gradient lors du backprop"
+      ],
+      "correct": 2,
+      "explanation": "w·x + b est la combinaison linéaire (somme pondérée) des entrées x par les poids w, plus le biais b. C'est calculé AVANT d'appliquer la fonction d'activation. La fonction d'activation est appliquée ensuite : sortie = f(w·x + b)."
+    },
+    {
+      "id": "q1-3",
+      "question": "Pourquoi divise-t-on le gradient par √d_k dans l'attention scalée ?",
+      "options": [
+        "Pour normaliser les poids entre 0 et 1",
+        "Pour éviter que les gradients n'explosent avec de grandes dimensions",
+        "Pour accélérer le calcul matriciel",
+        "C'est une convention historique sans justification mathématique"
+      ],
+      "correct": 1,
+      "explanation": "Avec d_k grand, les produits scalaires Q·K deviennent très grands, poussant le softmax dans des régions de gradient très faible (vanishing gradient). Diviser par √d_k maintient une variance stable et des gradients sains."
+    },
+    {
+      "id": "q1-4",
+      "question": "Quelle est l'intuition derrière le gradient descent ?",
+      "options": [
+        "Trouver tous les minima d'une fonction",
+        "Descendre progressivement vers un minimum en suivant la pente locale",
+        "Calculer la dérivée exacte de la fonction de perte",
+        "Trier les paramètres par ordre d'importance"
+      ],
+      "correct": 1,
+      "explanation": "Le gradient descent calcule le gradient local (direction de montée la plus rapide) et fait un petit pas dans la direction opposée. Répété de nombreuses fois, cela converge vers un minimum local (pas nécessairement global)."
+    },
+    {
+      "id": "q1-5",
+      "question": "Quel avantage principal a l'optimiseur Adam sur le SGD simple ?",
+      "options": [
+        "Adam utilise moins de mémoire",
+        "Adam converge toujours vers le minimum global",
+        "Adam adapte le learning rate pour chaque paramètre individuellement",
+        "Adam ne nécessite pas de learning rate"
+      ],
+      "correct": 2,
+      "explanation": "Adam (Adaptive Moment Estimation) maintient des learning rates adaptatifs par paramètre en utilisant les moments du gradient. Les paramètres avec de grands gradients reçoivent de petits pas, les petits gradients reçoivent de grands pas — ce qui accélère la convergence."
+    }
+  ],
+  "machine-learning": [
+    {
+      "id": "q2-1",
+      "question": "Quelle métrique utiliser pour un problème de classification très déséquilibré (99% classe A, 1% classe B) ?",
+      "options": [
+        "Accuracy",
+        "MSE",
+        "F1-score ou AUC-ROC",
+        "R² (coefficient de détermination)"
+      ],
+      "correct": 2,
+      "explanation": "L'accuracy serait trompeuse : un modèle prédisant toujours A aurait 99% d'accuracy mais serait inutile. F1-score (harmonie précision/recall) et AUC-ROC sont insensibles au déséquilibre de classes et mesurent la vraie qualité de classification."
+    },
+    {
+      "id": "q2-2",
+      "question": "Pourquoi est-il OBLIGATOIRE de normaliser les données avant un clustering K-Means ?",
+      "options": [
+        "Pour accélérer l'algorithme",
+        "K-Means mesure les distances euclidiennes, une variable à grande échelle dominerait les autres",
+        "Pour respecter l'hypothèse de normalité de K-Means",
+        "Ce n'est pas obligatoire, c'est optionnel"
+      ],
+      "correct": 1,
+      "explanation": "K-Means utilise la distance euclidienne. Si une variable varie de 0 à 100000 et une autre de 0 à 1, la première domine totalement le calcul de distance. StandardScaler les ramène à la même échelle (moyenne 0, écart-type 1)."
+    },
+    {
+      "id": "q2-3",
+      "question": "Qu'est-ce que l'overfitting ?",
+      "options": [
+        "Un modèle trop simple qui ne capture pas les patterns",
+        "Un modèle qui apprend le bruit des données d'entraînement, performant mal sur de nouvelles données",
+        "Un modèle avec trop peu de données d'entraînement",
+        "Un modèle dont le learning rate est trop grand"
+      ],
+      "correct": 1,
+      "explanation": "L'overfitting (sur-apprentissage) se produit quand le modèle mémorise les données d'entraînement, incluant le bruit, au lieu d'apprendre des patterns généralisables. Il performe très bien sur train mais mal sur test (high variance, low bias)."
+    },
+    {
+      "id": "q2-4",
+      "question": "Que mesure la cross-validation k-fold ?",
+      "options": [
+        "La performance sur les données de test uniquement",
+        "Une estimation robuste de la performance de généralisation en moyennant sur k splits",
+        "Le temps d'entraînement optimal",
+        "La profondeur maximale d'un arbre de décision"
+      ],
+      "correct": 1,
+      "explanation": "La k-fold CV divise les données en k parties, entraîne sur k-1 et évalue sur 1, en répétant k fois. La performance finale est la moyenne des k scores. Cela donne une estimation fiable avec moins de variance qu'un seul train/test split."
+    }
+  ],
+  "reseaux-neurones": [
+    {
+      "id": "q3-1",
+      "question": "Pourquoi ReLU est-elle préférée à Sigmoid pour les couches cachées profondes ?",
+      "options": [
+        "ReLU est plus facile à calculer",
+        "Sigmoid provoque le vanishing gradient dans les réseaux profonds ; ReLU le limite",
+        "ReLU préserve mieux les probabilités",
+        "Sigmoid n'est plus disponible dans les frameworks modernes"
+      ],
+      "correct": 1,
+      "explanation": "Sigmoid 'écrase' les valeurs entre 0 et 1, avec des gradients très petits pour les grandes valeurs. Lors du backprop à travers de nombreuses couches, ces gradients se multiplient et deviennent infinitésimaux (vanishing gradient). ReLU a un gradient de 1 pour x>0, préservant mieux le signal."
+    },
+    {
+      "id": "q3-2",
+      "question": "Que fait le Dropout pendant l'entraînement ?",
+      "options": [
+        "Supprime les paramètres avec les gradients les plus faibles",
+        "Désactive aléatoirement un pourcentage de neurones à chaque batch",
+        "Réduit le learning rate après chaque époque",
+        "Normalise les activations de chaque couche"
+      ],
+      "correct": 1,
+      "explanation": "Dropout désactive aléatoirement p% des neurones à chaque forward pass pendant l'entraînement. Cela force le réseau à ne pas dépendre de neurones spécifiques et crée une forme d'ensemble de modèles implicite, réduisant l'overfitting."
+    },
+    {
+      "id": "q3-3",
+      "question": "Lors du backpropagation, dans quel sens se propage le gradient ?",
+      "options": [
+        "De la couche d'entrée vers la couche de sortie",
+        "De la couche de sortie vers la couche d'entrée (arrière)",
+        "En parallèle dans les deux sens",
+        "Aléatoirement dans tout le réseau"
+      ],
+      "correct": 1,
+      "explanation": "Backpropagation = propagation du gradient en arrière. Le gradient de la perte est calculé d'abord à la sortie, puis propagé couche par couche vers l'entrée en utilisant la règle de chaîne. Chaque couche reçoit le gradient de la couche suivante et calcule sa contribution."
+    }
+  ],
+  "deep-learning": [
+    {
+      "id": "q4-1",
+      "question": "Qu'est-ce qu'une convolution dans un CNN ?",
+      "options": [
+        "Une multiplication matricielle standard entre l'image et les poids",
+        "Un filtre qui glisse sur l'image pour détecter des patterns locaux",
+        "Une technique de normalisation des images",
+        "Un algorithme de compression d'images"
+      ],
+      "correct": 1,
+      "explanation": "Une convolution applique un petit filtre (kernel, ex: 3x3) sur des régions locales de l'image en faisant glisser ce filtre. À chaque position, le produit scalaire filtre×région donne un score. Le réseau APPREND les meilleurs filtres via backprop."
+    },
+    {
+      "id": "q4-2",
+      "question": "Quel est le principal avantage du Transfer Learning ?",
+      "options": [
+        "Le modèle n'a plus besoin d'être évalué",
+        "On peut obtenir de bonnes performances avec peu de données en réutilisant les features appris sur un grand dataset",
+        "Le modèle final est plus léger",
+        "On n'a plus besoin de GPU"
+      ],
+      "correct": 1,
+      "explanation": "Un modèle pré-entraîné sur ImageNet (1.4M images) a appris des features visuelles très généraux (bords, textures, formes). Ces features sont réutilisables pour d'autres tâches visuelles. Avec 500 images de votre domaine, vous pouvez obtenir >90% d'accuracy."
+    }
+  ],
+  "nlp-embeddings": [
+    {
+      "id": "q5-1",
+      "question": "Quelle est la différence entre Word2Vec et les embeddings BERT ?",
+      "options": [
+        "Word2Vec est plus précis pour les langues asiatiques",
+        "Word2Vec donne un vecteur fixe par mot ; BERT génère des vecteurs contextuels qui changent selon la phrase",
+        "BERT ne peut pas faire d'analogies de mots",
+        "Word2Vec utilise des Transformers, BERT non"
+      ],
+      "correct": 1,
+      "explanation": "Word2Vec génère un embedding statique : 'banque' a toujours le même vecteur. BERT génère des embeddings contextuels : 'banque' dans 'je vais à la banque chercher de l'argent' ≠ 'banque' dans 'je me repose sur la banque du parc'. La contextualisation est clé pour la compréhension fine."
+    },
+    {
+      "id": "q5-2",
+      "question": "Dans le mécanisme d'attention, que représente la Query ?",
+      "options": [
+        "Ce que le token a déjà appris pendant l'entraînement",
+        "Ce que le token cherche dans les autres tokens",
+        "La valeur finale du token après attention",
+        "Le gradient de la perte pour ce token"
+      ],
+      "correct": 1,
+      "explanation": "Dans l'attention QKV : la Query représente 'ce que ce token cherche', la Key représente 'ce que j'offre à qui cherche', la Value représente 'ce que je donne si je suis sélectionné'. Le score = Q·K détermine l'importance relative, et V est la somme pondérée finale."
+    },
+    {
+      "id": "q5-3",
+      "question": "Pourquoi les LLMs sont-ils facturés au 'token' et non au mot ou au caractère ?",
+      "options": [
+        "C'est une décision marketing des fournisseurs",
+        "Le token est l'unité native de traitement : le modèle opère en tokens (sous-mots BPE), pas en mots",
+        "Les tokens sont plus faciles à compter",
+        "Les caractères varieraient trop selon l'encodage UTF"
+      ],
+      "correct": 1,
+      "explanation": "Les LLMs tokenisent le texte en sous-mots (BPE) avant de le traiter. Chaque forward pass du Transformer coûte proportionnellement au nombre de tokens. La facturation au token reflète donc directement le coût de calcul réel."
+    }
+  ],
+  "transformers-llm": [
+    {
+      "id": "q6-1",
+      "question": "Quelle est la différence clé entre l'architecture BERT (Encoder) et GPT (Decoder) ?",
+      "options": [
+        "BERT est plus grand que GPT",
+        "BERT voit la séquence en bidirectionnel (passé ET futur) ; GPT voit seulement le passé (causal)",
+        "GPT utilise le Transformer, BERT non",
+        "BERT ne peut pas être fine-tuné"
+      ],
+      "correct": 1,
+      "explanation": "BERT utilise l'attention bidirectionnelle (voit tout le contexte) : idéal pour comprendre le sens d'un texte complet. GPT utilise le causal masking (ne voit que les tokens passés) : idéal pour la génération séquentielle token par token."
+    },
+    {
+      "id": "q6-2",
+      "question": "Qu'est-ce que LoRA apporte au fine-tuning des LLMs ?",
+      "options": [
+        "Un nouveau algorithme d'optimisation plus rapide",
+        "La capacité à fine-tuner seulement ~0.1% des paramètres via des matrices de bas rang, rendant le fine-tuning accessible sur hardware limité",
+        "Une meilleure gestion du contexte long",
+        "La suppression du besoin de données étiquetées"
+      ],
+      "correct": 1,
+      "explanation": "LoRA (Low-Rank Adaptation) injecte des petites matrices de rang faible dans les couches d'attention. Au lieu d'entraîner 7B paramètres, on n'entraîne que ~13M (0.19%), ce qui tient sur 1 GPU 24GB au lieu de 8x80GB."
+    }
+  ],
+  "prompt-engineering": [
+    {
+      "id": "q7-1",
+      "question": "Quelle technique améliore le plus le raisonnement d'un LLM sur des problèmes complexes ?",
+      "options": [
+        "Augmenter la température à 2.0",
+        "Chain of Thought : demander au modèle de raisonner étape par étape",
+        "Utiliser un modèle plus petit mais plus rapide",
+        "Répéter la question plusieurs fois"
+      ],
+      "correct": 1,
+      "explanation": "Chain of Thought force le LLM à externaliser son raisonnement. 'Let's think step by step' améliore drastiquement les performances sur les problèmes mathématiques, logiques et de planification. Le modèle peut se 'corriger' en relisant ses étapes intermédiaires."
+    },
+    {
+      "id": "q7-2",
+      "question": "Dans un prompt, quel est l'impact de définir un 'rôle' pour le LLM ?",
+      "options": [
+        "Aucun impact mesurable, c'est un effet placebo",
+        "Cela active les patterns de connaissances associés à ce rôle dans les poids du modèle",
+        "Cela change l'architecture interne du modèle",
+        "Cela réduit les hallucinations à zéro"
+      ],
+      "correct": 1,
+      "explanation": "Les LLMs ont appris des patterns de différents types d'experts dans leurs données d'entraînement. Préciser 'Tu es un expert en sécurité informatique' active statistiquement les représentations internes associées à ce type d'expert, améliorant la qualité et la pertinence des réponses."
+    },
+    {
+      "id": "q7-3",
+      "question": "Que signifie 'few-shot prompting' ?",
+      "options": [
+        "Utiliser le modèle avec peu de mémoire",
+        "Entraîner le modèle sur peu d'exemples",
+        "Fournir quelques exemples input/output dans le prompt pour montrer le format attendu",
+        "Limiter le nombre de tokens de la réponse"
+      ],
+      "correct": 2,
+      "explanation": "Few-shot prompting consiste à donner 2-5 exemples de paires (entrée → sortie attendue) dans le prompt, avant la vraie question. Cela montre au modèle exactement le format et le style de réponse souhaité, sans modifier les poids du modèle."
+    }
+  ],
+  "rag": [
+    {
+      "id": "q8-1",
+      "question": "Quel problème fondamental le RAG résout-il pour les LLMs ?",
+      "options": [
+        "La lenteur de génération des LLMs",
+        "La connaissance figée à la date d'entraînement et l'ignorance des données privées",
+        "Le coût élevé des APIs LLM",
+        "Les hallucinations sur les calculs mathématiques"
+      ],
+      "correct": 1,
+      "explanation": "Les LLMs ne connaissent que ce qui était dans leurs données d'entraînement (coupé à une date) et ne connaissent pas vos documents internes. Le RAG leur donne accès à une base de connaissances actualisable et privée, sans réentraîner le modèle."
+    },
+    {
+      "id": "q8-2",
+      "question": "Quelle est la bonne stratégie de chunking pour des documents Markdown structurés ?",
+      "options": [
+        "Découper par nombre fixe de caractères (ex: 500 chars)",
+        "Découper aléatoirement",
+        "Découper selon la structure des headers (MarkdownHeaderTextSplitter)",
+        "Mettre tout le document dans un seul chunk"
+      ],
+      "correct": 2,
+      "explanation": "Pour des documents structurés avec des headers (# Introduction, ## Installation...), découper selon la structure respecte l'organisation logique du document. Chaque chunk correspond à une section cohérente, ce qui améliore la précision du retrieval."
+    },
+    {
+      "id": "q8-3",
+      "question": "Qu'est-ce que la 'cosine similarity' mesure dans un système RAG ?",
+      "options": [
+        "La longueur relative de deux documents",
+        "L'angle entre deux vecteurs d'embedding, indiquant leur proximité sémantique",
+        "La fréquence des mots communs entre deux textes",
+        "Le temps de réponse d'une requête"
+      ],
+      "correct": 1,
+      "explanation": "La similarité cosinus mesure le cosinus de l'angle entre deux vecteurs. Un cosinus de 1 = vecteurs identiques (textes très similaires). Un cosinus de 0 = vecteurs orthogonaux (textes sans rapport). Contrairement à la distance euclidienne, elle est invariante à la magnitude (longueur des textes)."
+    }
+  ],
+  "agents": [
+    {
+      "id": "q9-1",
+      "question": "Qu'est-ce qui distingue un agent IA d'un simple LLM avec RAG ?",
+      "options": [
+        "Un agent utilise un modèle plus grand",
+        "Un agent peut prendre des actions dans le monde (exécuter du code, appeler des APIs, interagir avec des systèmes)",
+        "Un agent a accès à plus de données",
+        "Un agent génère du texte plus long"
+      ],
+      "correct": 1,
+      "explanation": "Un LLM (même avec RAG) produit uniquement du texte. Un agent peut AGIR : lancer une recherche web, exécuter du code Python, appeler une API, écrire des fichiers. La boucle Percevoir→Planifier→Agir→Observer lui permet d'accomplir des tâches complexes multi-étapes."
+    },
+    {
+      "id": "q9-2",
+      "question": "Quel pattern de raisonnement les agents modernes utilisent-ils principalement ?",
+      "options": [
+        "CoT simple (Chain of Thought linéaire)",
+        "ReAct (Reasoning + Acting) : alterner pensée et action",
+        "Beam search sur plusieurs réponses",
+        "Random sampling de la prochaine action"
+      ],
+      "correct": 1,
+      "explanation": "ReAct (Yao et al., 2022) est le pattern standard : Pensée (raisonnement sur quoi faire) → Action (appel d'outil) → Observation (résultat) → Pensée... Ce cycle permet d'ajuster la stratégie en fonction des résultats obtenus, comme un humain qui résout un problème."
+    }
+  ],
+  "mcp-modern-ai": [
+    {
+      "id": "q10-1",
+      "question": "Quelle est la principale innovation du Model Context Protocol (MCP) ?",
+      "options": [
+        "Un nouveau format de fichier pour les prompts",
+        "Un protocole universel standardisant la communication LLM ↔ outils/données, indépendant du fournisseur",
+        "Une méthode de compression des contextes LLM",
+        "Un framework de fine-tuning plus efficace"
+      ],
+      "correct": 1,
+      "explanation": "MCP est comme l'USB-C pour l'IA : un standard universel. Un serveur MCP (ex: accès filesystem) fonctionne avec Claude Desktop, Cursor, VS Code, et tout client MCP. Avant MCP, chaque intégration devait être réécrite pour chaque plateforme."
+    },
+    {
+      "id": "q10-2",
+      "question": "Qu'est-ce qui différencie les 'reasoning models' (o1, o3, R1) des LLMs classiques ?",
+      "options": [
+        "Ils ont beaucoup plus de paramètres",
+        "Ils génèrent une chaîne de pensée interne avant de répondre, améliorant les capacités de raisonnement",
+        "Ils utilisent une architecture Transformer différente",
+        "Ils sont entraînés sur plus de données mathématiques"
+      ],
+      "correct": 1,
+      "explanation": "Les reasoning models (o1, o3, DeepSeek-R1) sont entraînés via RL pour générer des 'pensées' internes avant de produire une réponse finale. Ce 'scratchpad' interne leur permet de décomposer des problèmes complexes, révisant leur raisonnement si nécessaire — révolutionnaire pour les maths et la programmation."
+    },
+    {
+      "id": "q10-3",
+      "question": "Dans un système RAG en production, pourquoi ajouter un cache sémantique (Redis) ?",
+      "options": [
+        "Pour stocker les embeddings des documents",
+        "Pour éviter de rappeler le LLM (et payer) pour des questions sémantiquement similaires déjà posées",
+        "Pour compresser les vecteurs d'embedding",
+        "Pour gérer l'authentification des utilisateurs"
+      ],
+      "correct": 1,
+      "explanation": "Un cache sémantique stocke les paires (question, réponse). Si une nouvelle question est sémantiquement similaire à une précédente (cosine similarity > seuil), on retourne la réponse cachée sans appeler le LLM. Économies typiques : 60-80% sur les coûts API en production."
+    }
+  ]
+}
