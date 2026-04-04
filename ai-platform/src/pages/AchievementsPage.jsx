@@ -10,31 +10,35 @@ const STATUS_LABELS = { all: 'Tous', unlocked: 'Débloqués', locked: 'Verrouill
 
 export default function AchievementsPage({ modules, progressHook }) {
   const { progress } = progressHook
-  const unlocked = new Set(progress.unlockedAchievements || [])
+  // Use the array as dependency (stable reference), derive Set inside memos
+  const unlockedArr = progress.unlockedAchievements || []
 
   const [rarityFilter, setRarityFilter] = useState('all')
   const [statusFilter, setStatusFilter] = useState('all')
 
   const filtered = useMemo(() => {
+    const unlockedSet = new Set(unlockedArr)
     return ACHIEVEMENTS.filter(a => {
       if (rarityFilter !== 'all' && a.rarity !== rarityFilter) return false
-      if (statusFilter === 'unlocked' && !unlocked.has(a.id)) return false
-      if (statusFilter === 'locked' && unlocked.has(a.id)) return false
+      if (statusFilter === 'unlocked' && !unlockedSet.has(a.id)) return false
+      if (statusFilter === 'locked' && unlockedSet.has(a.id)) return false
       return true
     })
-  }, [rarityFilter, statusFilter, unlocked])
+  }, [rarityFilter, statusFilter, unlockedArr])
 
   // Count by rarity
   const counts = useMemo(() => {
+    const unlockedSet = new Set(unlockedArr)
     const result = {}
     for (const r of ['bronze', 'silver', 'gold', 'platinum']) {
       const total = ACHIEVEMENTS.filter(a => a.rarity === r).length
-      const done = ACHIEVEMENTS.filter(a => a.rarity === r && unlocked.has(a.id)).length
+      const done = ACHIEVEMENTS.filter(a => a.rarity === r && unlockedSet.has(a.id)).length
       result[r] = { total, done }
     }
     return result
-  }, [unlocked])
+  }, [unlockedArr])
 
+  const unlocked = new Set(unlockedArr)
   const totalDone = unlocked.size
   const totalAll = ACHIEVEMENTS.length
 

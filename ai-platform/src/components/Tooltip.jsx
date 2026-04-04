@@ -114,12 +114,12 @@ export function GlossaryTooltip({ term, children }) {
           <span style={{
             position: 'absolute',
             [pos.top ? 'bottom' : 'top']: -5,
-            left: '50%', transform: 'translateX(-50%)',
+            left: '50%',
+            transform: pos.top ? 'translateX(-50%) rotate(-45deg)' : 'translateX(-50%) rotate(135deg)',
             width: 8, height: 8,
             background: 'rgba(10,14,30,0.98)',
             border: `1px solid rgba(99,102,241,0.35)`,
             borderRight: 'none', borderTop: 'none',
-            transform: pos.top ? 'translateX(-50%) rotate(-45deg)' : 'translateX(-50%) rotate(135deg)',
           }} />
           <span style={{ display: 'block', fontSize: '0.72rem', fontWeight: 700, color: '#818cf8', marginBottom: 5, letterSpacing: '0.02em' }}>
             📖 {entry.fr}

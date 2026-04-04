@@ -105,6 +105,7 @@ export function useProgress(modules) {
 
   const getModuleProgress = useCallback(
     (moduleSlug, lessons) => {
+      if (!lessons || lessons.length === 0) return { completed: 0, total: 0, percent: 0 }
       const completed = lessons.filter(l => progress.completedLessons.includes(l.id)).length
       return { completed, total: lessons.length, percent: Math.round((completed / lessons.length) * 100) }
     },
@@ -114,6 +115,7 @@ export function useProgress(modules) {
   const getOverallProgress = useCallback(
     modules => {
       const totalLessons = modules.reduce((acc, m) => acc + m.lessons.length, 0)
+      if (totalLessons === 0) return { completed: 0, total: 0, percent: 0 }
       const completedCount = progress.completedLessons.length
       return {
         completed: completedCount,

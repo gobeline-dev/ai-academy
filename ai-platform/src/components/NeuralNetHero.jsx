@@ -61,10 +61,10 @@ export default function NeuralNetHero() {
       pulses.push({ path, t: 0, speed: 0.008 + Math.random() * 0.006, seg: 0 })
     }
 
-    // Spawn initial pulses
-    for (let i = 0; i < 4; i++) {
+    // Spawn initial pulses — store IDs so they can be cleared on unmount
+    const initTimeouts = Array.from({ length: 4 }, (_, i) =>
       setTimeout(() => spawnPulse(), i * 400)
-    }
+    )
 
     const spawnInterval = setInterval(spawnPulse, 700)
 
@@ -115,6 +115,7 @@ export default function NeuralNetHero() {
     return () => {
       cancelAnimationFrame(animId)
       clearInterval(spawnInterval)
+      initTimeouts.forEach(clearTimeout)
     }
   }, [])
 

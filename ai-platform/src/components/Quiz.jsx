@@ -31,9 +31,7 @@ export default function Quiz({ questions, moduleSlug, moduleName, onComplete, sa
       setShowExplanation(false)
     } else {
       setFinished(true)
-      onComplete(score + (selected === question.correct ? 1 : 0) - (selected === question.correct ? 1 : 0), questions.length)
-      // recalculate final score
-      const finalScore = answers.filter(a => a.selected === a.correct).length + (selected === question.correct ? 1 : 0)
+      const finalScore = answers.filter(a => a.selected === a.correct).length
       onComplete(finalScore, questions.length)
     }
   }

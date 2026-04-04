@@ -24,6 +24,7 @@ export default function ModulePage({ modules, progressHook }) {
   const moduleIndex = modules.findIndex(m => m.slug === slug)
   const prevModule = moduleIndex > 0 ? modules[moduleIndex - 1] : null
   const nextModule = moduleIndex < modules.length - 1 ? modules[moduleIndex + 1] : null
+  const firstIncompleteLesson = module.lessons.find(l => !isLessonCompleted(l.id)) ?? module.lessons[0]
 
   return (
     <div className="section-padding">
@@ -254,7 +255,7 @@ export default function ModulePage({ modules, progressHook }) {
               </h3>
               <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
                 <Link
-                  to={`/module/${module.slug}/lesson/${module.lessons[0]?.id}`}
+                  to={`/module/${module.slug}/lesson/${firstIncompleteLesson?.id}`}
                   className="btn btn-primary"
                   style={{ width: '100%' }}
                 >
