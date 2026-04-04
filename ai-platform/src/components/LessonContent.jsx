@@ -1,7 +1,10 @@
 import { useState } from 'react'
 import { AutoTooltipText } from './Tooltip.jsx'
+import { GradientDescentWidget, TemperatureWidget } from './InteractiveWidgets.jsx'
 
-const LANG_KEY = 'codeLang'
+// Language preference is NOT persisted — Java is always the default.
+// Remove any stale localStorage value from a previous session.
+if (typeof localStorage !== 'undefined') localStorage.removeItem('codeLang')
 
 // ── HTML escape ───────────────────────────────────────────────────────────────
 function escapeHtml(code) {
@@ -77,9 +80,36 @@ function highlightJava(code) {
   })
 }
 
+// ── Pyodide singleton loader ───────────────────────────────────────────────────
+let pyodideInstance = null
+let pyodideLoading = null
+
+async function getPyodide() {
+  if (pyodideInstance) return pyodideInstance
+  if (pyodideLoading) return pyodideLoading
+
+  pyodideLoading = (async () => {
+    if (!window.loadPyodide) {
+      await new Promise((resolve, reject) => {
+        const s = document.createElement('script')
+        s.src = 'https://cdn.jsdelivr.net/pyodide/v0.27.0/full/pyodide.js'
+        s.onload = resolve
+        s.onerror = reject
+        document.head.appendChild(s)
+      })
+    }
+    pyodideInstance = await window.loadPyodide()
+    return pyodideInstance
+  })()
+
+  return pyodideLoading
+}
+
 // ── CodeBlock ─────────────────────────────────────────────────────────────────
 function CodeBlock({ content, contentJava, label, language = 'python', lang, onLangChange }) {
   const [copied, setCopied] = useState(false)
+  const [output, setOutput] = useState(null)
+  const [running, setRunning] = useState(false)
 
   const hasJava      = Boolean(contentJava)
   const activeLang   = hasJava ? lang : 'python'
@@ -102,6 +132,25 @@ function CodeBlock({ content, contentJava, label, language = 'python', lang, onL
       setTimeout(() => setCopied(false), 2000)
     })
   }
+
+  const runPython = async () => {
+    setRunning(true)
+    setOutput(null)
+    try {
+      const py = await getPyodide()
+      const lines = []
+      py.setStdout({ batched: s => lines.push(s) })
+      py.setStderr({ batched: s => lines.push('⚠ ' + s) })
+      await py.runPythonAsync(activeContent)
+      setOutput({ ok: true, text: lines.join('\n') || '(aucune sortie)' })
+    } catch (e) {
+      setOutput({ ok: false, text: String(e.message || e) })
+    } finally {
+      setRunning(false)
+    }
+  }
+
+  const canRun = activeLang === 'python' && language !== 'text'
 
   return (
     <div className="code-block" style={{ marginBottom: 24 }}>
@@ -162,6 +211,23 @@ function CodeBlock({ content, contentJava, label, language = 'python', lang, onL
             {displayLang}
           </span>
 
+          {canRun && (
+            <button
+              onClick={runPython}
+              disabled={running}
+              style={{
+                background: running ? 'rgba(16,185,129,0.08)' : 'rgba(16,185,129,0.12)',
+                border: '1px solid rgba(16,185,129,0.25)',
+                color: running ? 'var(--text-muted)' : '#34d399',
+                borderRadius: 6, padding: '4px 10px', fontSize: '0.72rem',
+                cursor: running ? 'default' : 'pointer', transition: 'all 0.2s ease',
+                fontFamily: 'var(--font-sans)', display: 'flex', alignItems: 'center', gap: 4,
+              }}
+            >
+              {running ? <><span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⟳</span> Chargement…</> : '▶ Exécuter'}
+            </button>
+          )}
+
           <button
             onClick={copy}
             style={{
@@ -182,6 +248,24 @@ function CodeBlock({ content, contentJava, label, language = 'python', lang, onL
         className="code-block-content"
         dangerouslySetInnerHTML={{ __html: highlighted }}
       />
+
+      {output !== null && (
+        <div style={{
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          padding: '10px 16px',
+          fontFamily: 'var(--font-mono)',
+          fontSize: '0.8rem',
+          color: output.ok ? '#86efac' : '#fca5a5',
+          background: output.ok ? 'rgba(16,185,129,0.05)' : 'rgba(239,68,68,0.05)',
+          whiteSpace: 'pre-wrap',
+          lineHeight: 1.6,
+        }}>
+          <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem', display: 'block', marginBottom: 4 }}>
+            {output.ok ? '▶ Sortie' : '✗ Erreur'}
+          </span>
+          {output.text}
+        </div>
+      )}
     </div>
   )
 }
@@ -194,10 +278,9 @@ function RichText({ text, style, tag = 'p' }) {
 
 // ── LessonContent — owns the language preference ──────────────────────────────
 export default function LessonContent({ sections }) {
-  const [lang, setLang] = useState(() => localStorage.getItem(LANG_KEY) || 'java')
+  const [lang, setLang] = useState('java')
 
   const handleLangChange = (newLang) => {
-    localStorage.setItem(LANG_KEY, newLang)
     setLang(newLang)
   }
 
@@ -385,7 +468,184 @@ function Section({ section, lang, onLangChange }) {
         </div>
       )
 
+    case 'check':
+      return <CheckSection section={section} />
+
+    case 'summary':
+      return <SummarySection section={section} />
+
+    case 'compare':
+      return <CompareSection section={section} />
+
+    case 'interactive':
+      return <InteractiveSection section={section} />
+
     default:
       return null
   }
+}
+
+// ── CheckSection — mini-quiz intercalé ────────────────────────────────────────
+function CheckSection({ section }) {
+  const [selected, setSelected] = useState(null)
+  const [revealed, setRevealed] = useState(false)
+
+  const choose = (i) => {
+    if (revealed) return
+    setSelected(i)
+  }
+
+  const confirm = () => {
+    if (selected === null) return
+    setRevealed(true)
+  }
+
+  const reset = () => { setSelected(null); setRevealed(false) }
+
+  const isCorrect = selected === section.correct
+
+  return (
+    <div style={{
+      background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.2)',
+      borderRadius: 'var(--radius-lg)', padding: '20px 22px', marginBottom: 24,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+        <span style={{ fontSize: '1rem' }}>✅</span>
+        <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-primary-light)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+          Vérification rapide
+        </span>
+      </div>
+      <p style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem', lineHeight: 1.5, marginBottom: 16 }}>
+        {section.question}
+      </p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>
+        {section.options.map((opt, i) => {
+          let bg = 'rgba(255,255,255,0.04)'
+          let border = '1px solid rgba(255,255,255,0.08)'
+          let color = 'var(--text-secondary)'
+          if (selected === i && !revealed) { bg = 'rgba(99,102,241,0.15)'; border = '1px solid rgba(99,102,241,0.4)'; color = 'var(--text-primary)' }
+          if (revealed && i === section.correct) { bg = 'rgba(16,185,129,0.12)'; border = '1px solid rgba(16,185,129,0.35)'; color = '#34d399' }
+          if (revealed && selected === i && i !== section.correct) { bg = 'rgba(239,68,68,0.1)'; border = '1px solid rgba(239,68,68,0.3)'; color = '#fca5a5' }
+          return (
+            <button key={i} onClick={() => choose(i)} style={{
+              background: bg, border, borderRadius: 'var(--radius-md)',
+              padding: '10px 14px', textAlign: 'left', cursor: revealed ? 'default' : 'pointer',
+              color, fontSize: '0.88rem', lineHeight: 1.4, transition: 'all 0.2s ease',
+              display: 'flex', alignItems: 'center', gap: 10,
+            }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', opacity: 0.7 }}>
+                {String.fromCharCode(65 + i)}
+              </span>
+              {opt}
+              {revealed && i === section.correct && <span style={{ marginLeft: 'auto' }}>✓</span>}
+              {revealed && selected === i && i !== section.correct && <span style={{ marginLeft: 'auto' }}>✗</span>}
+            </button>
+          )
+        })}
+      </div>
+      {!revealed ? (
+        <button onClick={confirm} disabled={selected === null} className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '6px 16px' }}>
+          Valider
+        </button>
+      ) : (
+        <div style={{ marginTop: 4 }}>
+          <div style={{
+            padding: '12px 14px', borderRadius: 'var(--radius-md)', marginBottom: 10,
+            background: isCorrect ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)',
+            border: `1px solid ${isCorrect ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)'}`,
+          }}>
+            <p style={{ margin: 0, fontSize: '0.85rem', color: isCorrect ? '#34d399' : '#fbbf24', fontWeight: 600, marginBottom: 4 }}>
+              {isCorrect ? '🎉 Bonne piste !' : '💡 Pas tout à fait — voici pourquoi :'}
+            </p>
+            <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>
+              {section.explanation}
+            </p>
+          </div>
+          <button onClick={reset} className="btn btn-ghost" style={{ fontSize: '0.78rem', padding: '4px 12px' }}>
+            ↺ Réessayer
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ── SummarySection — récapitulatif visuel ─────────────────────────────────────
+function SummarySection({ section }) {
+  return (
+    <div style={{
+      background: 'linear-gradient(135deg, rgba(16,185,129,0.07), rgba(6,182,212,0.04))',
+      border: '1px solid rgba(16,185,129,0.2)',
+      borderRadius: 'var(--radius-lg)', padding: '20px 22px', marginBottom: 24,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+        <span style={{ fontSize: '1.1rem' }}>🗒️</span>
+        <h4 style={{ margin: 0, fontSize: '0.95rem', fontWeight: 700, color: '#34d399' }}>
+          {section.title || 'Ce qu\'on a appris'}
+        </h4>
+      </div>
+      <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+        {section.items.map((item, i) => (
+          <li key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+            <span style={{
+              width: 20, height: 20, borderRadius: '50%', flexShrink: 0,
+              background: 'rgba(52,211,153,0.15)', border: '1px solid rgba(52,211,153,0.3)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontSize: '0.65rem', fontWeight: 800, color: '#34d399', marginTop: 1,
+            }}>{i + 1}</span>
+            <AutoTooltipText text={item} tag="span"
+              style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.6 }} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+}
+
+// ── CompareSection — côte à côte ──────────────────────────────────────────────
+function CompareSection({ section }) {
+  return (
+    <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, marginBottom: 24 }}
+      className="compare-grid">
+      {[section.before, section.after].map((col, ci) => {
+        const isAfter = ci === 1
+        return (
+          <div key={ci} style={{
+            background: isAfter ? 'rgba(16,185,129,0.05)' : 'rgba(239,68,68,0.05)',
+            border: `1px solid ${isAfter ? 'rgba(16,185,129,0.2)' : 'rgba(239,68,68,0.2)'}`,
+            borderRadius: 'var(--radius-md)', overflow: 'hidden',
+          }}>
+            <div style={{
+              padding: '8px 14px',
+              background: isAfter ? 'rgba(16,185,129,0.1)' : 'rgba(239,68,68,0.08)',
+              borderBottom: `1px solid ${isAfter ? 'rgba(16,185,129,0.15)' : 'rgba(239,68,68,0.15)'}`,
+              fontSize: '0.8rem', fontWeight: 700,
+              color: isAfter ? '#34d399' : '#fca5a5',
+              display: 'flex', alignItems: 'center', gap: 6,
+            }}>
+              {isAfter ? '✓' : '✗'} {col.label}
+            </div>
+            <ul style={{ margin: 0, padding: '12px 14px 14px', listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 7 }}>
+              {col.items.map((item, i) => (
+                <li key={i} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                  <span style={{ color: isAfter ? '#34d399' : '#fca5a5', flexShrink: 0, fontSize: '0.75rem', marginTop: 3 }}>
+                    {isAfter ? '▸' : '▸'}
+                  </span>
+                  <AutoTooltipText text={item} tag="span"
+                    style={{ fontSize: '0.83rem', color: 'var(--text-secondary)', lineHeight: 1.5 }} />
+                </li>
+              ))}
+            </ul>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+// ── InteractiveSection — widgets paramétriques ────────────────────────────────
+function InteractiveSection({ section }) {
+  if (section.widget === 'gradient-descent') return <GradientDescentWidget />
+  if (section.widget === 'temperature') return <TemperatureWidget />
+  return null
 }

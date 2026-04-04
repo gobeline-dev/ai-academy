@@ -289,6 +289,13 @@ export default function ModulePage({ modules, progressHook }) {
                 >
                   🃏 Flashcards de révision
                 </Link>
+                <Link
+                  to={`/module/${module.slug}/map`}
+                  className="btn btn-ghost"
+                  style={{ width: '100%', fontSize: '0.85rem' }}
+                >
+                  🗺️ Carte mentale
+                </Link>
               </div>
             </div>
 
