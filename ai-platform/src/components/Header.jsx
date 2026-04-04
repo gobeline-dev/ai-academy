@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
+import { ACHIEVEMENTS } from '../data/achievements.js'
 
 export default function Header({ modules, progressHook }) {
   const [scrolled, setScrolled] = useState(false)
@@ -8,6 +9,7 @@ export default function Header({ modules, progressHook }) {
   const { getOverallProgress, progress } = progressHook
 
   const overall = getOverallProgress(modules)
+  const unlockedCount = (progress.unlockedAchievements || []).length
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20)
@@ -25,9 +27,7 @@ export default function Header({ modules, progressHook }) {
       top: 0,
       zIndex: 100,
       transition: 'all 0.3s ease',
-      background: scrolled
-        ? 'rgba(4, 6, 15, 0.95)'
-        : 'transparent',
+      background: scrolled ? 'rgba(4, 6, 15, 0.95)' : 'transparent',
       backdropFilter: scrolled ? 'blur(20px)' : 'none',
       borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
     }}>
@@ -60,6 +60,29 @@ export default function Header({ modules, progressHook }) {
         <nav style={{ display: 'flex', alignItems: 'center', gap: 4 }} className="desktop-nav">
           <NavLink to="/" label="Accueil" active={location.pathname === '/'} />
           <NavLink to="/modules" label="Modules" active={location.pathname.startsWith('/module')} />
+          <NavLink
+            to="/achievements"
+            label={
+              <span style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+                Trophées
+                {unlockedCount > 0 && (
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                    minWidth: 18, height: 18,
+                    borderRadius: 99,
+                    background: 'linear-gradient(135deg, #78350f, #fbbf24)',
+                    color: '#000',
+                    fontSize: '0.62rem', fontWeight: 900,
+                    padding: '0 4px',
+                    lineHeight: 1,
+                  }}>
+                    {unlockedCount}
+                  </span>
+                )}
+              </span>
+            }
+            active={location.pathname === '/achievements'}
+          />
         </nav>
 
         {/* XP & Progress */}
@@ -120,17 +143,18 @@ function NavLink({ to, label, active }) {
         background: active ? 'rgba(99,102,241,0.1)' : 'transparent',
         textDecoration: 'none',
         transition: 'all 0.2s ease',
+        display: 'flex', alignItems: 'center',
       }}
       onMouseEnter={e => {
         if (!active) {
-          e.target.style.color = 'var(--text-primary)'
-          e.target.style.background = 'rgba(255,255,255,0.05)'
+          e.currentTarget.style.color = 'var(--text-primary)'
+          e.currentTarget.style.background = 'rgba(255,255,255,0.05)'
         }
       }}
       onMouseLeave={e => {
         if (!active) {
-          e.target.style.color = 'var(--text-secondary)'
-          e.target.style.background = 'transparent'
+          e.currentTarget.style.color = 'var(--text-secondary)'
+          e.currentTarget.style.background = 'transparent'
         }
       }}
     >

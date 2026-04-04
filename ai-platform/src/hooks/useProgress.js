@@ -1,4 +1,5 @@
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
+import { ACHIEVEMENTS } from '../data/achievements.js'
 
 const STORAGE_KEY = 'ai_academy_progress'
 
@@ -10,9 +11,19 @@ const defaultProgress = {
   totalXP: 0,
   streak: 0,
   lastVisit: null,
+  unlockedAchievements: [],
 }
 
-export function useProgress() {
+function computeNewAchievements(newProgress, modules) {
+  const currentUnlocked = newProgress.unlockedAchievements || []
+  const newIds = ACHIEVEMENTS
+    .filter(a => !currentUnlocked.includes(a.id) && a.check(newProgress, modules))
+    .map(a => a.id)
+  if (newIds.length === 0) return currentUnlocked
+  return [...currentUnlocked, ...newIds]
+}
+
+export function useProgress(modules) {
   const [progress, setProgress] = useState(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY)
@@ -22,22 +33,43 @@ export function useProgress() {
     }
   })
 
+  // Queue of newly unlocked achievement objects for toasts
+  const [newlyUnlocked, setNewlyUnlocked] = useState([])
+  const modulesRef = useRef(modules)
+
+  useEffect(() => {
+    modulesRef.current = modules
+  }, [modules])
+
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(progress))
   }, [progress])
 
+  // Detect achievement unlocks by watching the unlockedAchievements array
+  const prevUnlockedRef = useRef(new Set(progress.unlockedAchievements || []))
+  useEffect(() => {
+    const current = new Set(progress.unlockedAchievements || [])
+    const freshIds = [...current].filter(id => !prevUnlockedRef.current.has(id))
+    if (freshIds.length > 0) {
+      const fresh = ACHIEVEMENTS.filter(a => freshIds.includes(a.id))
+      setNewlyUnlocked(prev => [...prev, ...fresh])
+    }
+    prevUnlockedRef.current = current
+  }, [progress.unlockedAchievements])
+
   const completeLesson = useCallback((lessonId, moduleSlug) => {
     setProgress(prev => {
       if (prev.completedLessons.includes(lessonId)) return prev
-      const xpGained = 50
-      return {
+      const next = {
         ...prev,
         completedLessons: [...prev.completedLessons, lessonId],
         startedModules: prev.startedModules.includes(moduleSlug)
           ? prev.startedModules
           : [...prev.startedModules, moduleSlug],
-        totalXP: prev.totalXP + xpGained,
+        totalXP: prev.totalXP + 50,
       }
+      next.unlockedAchievements = computeNewAchievements(next, modulesRef.current)
+      return next
     })
   }, [])
 
@@ -45,7 +77,7 @@ export function useProgress() {
     setProgress(prev => {
       const xpGained = Math.round((score / total) * 100)
       const alreadyCompleted = prev.completedQuizzes.includes(moduleSlug)
-      return {
+      const next = {
         ...prev,
         completedQuizzes: alreadyCompleted
           ? prev.completedQuizzes
@@ -56,6 +88,8 @@ export function useProgress() {
         },
         totalXP: alreadyCompleted ? prev.totalXP : prev.totalXP + xpGained,
       }
+      next.unlockedAchievements = computeNewAchievements(next, modulesRef.current)
+      return next
     })
   }, [])
 
@@ -65,9 +99,7 @@ export function useProgress() {
   )
 
   const isModuleCompleted = useCallback(
-    (moduleSlug, lessons) => {
-      return lessons.every(l => progress.completedLessons.includes(l.id))
-    },
+    (moduleSlug, lessons) => lessons.every(l => progress.completedLessons.includes(l.id)),
     [progress.completedLessons]
   )
 
@@ -92,6 +124,12 @@ export function useProgress() {
     [progress.completedLessons]
   )
 
+  const clearNewlyUnlocked = useCallback(() => setNewlyUnlocked([]), [])
+
+  const shiftNewlyUnlocked = useCallback(() => {
+    setNewlyUnlocked(prev => prev.slice(1))
+  }, [])
+
   const resetProgress = useCallback(() => {
     setProgress(defaultProgress)
   }, [])
@@ -104,6 +142,9 @@ export function useProgress() {
     isModuleCompleted,
     getModuleProgress,
     getOverallProgress,
+    newlyUnlocked,
+    clearNewlyUnlocked,
+    shiftNewlyUnlocked,
     resetProgress,
   }
 }
