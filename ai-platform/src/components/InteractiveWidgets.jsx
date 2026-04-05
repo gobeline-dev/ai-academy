@@ -46,12 +46,15 @@ export function GradientDescentWidget() {
       background: 'rgba(99,102,241,0.05)', border: '1px solid rgba(99,102,241,0.2)',
       borderRadius: 'var(--radius-lg)', padding: 20, marginBottom: 24,
     }}>
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 16 }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 8 }}>
         <span style={{ fontSize: '1.1rem' }}>🏔️</span>
         <h4 style={{ margin: 0, fontSize: '0.95rem', color: 'var(--text-primary)' }}>
           Descente de gradient interactive
         </h4>
       </div>
+      <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: 14, lineHeight: 1.5 }}>
+        Cas concret : le réseau prédit <strong style={{ color: '#f97316' }}>310 k€</strong> au lieu de <strong style={{ color: '#34d399' }}>250 k€</strong> (erreur = <em>perte</em>). Il faut ajuster le poids <em>x</em> le long de la courbe L(x) = x² pour réduire l'erreur. Chaque étape déplace le poids d'un pas proportionnel au taux d'apprentissage α.
+      </p>
 
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 420, display: 'block', margin: '0 auto' }}>
         {/* Axes */}
