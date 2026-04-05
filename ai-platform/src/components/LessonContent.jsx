@@ -532,36 +532,9 @@ function CodeDiagram({ type }) {
   return null
 }
 
-// ── Pyodide singleton loader ───────────────────────────────────────────────────
-let pyodideInstance = null
-let pyodideLoading = null
-
-async function getPyodide() {
-  if (pyodideInstance) return pyodideInstance
-  if (pyodideLoading) return pyodideLoading
-
-  pyodideLoading = (async () => {
-    if (!window.loadPyodide) {
-      await new Promise((resolve, reject) => {
-        const s = document.createElement('script')
-        s.src = 'https://cdn.jsdelivr.net/pyodide/v0.27.0/full/pyodide.js'
-        s.onload = resolve
-        s.onerror = reject
-        document.head.appendChild(s)
-      })
-    }
-    pyodideInstance = await window.loadPyodide()
-    return pyodideInstance
-  })()
-
-  return pyodideLoading
-}
-
 // ── CodeBlock ─────────────────────────────────────────────────────────────────
 function CodeBlock({ content, contentJava, label, language = 'python', lang, onLangChange, annotations, diagram }) {
   const [copied, setCopied] = useState(false)
-  const [output, setOutput] = useState(null)
-  const [running, setRunning] = useState(false)
 
   const hasJava      = Boolean(contentJava)
   const activeLang   = hasJava ? lang : 'python'
@@ -584,25 +557,6 @@ function CodeBlock({ content, contentJava, label, language = 'python', lang, onL
       setTimeout(() => setCopied(false), 2000)
     })
   }
-
-  const runPython = async () => {
-    setRunning(true)
-    setOutput(null)
-    try {
-      const py = await getPyodide()
-      const lines = []
-      py.setStdout({ batched: s => lines.push(s) })
-      py.setStderr({ batched: s => lines.push('⚠ ' + s) })
-      await py.runPythonAsync(activeContent)
-      setOutput({ ok: true, text: lines.join('\n') || '(aucune sortie)' })
-    } catch (e) {
-      setOutput({ ok: false, text: String(e.message || e) })
-    } finally {
-      setRunning(false)
-    }
-  }
-
-  const canRun = activeLang === 'python' && language !== 'text'
 
   return (
     <div className="code-block" style={{ marginBottom: 24 }}>
@@ -663,23 +617,6 @@ function CodeBlock({ content, contentJava, label, language = 'python', lang, onL
             {displayLang}
           </span>
 
-          {canRun && (
-            <button
-              onClick={runPython}
-              disabled={running}
-              style={{
-                background: running ? 'rgba(16,185,129,0.08)' : 'rgba(16,185,129,0.12)',
-                border: '1px solid rgba(16,185,129,0.25)',
-                color: running ? 'var(--text-muted)' : '#34d399',
-                borderRadius: 6, padding: '4px 10px', fontSize: '0.72rem',
-                cursor: running ? 'default' : 'pointer', transition: 'all 0.2s ease',
-                fontFamily: 'var(--font-sans)', display: 'flex', alignItems: 'center', gap: 4,
-              }}
-            >
-              {running ? <><span style={{ display: 'inline-block', animation: 'spin 1s linear infinite' }}>⟳</span> Chargement…</> : '▶ Exécuter'}
-            </button>
-          )}
-
           <button
             onClick={copy}
             style={{
@@ -701,23 +638,6 @@ function CodeBlock({ content, contentJava, label, language = 'python', lang, onL
         dangerouslySetInnerHTML={{ __html: highlighted }}
       />
 
-      {output !== null && (
-        <div style={{
-          borderTop: '1px solid rgba(255,255,255,0.06)',
-          padding: '10px 16px',
-          fontFamily: 'var(--font-mono)',
-          fontSize: '0.8rem',
-          color: output.ok ? '#86efac' : '#fca5a5',
-          background: output.ok ? 'rgba(16,185,129,0.05)' : 'rgba(239,68,68,0.05)',
-          whiteSpace: 'pre-wrap',
-          lineHeight: 1.6,
-        }}>
-          <span style={{ color: 'var(--text-muted)', fontSize: '0.7rem', display: 'block', marginBottom: 4 }}>
-            {output.ok ? '▶ Sortie' : '✗ Erreur'}
-          </span>
-          {output.text}
-        </div>
-      )}
       <AnnotationLegend annotations={annotations} />
       {diagram && <CodeDiagram type={diagram} />}
     </div>
