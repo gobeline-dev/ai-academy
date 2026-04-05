@@ -448,6 +448,229 @@ function DiagramEmbedding() {
   )
 }
 
+// ── Diagram: CNN (Réseau convolutif) ──────────────────────────────────────
+function DiagramCNN() {
+  const W = 400, H = 220
+  const layers = [
+    { label: 'Image\n(28×28)', type: 'input', x: 30, w: 40, h: 100, color: '#6366f1' },
+    { label: 'Conv\n5×5', type: 'conv', x: 100, w: 28, h: 80, color: '#8b5cf6' },
+    { label: 'Pool\n2×2', type: 'pool', x: 155, w: 20, h: 60, color: '#a855f7' },
+    { label: 'Conv\n3×3', type: 'conv', x: 200, w: 24, h: 50, color: '#c084fc' },
+    { label: 'Pool\n2×2', type: 'pool', x: 248, w: 16, h: 36, color: '#d946ef' },
+    { label: 'Flatten', type: 'flat', x: 286, w: 12, h: 80, color: '#ec4899' },
+    { label: 'FC\n128', type: 'fc', x: 316, w: 20, h: 64, color: '#f43f5e' },
+    { label: 'Sortie\n10', type: 'out', x: 358, w: 16, h: 40, color: '#34d399' },
+  ]
+  const cy = H / 2
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+      <defs>
+        <marker id="cnnArr" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto">
+          <path d="M0,0 L4,2 L0,4 Z" fill="rgba(148,163,184,0.4)" />
+        </marker>
+      </defs>
+      <text x={W / 2} y={12} textAnchor="middle" fontSize={9} fill="rgba(148,163,184,0.6)">
+        Architecture CNN — Vision par ordinateur
+      </text>
+      {layers.map((l, i) => {
+        const x = l.x, y = cy - l.h / 2
+        const next = layers[i + 1]
+        return (
+          <g key={i}>
+            {next && (
+              <line x1={x + l.w} y1={cy} x2={next.x} y2={cy}
+                stroke="rgba(148,163,184,0.25)" strokeWidth={1} markerEnd="url(#cnnArr)" />
+            )}
+            <rect x={x} y={y} width={l.w} height={l.h} rx={3}
+              fill={`${l.color}20`} stroke={l.color} strokeWidth={1} strokeOpacity={0.5} />
+            {l.label.split('\n').map((line, li) => (
+              <text key={li} x={x + l.w / 2} y={cy + (li - 0.5) * 10 + 4}
+                textAnchor="middle" fontSize={7} fill={l.color} fontWeight={li === 0 ? 700 : 400}>
+                {line}
+              </text>
+            ))}
+            <text x={x + l.w / 2} y={H - 4} textAnchor="middle" fontSize={6.5}
+              fill="rgba(148,163,184,0.4)">{l.type === 'conv' ? 'Conv' : l.type === 'pool' ? 'Pool' : ''}</text>
+          </g>
+        )
+      })}
+      <text x={W / 2} y={H - 4} textAnchor="middle" fontSize={7.5} fill="rgba(148,163,184,0.45)">
+        Features locales → Features globales → Classification
+      </text>
+    </svg>
+  )
+}
+
+// ── Diagram: RNN / LSTM ───────────────────────────────────────────────────
+function DiagramRNN() {
+  const W = 380, H = 200
+  const steps = ['t-2', 't-1', 't', 't+1']
+  const colors = ['#6366f1', '#8b5cf6', '#a855f7', '#c084fc']
+  const bw = 60, bh = 50, gap = 75
+  const startX = 30, cy = 90
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+      <defs>
+        <marker id="rnnArr" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto">
+          <path d="M0,0 L4,2 L0,4 Z" fill="rgba(148,163,184,0.5)" />
+        </marker>
+      </defs>
+      <text x={W / 2} y={12} textAnchor="middle" fontSize={9} fill="rgba(148,163,184,0.6)">
+        RNN — Mémoire sur séquences temporelles
+      </text>
+      {steps.map((step, i) => {
+        const x = startX + i * gap
+        return (
+          <g key={i}>
+            {/* Hidden state arrow (h_t → h_{t+1}) */}
+            {i < steps.length - 1 && (
+              <line x1={x + bw} y1={cy} x2={x + gap} y2={cy}
+                stroke={colors[i]} strokeWidth={1.5} markerEnd="url(#rnnArr)" />
+            )}
+            {/* Cell box */}
+            <rect x={x} y={cy - bh / 2} width={bw} height={bh} rx={6}
+              fill={`${colors[i]}18`} stroke={colors[i]} strokeWidth={1.2} strokeOpacity={0.6} />
+            <text x={x + bw / 2} y={cy - 6} textAnchor="middle" fontSize={9} fill={colors[i]} fontWeight={700}>
+              LSTM
+            </text>
+            <text x={x + bw / 2} y={cy + 8} textAnchor="middle" fontSize={7.5} fill="rgba(148,163,184,0.7)">
+              {step}
+            </text>
+            {/* Input arrow */}
+            <line x1={x + bw / 2} y1={cy + bh / 2} x2={x + bw / 2} y2={cy + bh / 2 + 22}
+              stroke="rgba(148,163,184,0.35)" strokeWidth={1} markerEnd="url(#rnnArr)" />
+            <text x={x + bw / 2} y={cy + bh / 2 + 35} textAnchor="middle" fontSize={7} fill="rgba(148,163,184,0.55)">
+              x_{step}
+            </text>
+            {/* Output arrow */}
+            <line x1={x + bw / 2} y1={cy - bh / 2} x2={x + bw / 2} y2={cy - bh / 2 - 22}
+              stroke={colors[i]} strokeWidth={1} strokeOpacity={0.5} markerEnd="url(#rnnArr)" />
+            <text x={x + bw / 2} y={cy - bh / 2 - 26} textAnchor="middle" fontSize={7} fill={colors[i]}>
+              h_{step}
+            </text>
+          </g>
+        )
+      })}
+      <text x={W / 2} y={H - 4} textAnchor="middle" fontSize={7.5} fill="rgba(148,163,184,0.45)">
+        Chaque cellule reçoit x_t + état caché h_{"{t-1}"} → mémorise le contexte
+      </text>
+    </svg>
+  )
+}
+
+// ── Diagram: Prompt Engineering chain ────────────────────────────────────
+function DiagramPromptEngineering() {
+  const W = 380, H = 200
+  const steps = [
+    { icon: '👤', label: 'Utilisateur', sub: 'Question brute', color: '#6366f1' },
+    { icon: '🔧', label: 'Prompt\nEngineering', sub: 'Contexte + rôle + format', color: '#8b5cf6' },
+    { icon: '🤖', label: 'LLM', sub: 'GPT-4 / Claude / Llama', color: '#a855f7' },
+    { icon: '✅', label: 'Réponse\nformatée', sub: 'JSON / Markdown / Code', color: '#34d399' },
+  ]
+  const bw = 68, bh = 56, gap = (W - steps.length * bw) / (steps.length + 1)
+  const cy = 95
+
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+      <defs>
+        <marker id="peArr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+          <path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(148,163,184,0.4)" />
+        </marker>
+      </defs>
+      <text x={W / 2} y={12} textAnchor="middle" fontSize={9} fill="rgba(148,163,184,0.6)">
+        Pipeline Prompt Engineering
+      </text>
+      {steps.map((s, i) => {
+        const x = gap + i * (bw + gap)
+        return (
+          <g key={i}>
+            {i < steps.length - 1 && (
+              <line x1={x + bw} y1={cy} x2={x + bw + gap} y2={cy}
+                stroke="rgba(148,163,184,0.3)" strokeWidth={1.2} markerEnd="url(#peArr)" />
+            )}
+            <rect x={x} y={cy - bh / 2} width={bw} height={bh} rx={8}
+              fill={`${s.color}18`} stroke={s.color} strokeWidth={1} strokeOpacity={0.5} />
+            <text x={x + bw / 2} y={cy - 14} textAnchor="middle" fontSize={16}>{s.icon}</text>
+            {s.label.split('\n').map((line, li) => (
+              <text key={li} x={x + bw / 2} y={cy + li * 11 + 3}
+                textAnchor="middle" fontSize={7.5} fill={s.color} fontWeight={700}>{line}</text>
+            ))}
+            <text x={x + bw / 2} y={cy + bh / 2 + 14} textAnchor="middle" fontSize={6.5}
+              fill="rgba(148,163,184,0.5)">{s.sub}</text>
+          </g>
+        )
+      })}
+      <rect x={gap + bw + gap / 4} y={cy - bh / 2 - 8} width={bw + gap / 2} height={bh + 16} rx={10}
+        fill="none" stroke="rgba(139,92,246,0.25)" strokeWidth={1} strokeDasharray="4,3" />
+      <text x={gap + bw + gap * 0.75} y={cy - bh / 2 - 13} textAnchor="middle"
+        fontSize={6.5} fill="rgba(139,92,246,0.5)">à maîtriser</text>
+    </svg>
+  )
+}
+
+// ── Diagram: Architecture MCP ─────────────────────────────────────────────
+function DiagramMCP() {
+  const W = 380, H = 220
+  return (
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+      <defs>
+        <marker id="mcpArr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
+          <path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(148,163,184,0.4)" />
+        </marker>
+      </defs>
+      <text x={W / 2} y={14} textAnchor="middle" fontSize={9} fill="rgba(148,163,184,0.6)">
+        Model Context Protocol (MCP) — Architecture
+      </text>
+
+      {/* Host box */}
+      <rect x={20} y={30} width={100} height={70} rx={10}
+        fill="rgba(99,102,241,0.1)" stroke="#6366f1" strokeWidth={1} strokeOpacity={0.5} />
+      <text x={70} y={52} textAnchor="middle" fontSize={9} fill="#818cf8" fontWeight={700}>🖥️ Host</text>
+      <text x={70} y={65} textAnchor="middle" fontSize={7.5} fill="rgba(148,163,184,0.7)">Claude Desktop</text>
+      <text x={70} y={77} textAnchor="middle" fontSize={7.5} fill="rgba(148,163,184,0.7)">VS Code + Copilot</text>
+      <text x={70} y={89} textAnchor="middle" fontSize={7.5} fill="rgba(148,163,184,0.7)">App custom</text>
+
+      {/* Client box */}
+      <rect x={140} y={40} width={90} height={50} rx={10}
+        fill="rgba(139,92,246,0.1)" stroke="#8b5cf6" strokeWidth={1} strokeOpacity={0.5} />
+      <text x={185} y={62} textAnchor="middle" fontSize={9} fill="#a78bfa" fontWeight={700}>🔌 MCP Client</text>
+      <text x={185} y={76} textAnchor="middle" fontSize={7.5} fill="rgba(148,163,184,0.6)">Protocole JSON-RPC</text>
+
+      {/* Server boxes */}
+      {[
+        { label: '📂 Filesystem', sub: 'lecture/écriture', y: 30, color: '#10b981' },
+        { label: '🔍 Web Search', sub: 'Brave / Tavily', y: 85, color: '#f59e0b' },
+        { label: '🗄️ Database', sub: 'PostgreSQL / SQLite', y: 140, color: '#ec4899' },
+      ].map((s, i) => (
+        <g key={i}>
+          <rect x={255} y={s.y} width={105} height={44} rx={8}
+            fill={`${s.color}12`} stroke={s.color} strokeWidth={1} strokeOpacity={0.45} />
+          <text x={307} y={s.y + 17} textAnchor="middle" fontSize={8} fill={s.color} fontWeight={700}>{s.label}</text>
+          <text x={307} y={s.y + 30} textAnchor="middle" fontSize={7} fill="rgba(148,163,184,0.55)">{s.sub}</text>
+          <line x1={230} y1={65} x2={255} y2={s.y + 22}
+            stroke="rgba(148,163,184,0.2)" strokeWidth={1} markerEnd="url(#mcpArr)" />
+        </g>
+      ))}
+
+      {/* LLM box */}
+      <rect x={20} y={115} width={100} height={44} rx={10}
+        fill="rgba(236,72,153,0.1)" stroke="#ec4899" strokeWidth={1} strokeOpacity={0.4} />
+      <text x={70} y={134} textAnchor="middle" fontSize={9} fill="#f472b6" fontWeight={700}>🤖 LLM</text>
+      <text x={70} y={148} textAnchor="middle" fontSize={7.5} fill="rgba(148,163,184,0.6)">Claude / GPT-4</text>
+
+      {/* Arrows */}
+      <line x1={120} y1={65} x2={140} y2={65} stroke="rgba(99,102,241,0.5)" strokeWidth={1.2} markerEnd="url(#mcpArr)" />
+      <line x1={70} y1={100} x2={70} y2={115} stroke="rgba(236,72,153,0.4)" strokeWidth={1} markerEnd="url(#mcpArr)" />
+
+      <text x={W / 2} y={H - 4} textAnchor="middle" fontSize={7.5} fill="rgba(148,163,184,0.4)">
+        Le LLM appelle des outils externes via MCP pour enrichir ses réponses
+      </text>
+    </svg>
+  )
+}
+
 // ── Registry: lessonId → component ────────────────────────────────────────
 const DIAGRAMS = {
   '1-1': DiagramHierarchyIA,
@@ -455,10 +678,14 @@ const DIAGRAMS = {
   '1-4': DiagramGradientDescent,
   '3-1': DiagramPerceptron,
   '3-2': DiagramNeuralNet,
+  '3-4': DiagramCNN,
+  '4-1': DiagramRNN,
   '5-2': DiagramEmbedding,
   '6-1': DiagramAttention,
+  '7-1': DiagramPromptEngineering,
   '8-1': DiagramRAG,
   '9-1': DiagramAgentLoop,
+  '10-1': DiagramMCP,
 }
 
 export function getLessonDiagram(lessonId) {

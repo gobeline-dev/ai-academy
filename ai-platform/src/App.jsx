@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { Routes, Route, useLocation } from 'react-router-dom'
 import Header from './components/Header.jsx'
 import AchievementToast from './components/AchievementToast.jsx'
@@ -17,6 +18,10 @@ export default function App() {
   const { newlyUnlocked, shiftNewlyUnlocked } = progressHook
   const { theme, toggleTheme } = useTheme()
   const location = useLocation()
+
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location.pathname])
 
   return (
     <div style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
