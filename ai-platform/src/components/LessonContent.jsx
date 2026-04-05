@@ -122,7 +122,7 @@ function MatrixMultiplyDiagram() {
         🏠 Cas concret : prédire le prix d'une maison — x @ W + b = sortie
       </div>
       <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.5 }}>
-        Maison : <strong style={{ color: '#a5b4fc' }}>100 m²</strong>, <strong style={{ color: '#a5b4fc' }}>3 chambres</strong>, <strong style={{ color: '#a5b4fc' }}>5 km</strong> du centre → le réseau produit 2 valeurs en parallèle
+        Maison : <strong style={{ color: '#a5b4fc' }}>100 m²</strong>, <strong style={{ color: '#a5b4fc' }}>3 chambres</strong>, <strong style={{ color: '#a5b4fc' }}>5 km</strong> du centre → le réseau produit 2 valeurs en parallèle grâce à une seule multiplication matricielle
       </div>
       <div style={{ overflowX: 'auto' }}>
         <svg viewBox="0 0 620 158" style={{ width: '100%', minWidth: 440, maxWidth: 620, height: 'auto', display: 'block' }}>
@@ -130,7 +130,6 @@ function MatrixMultiplyDiagram() {
           {/* ── x : vecteur d'entrée ── */}
           <rect x="4" y="18" width="78" height="90" rx="5" fill="rgba(99,102,241,0.12)" stroke="rgba(99,102,241,0.5)" strokeWidth="1.5"/>
           <text x="43" y="13" textAnchor="middle" fill="#818cf8" fontSize="9" fontFamily="sans-serif">x (caractéristiques)</text>
-          {/* valeurs + étiquettes */}
           <text x="40" y="42" textAnchor="middle" fill="#a5b4fc" fontSize="13" fontFamily="'JetBrains Mono',monospace" fontWeight="700">100</text>
           <text x="74" y="42" textAnchor="end" fill="#475569" fontSize="8" fontFamily="sans-serif">m²</text>
           <text x="40" y="65" textAnchor="middle" fill="#a5b4fc" fontSize="13" fontFamily="'JetBrains Mono',monospace" fontWeight="700">3</text>
@@ -145,15 +144,14 @@ function MatrixMultiplyDiagram() {
           {/* ── W : matrice des poids ── */}
           <rect x="104" y="18" width="124" height="90" rx="5" fill="rgba(139,92,246,0.12)" stroke="rgba(139,92,246,0.5)" strokeWidth="1.5"/>
           <text x="166" y="13" textAnchor="middle" fill="#a78bfa" fontSize="9" fontFamily="sans-serif">W (poids appris)</text>
-          {/* Séparateur de colonnes */}
           <line x1="166" y1="19" x2="166" y2="106" stroke="rgba(139,92,246,0.25)" strokeWidth="1"/>
-          {/* En-têtes colonnes */}
+          {/* En-têtes colonnes avec interprétation */}
           <text x="135" y="30" textAnchor="middle" fill="#a78bfa" fontSize="8" fontFamily="sans-serif">→ prix k€</text>
-          <text x="197" y="30" textAnchor="middle" fill="#a78bfa" fontSize="8" fontFamily="sans-serif">→ score</text>
-          {/* Valeurs : [m² row, ch. row, km row] */}
+          <text x="197" y="30" textAnchor="middle" fill="#f472b6" fontSize="8" fontFamily="sans-serif">→ attract.</text>
           {[['2.0','0.5'],['15.0','8.0'],['-5.0','-3.0']].map((row, ri) =>
             row.map((v, ci) => (
-              <text key={`w${ri}${ci}`} x={ci===0 ? 135 : 197} y={44+ri*22} textAnchor="middle" fill="#c4b5fd" fontSize="11" fontFamily="'JetBrains Mono',monospace">{v}</text>
+              <text key={`w${ri}${ci}`} x={ci===0 ? 135 : 197} y={44+ri*22} textAnchor="middle"
+                fill={ci===0 ? '#c4b5fd' : '#f9a8d4'} fontSize="11" fontFamily="'JetBrains Mono',monospace">{v}</text>
             ))
           )}
           <text x="166" y="118" textAnchor="middle" fill="#475569" fontSize="8" fontFamily="sans-serif">3 features → 2 sorties</text>
@@ -174,31 +172,41 @@ function MatrixMultiplyDiagram() {
           {/* ── Sortie ── */}
           <rect x="338" y="32" width="82" height="62" rx="5" fill="rgba(52,211,153,0.18)" stroke="rgba(52,211,153,0.6)" strokeWidth="2"/>
           <text x="379" y="27" textAnchor="middle" fill="#34d399" fontSize="9" fontFamily="sans-serif">sortie</text>
-          <text x="379" y="55" textAnchor="middle" fill="#6ee7b7" fontSize="15" fontFamily="'JetBrains Mono',monospace" fontWeight="700">270</text>
-          <text x="413" y="55" textAnchor="start" fill="#475569" fontSize="8" fontFamily="sans-serif">k€</text>
-          <text x="379" y="78" textAnchor="middle" fill="#6ee7b7" fontSize="15" fontFamily="'JetBrains Mono',monospace" fontWeight="700">79</text>
-          <text x="413" y="78" textAnchor="start" fill="#475569" fontSize="8" fontFamily="sans-serif">score</text>
+          <text x="379" y="53" textAnchor="middle" fill="#6ee7b7" fontSize="13" fontFamily="'JetBrains Mono',monospace" fontWeight="700">270 k€</text>
+          <text x="379" y="65" textAnchor="middle" fill="#475569" fontSize="7.5" fontFamily="sans-serif">prix estimé</text>
+          <text x="379" y="80" textAnchor="middle" fill="#f9a8d4" fontSize="13" fontFamily="'JetBrains Mono',monospace" fontWeight="700">79 pts</text>
+          <text x="379" y="92" textAnchor="middle" fill="#475569" fontSize="7.5" fontFamily="sans-serif">attractivité</text>
           <text x="379" y="105" textAnchor="middle" fill="#475569" fontSize="8" fontFamily="sans-serif">2 neurones</text>
 
           {/* ── Détail des calculs ── */}
           <line x1="432" y1="18" x2="432" y2="130" stroke="rgba(255,255,255,0.06)" strokeWidth="1"/>
           <text x="438" y="14" fill="#818cf8" fontSize="8" fontFamily="sans-serif" fontWeight="700">Détail des calculs :</text>
-          {/* Calcul sortie 0 : prix */}
           <text x="438" y="30" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">100×2.0 = 200  (surface)</text>
           <text x="438" y="42" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">  3×15.0 = 45   (chambres)</text>
           <text x="438" y="54" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">  5×(−5.0) = −25 (distance)</text>
           <text x="438" y="66" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">  biais    = +50</text>
           <text x="438" y="79" fill="#34d399" fontSize="9.5" fontFamily="'JetBrains Mono',monospace" fontWeight="700">→ prix = 270 k€ ✓</text>
-          {/* Séparateur */}
           <line x1="438" y1="87" x2="615" y2="87" stroke="rgba(255,255,255,0.06)" strokeWidth="1"/>
-          {/* Calcul sortie 1 : score */}
           <text x="438" y="99" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">100×0.5 = 50   3×8.0 = 24</text>
           <text x="438" y="111" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">5×(−3.0) = −15  biais = +20</text>
-          <text x="438" y="124" fill="#34d399" fontSize="9.5" fontFamily="'JetBrains Mono',monospace" fontWeight="700">→ score = 79/100 ✓</text>
+          <text x="438" y="124" fill="#f472b6" fontSize="9.5" fontFamily="'JetBrains Mono',monospace" fontWeight="700">→ attract. = 79 pts ✓</text>
         </svg>
       </div>
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.5, padding: '8px 12px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
-        💡 <strong>Interprétation des poids :</strong> chaque m² ajoute <strong>+2 000 €</strong> au prix, chaque chambre <strong>+15 000 €</strong>, chaque km du centre <strong>−5 000 €</strong> (poids négatif = pénalité). Le biais (50 k€) représente un prix de base.
+
+      {/* Explication poids */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
+        <div style={{ marginBottom: 6 }}>
+          💡 <strong>Neurone 1 — Prix estimé (k€) :</strong> chaque m² ajoute <strong>+2 000 €</strong>, chaque chambre <strong>+15 000 €</strong>, chaque km du centre <strong>−5 000 €</strong>. Le biais 50 k€ est le prix plancher (même à 0 m², 0 chambre, 0 km). Résultat : <strong>270 000 €</strong>.
+        </div>
+        <div>
+          🌟 <strong>Neurone 2 — Score d'attractivité (0–100 pts) :</strong> ce n'est pas un prix — c'est une <em>note synthétique</em> que le réseau a <em>appris à calculer</em> pour résumer le désir d'achat. Ici : +50 pts pour la surface, +24 pts pour les chambres, −15 pts pour l'éloignement, +20 pts de base = <strong>79/100</strong>. Plus ce score est élevé, plus la maison sera vendue rapidement d'après les données d'entraînement.
+        </div>
+      </div>
+
+      {/* Encadré : qu'est-ce qu'un "score" ? */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(244,114,182,0.06)', borderRadius: 8, borderLeft: '3px solid rgba(244,114,182,0.4)' }}>
+        <strong style={{ color: '#f472b6' }}>Qu'est-ce qu'un "score" dans un réseau de neurones ?</strong><br/>
+        Un score (aussi appelé <em>logit</em> ou <em>activation</em>) est simplement un <strong>nombre réel</strong> produit par un neurone — sans unité physique imposée. Il n'a de sens que parce que le réseau a <em>appris</em> à lui en donner un au fil de l'entraînement. Dans les couches cachées, ces scores sont des représentations intermédiaires invisibles (le réseau décide lui-même ce qu'il encode). En sortie, on leur donne un nom métier : "prix", "attractivité", "probabilité de fraude", etc. Le même calcul x @ W + b peut donc produire un euro, une probabilité, ou une note — tout dépend des données sur lesquelles W a été entraîné.
       </div>
     </div>
   )
@@ -294,8 +302,31 @@ function MLPArchitectureDiagram() {
           ))}
         </svg>
       </div>
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.5, padding: '8px 12px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
-        💡 <strong>Comment lire ce schéma :</strong> les 3 valeurs de la maison entrent à gauche. Chaque couche "cachée" recombine les informations différemment (via ReLU). La sortie Sigmoid écrase tout entre 0 et 1 → probabilité que le prix dépasse votre budget. Ici : 4%, donc la maison est dans le budget.
+      {/* Explication du flux */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
+        <div style={{ marginBottom: 4 }}><strong>Étape par étape pour notre maison :</strong></div>
+        <div>1️⃣ <strong>Entrée :</strong> [100, 3, 5] — surface, chambres, km du centre</div>
+        <div>2️⃣ <strong>Couche cachée 1 (4 neurones, ReLU) :</strong> chaque neurone calcule x@W₁+b₁, puis applique ReLU → produit 4 représentations intermédiaires</div>
+        <div>3️⃣ <strong>Couche cachée 2 (3 neurones, ReLU) :</strong> recombine les 4 valeurs → 3 représentations plus abstraites</div>
+        <div>4️⃣ <strong>Sortie (1 neurone, Sigmoid) :</strong> compresse le résultat entre 0 et 1 → <strong>0.04 = 4%</strong> de probabilité de dépasser le budget</div>
+      </div>
+
+      {/* Qu'est-ce que ReLU ? */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(139,92,246,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(139,92,246,0.4)' }}>
+        <strong style={{ color: '#a78bfa' }}>Qu'est-ce que ReLU ?</strong><br/>
+        ReLU signifie <em>Rectified Linear Unit</em>. C'est la fonction d'activation la plus courante. Sa règle est ultra-simple :<br/>
+        — si le score du neurone est <strong>négatif</strong> → il retourne <strong>0</strong> (le neurone "ne s'active pas")<br/>
+        — si le score est <strong>positif</strong> → il retourne <strong>la valeur telle quelle</strong><br/>
+        <em>Exemple : ReLU(−3.2) = 0 &nbsp;|&nbsp; ReLU(7.5) = 7.5 &nbsp;|&nbsp; ReLU(0) = 0</em><br/>
+        Pourquoi ? Sans cette non-linéarité, empiler des couches serait inutile (tout se réduirait à une seule multiplication matricielle). ReLU permet au réseau d'apprendre des formes complexes.
+      </div>
+
+      {/* Qu'est-ce que Sigmoid ? */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(52,211,153,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(52,211,153,0.4)' }}>
+        <strong style={{ color: '#34d399' }}>Qu'est-ce que Sigmoid ?</strong><br/>
+        Sigmoid est la fonction qui convertit <em>n'importe quel nombre réel</em> en un nombre entre 0 et 1. C'est ce qui transforme le score brut du neurone de sortie en <strong>probabilité interprétable</strong>.<br/>
+        <em>Exemple : σ(−3.2) ≈ 0.04 → 4% &nbsp;|&nbsp; σ(0) = 0.5 → 50% &nbsp;|&nbsp; σ(2.5) ≈ 0.92 → 92%</em><br/>
+        Ici, le neurone de sortie a produit le score brut ≈ −3.2 ; Sigmoid le transforme en 0.04 = <strong>4% de probabilité de dépasser votre budget</strong>. Conclusion : la maison est très probablement dans le budget.
       </div>
     </div>
   )
@@ -305,8 +336,11 @@ function MLPArchitectureDiagram() {
 function AttentionQKVDiagram() {
   return (
     <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '14px 18px 10px', background: 'rgba(0,0,0,0.18)' }}>
-      <div style={{ fontSize: '0.63rem', fontWeight: 700, color: '#818cf8', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 10 }}>
+      <div style={{ fontSize: '0.63rem', fontWeight: 700, color: '#818cf8', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>
         🔀 Mécanisme Scaled Dot-Product Attention
+      </div>
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.5 }}>
+        Cas concret : phrase <em>"Le chat mange du poisson"</em> → pour comprendre "mange", le modèle doit savoir <em>qui</em> mange (→ "chat") et <em>quoi</em> (→ "poisson"). L'attention calcule ces liens automatiquement.
       </div>
       <div style={{ overflowX: 'auto' }}>
         <svg viewBox="0 0 580 155" style={{ width: '100%', minWidth: 420, maxWidth: 580, height: 'auto', display: 'block' }}>
@@ -344,10 +378,39 @@ function AttentionQKVDiagram() {
           <rect x="438" y="42" width="108" height="42" rx="5" fill="rgba(52,211,153,0.18)" stroke="rgba(52,211,153,0.6)" strokeWidth="2"/>
           <text x="492" y="60" textAnchor="middle" fill="#34d399" fontSize="10" fontFamily="'JetBrains Mono',monospace" fontWeight="700">weights @ V</text>
           <text x="492" y="75" textAnchor="middle" fill="#6ee7b7" fontSize="8.5" fontFamily="sans-serif">repr. contextuelle</text>
-          {[['Entrée',30],['Projections',99],['Score',236],['Attention',364],['Sortie',492]].map(([lbl,x]) => (
+          {[['Entrée',30],['Projections',99],['Score brut',236],['Poids d\'att.',364],['Sortie',492]].map(([lbl,x]) => (
             <text key={lbl} x={x} y="150" textAnchor="middle" fill="#334155" fontSize="8" fontFamily="sans-serif">{lbl}</text>
           ))}
         </svg>
+      </div>
+
+      {/* Qu'est-ce que Q, K, V ? */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(167,139,250,0.06)', borderRadius: 8, borderLeft: '3px solid rgba(167,139,250,0.4)' }}>
+        <strong style={{ color: '#a78bfa' }}>Qu'est-ce que Q, K et V ?</strong><br/>
+        Ce sont 3 copies du même texte d'entrée X, transformées par 3 matrices de poids différentes :<br/>
+        — <strong style={{ color: '#a78bfa' }}>Q (Query = requête)</strong> : "Qu'est-ce que je cherche ?" — chaque mot formule une question sur les autres.<br/>
+        <em>Exemple : le token "mange" demande "qui fait l'action ?" et "sur quoi ?"</em><br/>
+        — <strong style={{ color: '#f472b6' }}>K (Key = clé)</strong> : "Est-ce que j'ai ce que tu cherches ?" — chaque mot annonce ce qu'il peut offrir.<br/>
+        <em>Exemple : "chat" signale "je suis un sujet animé", "poisson" signale "je suis un objet comestible"</em><br/>
+        — <strong style={{ color: '#34d399' }}>V (Value = valeur)</strong> : "Voici mon contenu réel" — ce qui sera effectivement copié si la pertinence est élevée.<br/>
+        <em>Exemple : si "chat" est très pertinent pour "mange", son vecteur V sera fortement inclus dans la représentation finale de "mange"</em>
+      </div>
+
+      {/* Qu'est-ce que Q @ Kᵀ / √d_k ? */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(244,114,182,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(244,114,182,0.4)' }}>
+        <strong style={{ color: '#f9a8d4' }}>Qu'est-ce que Q @ Kᵀ / √d_k ?</strong><br/>
+        C'est le calcul de <strong>pertinence</strong> entre chaque paire de tokens :<br/>
+        — <strong>Q @ Kᵀ</strong> : produit scalaire entre la requête d'un token et la clé d'un autre. Plus deux vecteurs pointent dans la même direction, plus le score est élevé → le token est "intéressant" pour la requête.<br/>
+        — <strong>/ √d_k</strong> : on divise par la racine de la taille des vecteurs pour éviter que les scores deviennent trop grands (ce qui rendrait le softmax instable). C'est le "scaled" dans Scaled Dot-Product.<br/>
+        <em>Résultat : une matrice 5×5 où la case [i, j] = "à quel point le token i fait attention au token j"</em>
+      </div>
+
+      {/* Qu'est-ce que softmax ici ? */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(245,158,11,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(245,158,11,0.4)' }}>
+        <strong style={{ color: '#fbbf24' }}>Qu'est-ce que softmax fait ici ?</strong><br/>
+        Softmax convertit les scores bruts (n'importe quels nombres réels) en <strong>poids qui somment à 1</strong> — exactement comme des pourcentages.<br/>
+        <em>Exemple pour le token "mange" : scores bruts [1.2, 3.8, 0.4, 0.9, 2.1] → softmax → [4%, 78%, 2%, 4%, 12%]</em><br/>
+        Interprétation : "mange" fait attention à 78% à "chat" (sujet), 12% à "poisson" (objet), et ignore presque les mots grammaticaux. Ces poids servent ensuite à combiner les vecteurs V pour produire la <strong>représentation contextuelle</strong> finale de "mange" — un vecteur qui sait maintenant qui mange et quoi.
       </div>
     </div>
   )
@@ -421,8 +484,40 @@ function BackpropFlowDiagram() {
           ))}
         </svg>
       </div>
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.5, padding: '8px 12px', background: 'rgba(239,68,68,0.04)', borderRadius: 8 }}>
-        💡 <strong>Comment ça corrige les poids :</strong> le gradient ∂L/∂W mesure "si j'augmente ce poids d'un tout petit peu, est-ce que l'erreur monte ou descend ?". On le soustrait (× taux d'apprentissage) pour réduire l'erreur. Après des milliers d'exemples de maisons, les poids convergent vers les vraies valeurs du marché.
+      {/* Explication pas à pas */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
+        <div style={{ marginBottom: 4 }}><strong>Ce qui se passe exactement pour notre maison :</strong></div>
+        <div>1️⃣ <strong>Forward pass :</strong> [100, 3, 5] traverse les couches → le réseau calcule <span style={{ color: '#f87171' }}>310 k€</span></div>
+        <div>2️⃣ <strong>Calcul de la perte :</strong> Loss = (310 − 250)² = 3 600 — un nombre qui mesure "à quel point on s'est trompé"</div>
+        <div>3️⃣ <strong>Backward pass :</strong> on calcule ∂L/∂W pour chaque poids — cela indique dans quelle direction corriger chaque poids</div>
+        <div>4️⃣ <strong>Mise à jour :</strong> W ← W − α × ∂L/∂W. Avec α = 0.001 : le poids "m²" passe de 2.0 à 1.94, rapprochant la prédiction de 250 k€</div>
+      </div>
+
+      {/* Qu'est-ce que z et a ? */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(139,92,246,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(139,92,246,0.4)' }}>
+        <strong style={{ color: '#a78bfa' }}>Qu'est-ce que z et a dans "z1, a1" ?</strong><br/>
+        Pour chaque couche, il y a <strong>deux valeurs</strong> distinctes :<br/>
+        — <strong>z</strong> (pré-activation) : le résultat brut de la multiplication matricielle, <em>avant</em> la fonction d'activation. Ex : z₁ = x@W₁+b₁ = −1.4<br/>
+        — <strong>a</strong> (post-activation) : z passé dans ReLU ou Sigmoid. Ex : a₁ = ReLU(−1.4) = 0 (le neurone est "éteint")<br/>
+        La distinction est cruciale pour la backprop : le gradient traverse <em>a</em> avant de remonter vers <em>z</em> puis vers <em>W</em>.
+      </div>
+
+      {/* Qu'est-ce que la Loss ? */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(239,68,68,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(239,68,68,0.4)' }}>
+        <strong style={{ color: '#f87171' }}>Qu'est-ce que la Loss (perte) ?</strong><br/>
+        La Loss est un <strong>nombre unique</strong> qui mesure à quel point le réseau se trompe sur un exemple. Ici on utilise MSE (<em>Mean Squared Error</em>) :<br/>
+        <em>Loss = (prédiction − valeur_réelle)² = (310 − 250)² = 3 600</em><br/>
+        On met au carré pour deux raisons : (1) rendre l'erreur toujours positive, (2) pénaliser davantage les grosses erreurs. L'objectif de l'entraînement est de minimiser cette valeur sur des milliers d'exemples.
+      </div>
+
+      {/* Qu'est-ce que ∂L/∂W ? */}
+      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(239,68,68,0.04)', borderRadius: 8, borderLeft: '3px solid rgba(239,68,68,0.3)' }}>
+        <strong style={{ color: '#fca5a5' }}>Qu'est-ce que ∂L/∂W (le gradient) ?</strong><br/>
+        ∂L/∂W se lit "dérivée partielle de la Loss par rapport au poids W". En pratique, ça répond à la question :<br/>
+        <em>"Si j'augmente ce poids d'un tout petit peu (+0.001), est-ce que l'erreur monte ou descend, et de combien ?"</em><br/>
+        — ∂L/∂W &gt; 0 → ce poids est trop élevé, il faut le <strong>baisser</strong><br/>
+        — ∂L/∂W &lt; 0 → ce poids est trop faible, il faut l'<strong>augmenter</strong><br/>
+        La mise à jour est : <strong>W ← W − α × ∂L/∂W</strong> (on avance dans la direction opposée au gradient). Après des milliers d'exemples de maisons, les poids convergent vers les vraies valeurs du marché immobilier.
       </div>
     </div>
   )

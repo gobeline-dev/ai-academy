@@ -138,15 +138,42 @@ export function GradientDescentWidget() {
           )}
         </div>
 
-        {/* Insight */}
+        {/* Insight dynamique */}
         <div style={{
           fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.6,
           padding: '10px 14px', background: 'rgba(0,0,0,0.2)', borderRadius: 8,
         }}>
-          {lr < 0.1 && '🐢 Trop faible : la convergence est très lente, beaucoup d\'étapes nécessaires.'}
-          {lr >= 0.1 && lr <= 0.9 && '✅ Bon réglage : le gradient descend régulièrement vers le minimum.'}
-          {lr > 0.9 && lr <= 1.1 && '⚡ Limite critique : risque d\'oscillations autour du minimum.'}
-          {lr > 1.1 && '💥 Trop élevé : le gradient oscille ou diverge et ne converge jamais.'}
+          {lr < 0.1 && '🐢 Trop faible : chaque correction du poids est minuscule. Comme avancer de 1 cm à la fois dans une montagne — on arrive, mais après des millions d\'étapes.'}
+          {lr >= 0.1 && lr <= 0.9 && '✅ Bon réglage : à chaque étape, le poids se corrige d\'une quantité raisonnable. Le réseau apprend efficacement sans dépasser la cible.'}
+          {lr > 0.9 && lr <= 1.1 && '⚡ Limite critique : les pas sont si grands qu\'on risque de "sauter" par-dessus le minimum et d\'osciller autour sans jamais s\'y poser.'}
+          {lr > 1.1 && '💥 Trop élevé : chaque correction dépasse tellement le minimum qu\'on s\'en éloigne à chaque étape. Le réseau ne converge pas — il diverge.'}
+        </div>
+
+        {/* Qu'est-ce que le taux d'apprentissage ? */}
+        <div style={{
+          fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.6,
+          padding: '10px 14px', background: 'rgba(99,102,241,0.05)', borderRadius: 8, marginTop: 8,
+          borderLeft: '3px solid rgba(99,102,241,0.4)',
+        }}>
+          <strong style={{ color: '#818cf8' }}>Qu'est-ce que le taux d'apprentissage (α) ?</strong><br/>
+          C'est la taille du pas de correction appliqué à chaque poids à chaque étape :<br/>
+          <strong>W_nouveau = W_actuel − α × gradient</strong><br/>
+          Dans notre exemple maison : si le gradient dit "le poids du m² est trop élevé de 0.5", alors :<br/>
+          — avec α=0.1 : on le corrige de 0.05 (prudent)<br/>
+          — avec α=1.0 : on le corrige de 0.5 exactement (parfait)<br/>
+          — avec α=2.0 : on le corrige de 1.0 (trop, on dépasse l'autre côté)<br/>
+          En pratique on utilise des valeurs comme 0.001 ou 0.0001, car les gradients réels sont bien plus grands que dans cet exemple simplifié.
+        </div>
+
+        {/* Qu'est-ce que la convergence ? */}
+        <div style={{
+          fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.6,
+          padding: '10px 14px', background: 'rgba(52,211,153,0.05)', borderRadius: 8, marginTop: 8,
+          borderLeft: '3px solid rgba(52,211,153,0.4)',
+        }}>
+          <strong style={{ color: '#34d399' }}>Qu'est-ce que la convergence ?</strong><br/>
+          Un réseau "converge" quand la perte (Loss) ne diminue plus significativement — les poids ont trouvé une bonne valeur stable. Sur ce graphique, le point orange atteint la convergence quand il s'arrête au minimum vert (perte ≈ 0).<br/>
+          Pour prédire des prix de maisons : après convergence, les poids W reflètent les vraies tendances du marché — surface, chambres et distance ont chacun le poids que les données historiques justifient.
         </div>
       </div>
     </div>
@@ -255,7 +282,7 @@ export function TemperatureWidget() {
         )}
       </div>
 
-      {/* Insight */}
+      {/* Insight dynamique */}
       <div style={{
         fontSize: '0.78rem', color: 'var(--text-muted)', lineHeight: 1.6,
         padding: '10px 14px', background: 'rgba(0,0,0,0.2)', borderRadius: 8, marginTop: 12,
@@ -264,6 +291,32 @@ export function TemperatureWidget() {
         {temp >= 0.4 && temp <= 1.2 && '✅ Normal : bonne diversité tout en restant cohérent. Réglage par défaut.'}
         {temp > 1.2 && temp <= 1.8 && '🌶️ Chaud : réponses variées et créatives, mais parfois incohérentes.'}
         {temp > 1.8 && '🔥 Très chaud : distribution presque uniforme, le modèle "hallucine" davantage.'}
+      </div>
+
+      {/* Qu'est-ce que les logits ? */}
+      <div style={{
+        fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.6,
+        padding: '10px 14px', background: 'rgba(168,85,247,0.05)', borderRadius: 8, marginTop: 8,
+        borderLeft: '3px solid rgba(168,85,247,0.4)',
+      }}>
+        <strong style={{ color: '#a78bfa' }}>Qu'est-ce que les logits (scores bruts) ?</strong><br/>
+        Avant de calculer les probabilités, le modèle produit un <strong>score brut</strong> pour chaque token possible — c'est le logit. Il n'a pas d'unité et peut être n'importe quel nombre réel.<br/>
+        Ici : <em>chat=3.2, IA=2.1, aide=1.8, robot=0.9…</em> — "chat" a le score le plus élevé parce que c'est statistiquement le mot le plus fréquent après "je suis un…" dans les données d'entraînement.<br/>
+        Ces scores bruts sont ensuite passés dans <strong>softmax</strong> pour devenir des probabilités qui somment à 100%.
+      </div>
+
+      {/* Qu'est-ce que softmax + température ? */}
+      <div style={{
+        fontSize: '0.75rem', color: 'var(--text-muted)', lineHeight: 1.6,
+        padding: '10px 14px', background: 'rgba(168,85,247,0.05)', borderRadius: 8, marginTop: 8,
+        borderLeft: '3px solid rgba(168,85,247,0.3)',
+      }}>
+        <strong style={{ color: '#a78bfa' }}>Comment la température modifie-t-elle softmax ?</strong><br/>
+        Softmax divise d'abord chaque logit par T, <em>puis</em> calcule les probabilités :<br/>
+        — <strong>T petit (ex. 0.1)</strong> : on divise par 0.1 = on amplifie les écarts → le meilleur token écrase tous les autres (quasi-certitude)<br/>
+        — <strong>T = 1.0</strong> : les logits sont utilisés tels quels → distribution naturelle du modèle<br/>
+        — <strong>T grand (ex. 2.5)</strong> : on divise par 2.5 = on atténue les écarts → tous les tokens deviennent presque équiprobables → le modèle tire "au hasard"<br/>
+        <em>Concret : avec T=0.1, "chat" a 99.8% de chances. Avec T=2.5, "chat" n'en a que ~25% — les autres tokens ont leur chance.</em>
       </div>
     </div>
   )
