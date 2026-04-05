@@ -728,7 +728,7 @@ export default function ConceptDiagram({ lessonId }) {
       textAlign: 'center',
     }}>
       <Diagram />
-      <div style={{ fontSize: '0.72rem', color: 'rgba(148,163,184,0.5)', marginTop: 10 }}>
+      <div style={{ fontSize: '0.85rem', color: 'rgba(148,163,184,0.6)', marginTop: 12 }}>
         Illustration du concept — non exhaustive
       </div>
     </div>
