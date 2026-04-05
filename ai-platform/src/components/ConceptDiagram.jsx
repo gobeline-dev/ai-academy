@@ -11,7 +11,7 @@ function DiagramHierarchyIA() {
     { r: 46,  label: 'Deep Learning',             color: '#ec4899', textY: 0   },
   ]
   return (
-    <svg viewBox="0 0 300 300" style={{ width: '100%', maxWidth: 300, display: 'block', margin: '0 auto' }}>
+    <svg viewBox="0 0 300 300" style={{ width: '100%', maxWidth: 520, display: 'block', margin: '0 auto' }}>
       <defs>
         {circles.map((c, i) => (
           <radialGradient key={i} id={`hg${i}`} cx="50%" cy="50%" r="50%">
@@ -38,7 +38,7 @@ function DiagramPerceptron() {
   const inputs = ['x₁', 'x₂', 'x₃', 'x₄']
   const cx = 200, cy = 130, r = 28
   return (
-    <svg viewBox="0 0 340 260" style={{ width: '100%', maxWidth: 340, display: 'block', margin: '0 auto' }}>
+    <svg viewBox="0 0 340 260" style={{ width: '100%', maxWidth: 560, display: 'block', margin: '0 auto' }}>
       <defs>
         <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
           <path d="M0,0 L6,3 L0,6 Z" fill="rgba(99,102,241,0.6)" />
@@ -102,7 +102,7 @@ function DiagramNeuralNet() {
   }
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 600, display: 'block', margin: '0 auto' }}>
       {edges.map((e, i) => (
         <line key={i} x1={e.f.x} y1={e.f.y} x2={e.t.x} y2={e.t.y}
           stroke="rgba(99,102,241,0.1)" strokeWidth={0.8} />
@@ -136,7 +136,7 @@ function DiagramGradientDescent() {
   const getY = x => 0.9 * (x - 0.6) ** 2 + 0.08
 
   return (
-    <svg viewBox="0 0 340 240" style={{ width: '100%', maxWidth: 340, display: 'block', margin: '0 auto' }}>
+    <svg viewBox="0 0 340 240" style={{ width: '100%', maxWidth: 560, display: 'block', margin: '0 auto' }}>
       <defs>
         <marker id="arr2" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
           <path d="M0,0 L5,2.5 L0,5 Z" fill="#f87171" />
@@ -194,7 +194,7 @@ function DiagramAttention() {
 
   return (
     <svg viewBox={`0 0 ${W} ${n * cellSize + offsetY + 60}`}
-      style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+      style={{ width: '100%', maxWidth: 520, display: 'block', margin: '0 auto' }}>
       {/* Title */}
       <text x={W / 2} y={16} textAnchor="middle" fontSize={9} fill="rgba(148,163,184,0.6)">
         Matrice d'attention (Head 1)
@@ -246,7 +246,7 @@ function DiagramRAG() {
   const W = 360, boxW = 48, boxH = 52, gapX = (W - steps.length * boxW) / (steps.length + 1)
 
   return (
-    <svg viewBox={`0 0 ${W} 140`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+    <svg viewBox={`0 0 ${W} 140`} style={{ width: '100%', maxWidth: 600, display: 'block', margin: '0 auto' }}>
       <defs>
         <marker id="arr3" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
           <path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(99,102,241,0.5)" />
@@ -295,7 +295,7 @@ function DiagramAgentLoop() {
   })
 
   return (
-    <svg viewBox="0 0 350 210" style={{ width: '100%', maxWidth: 350, display: 'block', margin: '0 auto' }}>
+    <svg viewBox="0 0 350 210" style={{ width: '100%', maxWidth: 580, display: 'block', margin: '0 auto' }}>
       <defs>
         <marker id="agentArr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
           <path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(99,102,241,0.5)" />
@@ -361,7 +361,7 @@ function DiagramMLTypes() {
   ]
 
   return (
-    <svg viewBox="0 0 360 170" style={{ width: '100%', maxWidth: 360, display: 'block', margin: '0 auto' }}>
+    <svg viewBox="0 0 360 170" style={{ width: '100%', maxWidth: 600, display: 'block', margin: '0 auto' }}>
       <text x={180} y={14} textAnchor="middle" fontSize={9} fill="rgba(148,163,184,0.6)">
         Types d'apprentissage automatique
       </text>
@@ -406,7 +406,7 @@ function DiagramEmbedding() {
   const W = 320, H = 200, pad = 36
 
   return (
-    <svg viewBox={`0 0 ${W} ${H + 30}`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+    <svg viewBox={`0 0 ${W} ${H + 30}`} style={{ width: '100%', maxWidth: 560, display: 'block', margin: '0 auto' }}>
       <defs>
         <marker id="embArr" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto">
           <path d="M0,0 L4,2 L0,4 Z" fill="rgba(99,102,241,0.4)" />
@@ -464,7 +464,7 @@ function DiagramCNN() {
   const cy = H / 2
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 640, display: 'block', margin: '0 auto' }}>
       <defs>
         <marker id="cnnArr" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto">
           <path d="M0,0 L4,2 L0,4 Z" fill="rgba(148,163,184,0.4)" />
@@ -511,7 +511,7 @@ function DiagramRNN() {
   const startX = 30, cy = 90
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 640, display: 'block', margin: '0 auto' }}>
       <defs>
         <marker id="rnnArr" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto">
           <path d="M0,0 L4,2 L0,4 Z" fill="rgba(148,163,184,0.5)" />
@@ -573,7 +573,7 @@ function DiagramPromptEngineering() {
   const cy = 95
 
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 640, display: 'block', margin: '0 auto' }}>
       <defs>
         <marker id="peArr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
           <path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(148,163,184,0.4)" />
@@ -614,7 +614,7 @@ function DiagramPromptEngineering() {
 function DiagramMCP() {
   const W = 380, H = 220
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: W, display: 'block', margin: '0 auto' }}>
+    <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 640, display: 'block', margin: '0 auto' }}>
       <defs>
         <marker id="mcpArr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto">
           <path d="M0,0 L5,2.5 L0,5 Z" fill="rgba(148,163,184,0.4)" />

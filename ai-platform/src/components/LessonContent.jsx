@@ -118,84 +118,84 @@ function AnnotationLegend({ annotations }) {
 function MatrixMultiplyDiagram() {
   return (
     <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '14px 18px 10px', background: 'rgba(0,0,0,0.18)' }}>
-      <div style={{ fontSize: '0.63rem', fontWeight: 700, color: '#818cf8', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>
+      <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#818cf8', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
         🏠 Cas concret : prédire le prix d'une maison — x @ W + b = sortie
       </div>
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.5 }}>
+      <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.6 }}>
         Maison : <strong style={{ color: '#a5b4fc' }}>100 m²</strong>, <strong style={{ color: '#a5b4fc' }}>3 chambres</strong>, <strong style={{ color: '#a5b4fc' }}>5 km</strong> du centre → le réseau produit 2 valeurs en parallèle grâce à une seule multiplication matricielle
       </div>
       <div style={{ overflowX: 'auto' }}>
-        <svg viewBox="0 0 620 158" style={{ width: '100%', minWidth: 440, maxWidth: 620, height: 'auto', display: 'block' }}>
+        <svg viewBox="0 0 620 158" style={{ width: '100%', minWidth: 480, maxWidth: 900, height: 'auto', display: 'block' }}>
 
           {/* ── x : vecteur d'entrée ── */}
           <rect x="4" y="18" width="78" height="90" rx="5" fill="rgba(99,102,241,0.12)" stroke="rgba(99,102,241,0.5)" strokeWidth="1.5"/>
-          <text x="43" y="13" textAnchor="middle" fill="#818cf8" fontSize="9" fontFamily="sans-serif">x (caractéristiques)</text>
-          <text x="40" y="42" textAnchor="middle" fill="#a5b4fc" fontSize="13" fontFamily="'JetBrains Mono',monospace" fontWeight="700">100</text>
-          <text x="74" y="42" textAnchor="end" fill="#475569" fontSize="8" fontFamily="sans-serif">m²</text>
-          <text x="40" y="65" textAnchor="middle" fill="#a5b4fc" fontSize="13" fontFamily="'JetBrains Mono',monospace" fontWeight="700">3</text>
-          <text x="74" y="65" textAnchor="end" fill="#475569" fontSize="8" fontFamily="sans-serif">ch.</text>
-          <text x="40" y="88" textAnchor="middle" fill="#a5b4fc" fontSize="13" fontFamily="'JetBrains Mono',monospace" fontWeight="700">5</text>
-          <text x="74" y="88" textAnchor="end" fill="#475569" fontSize="8" fontFamily="sans-serif">km</text>
-          <text x="43" y="118" textAnchor="middle" fill="#475569" fontSize="8" fontFamily="sans-serif">3 features</text>
+          <text x="43" y="13" textAnchor="middle" fill="#818cf8" fontSize="11" fontFamily="sans-serif">x (caractéristiques)</text>
+          <text x="40" y="42" textAnchor="middle" fill="#a5b4fc" fontSize="14" fontFamily="'JetBrains Mono',monospace" fontWeight="700">100</text>
+          <text x="74" y="42" textAnchor="end" fill="#64748b" fontSize="10" fontFamily="sans-serif">m²</text>
+          <text x="40" y="65" textAnchor="middle" fill="#a5b4fc" fontSize="14" fontFamily="'JetBrains Mono',monospace" fontWeight="700">3</text>
+          <text x="74" y="65" textAnchor="end" fill="#64748b" fontSize="10" fontFamily="sans-serif">ch.</text>
+          <text x="40" y="88" textAnchor="middle" fill="#a5b4fc" fontSize="14" fontFamily="'JetBrains Mono',monospace" fontWeight="700">5</text>
+          <text x="74" y="88" textAnchor="end" fill="#64748b" fontSize="10" fontFamily="sans-serif">km</text>
+          <text x="43" y="118" textAnchor="middle" fill="#64748b" fontSize="10" fontFamily="sans-serif">3 features</text>
 
           {/* ── @ ── */}
-          <text x="94" y="70" textAnchor="middle" fill="#94a3b8" fontSize="18" fontWeight="700">@</text>
+          <text x="94" y="70" textAnchor="middle" fill="#94a3b8" fontSize="20" fontWeight="700">@</text>
 
           {/* ── W : matrice des poids ── */}
           <rect x="104" y="18" width="124" height="90" rx="5" fill="rgba(139,92,246,0.12)" stroke="rgba(139,92,246,0.5)" strokeWidth="1.5"/>
-          <text x="166" y="13" textAnchor="middle" fill="#a78bfa" fontSize="9" fontFamily="sans-serif">W (poids appris)</text>
+          <text x="166" y="13" textAnchor="middle" fill="#a78bfa" fontSize="11" fontFamily="sans-serif">W (poids appris)</text>
           <line x1="166" y1="19" x2="166" y2="106" stroke="rgba(139,92,246,0.25)" strokeWidth="1"/>
           {/* En-têtes colonnes avec interprétation */}
-          <text x="135" y="30" textAnchor="middle" fill="#a78bfa" fontSize="8" fontFamily="sans-serif">→ prix k€</text>
-          <text x="197" y="30" textAnchor="middle" fill="#f472b6" fontSize="8" fontFamily="sans-serif">→ attract.</text>
+          <text x="135" y="30" textAnchor="middle" fill="#a78bfa" fontSize="10" fontFamily="sans-serif">→ prix k€</text>
+          <text x="197" y="30" textAnchor="middle" fill="#f472b6" fontSize="10" fontFamily="sans-serif">→ attract.</text>
           {[['2.0','0.5'],['15.0','8.0'],['-5.0','-3.0']].map((row, ri) =>
             row.map((v, ci) => (
               <text key={`w${ri}${ci}`} x={ci===0 ? 135 : 197} y={44+ri*22} textAnchor="middle"
-                fill={ci===0 ? '#c4b5fd' : '#f9a8d4'} fontSize="11" fontFamily="'JetBrains Mono',monospace">{v}</text>
+                fill={ci===0 ? '#c4b5fd' : '#f9a8d4'} fontSize="12" fontFamily="'JetBrains Mono',monospace">{v}</text>
             ))
           )}
-          <text x="166" y="118" textAnchor="middle" fill="#475569" fontSize="8" fontFamily="sans-serif">3 features → 2 sorties</text>
+          <text x="166" y="118" textAnchor="middle" fill="#64748b" fontSize="10" fontFamily="sans-serif">3 features → 2 sorties</text>
 
           {/* ── + ── */}
-          <text x="238" y="70" textAnchor="middle" fill="#94a3b8" fontSize="18" fontWeight="700">+</text>
+          <text x="238" y="70" textAnchor="middle" fill="#94a3b8" fontSize="20" fontWeight="700">+</text>
 
           {/* ── b : biais ── */}
           <rect x="248" y="32" width="66" height="62" rx="5" fill="rgba(34,211,238,0.1)" stroke="rgba(34,211,238,0.45)" strokeWidth="1.5"/>
-          <text x="281" y="27" textAnchor="middle" fill="#67e8f9" fontSize="9" fontFamily="sans-serif">b (biais)</text>
-          <text x="281" y="56" textAnchor="middle" fill="#67e8f9" fontSize="12" fontFamily="'JetBrains Mono',monospace">50.0</text>
-          <text x="281" y="78" textAnchor="middle" fill="#67e8f9" fontSize="12" fontFamily="'JetBrains Mono',monospace">20.0</text>
-          <text x="281" y="105" textAnchor="middle" fill="#475569" fontSize="8" fontFamily="sans-serif">2 valeurs</text>
+          <text x="281" y="27" textAnchor="middle" fill="#67e8f9" fontSize="11" fontFamily="sans-serif">b (biais)</text>
+          <text x="281" y="56" textAnchor="middle" fill="#67e8f9" fontSize="13" fontFamily="'JetBrains Mono',monospace">50.0</text>
+          <text x="281" y="78" textAnchor="middle" fill="#67e8f9" fontSize="13" fontFamily="'JetBrains Mono',monospace">20.0</text>
+          <text x="281" y="105" textAnchor="middle" fill="#64748b" fontSize="10" fontFamily="sans-serif">2 valeurs</text>
 
           {/* ── = ── */}
-          <text x="326" y="70" textAnchor="middle" fill="#94a3b8" fontSize="18" fontWeight="700">=</text>
+          <text x="326" y="70" textAnchor="middle" fill="#94a3b8" fontSize="20" fontWeight="700">=</text>
 
           {/* ── Sortie ── */}
           <rect x="338" y="32" width="82" height="62" rx="5" fill="rgba(52,211,153,0.18)" stroke="rgba(52,211,153,0.6)" strokeWidth="2"/>
-          <text x="379" y="27" textAnchor="middle" fill="#34d399" fontSize="9" fontFamily="sans-serif">sortie</text>
-          <text x="379" y="53" textAnchor="middle" fill="#6ee7b7" fontSize="13" fontFamily="'JetBrains Mono',monospace" fontWeight="700">270 k€</text>
-          <text x="379" y="65" textAnchor="middle" fill="#475569" fontSize="7.5" fontFamily="sans-serif">prix estimé</text>
-          <text x="379" y="80" textAnchor="middle" fill="#f9a8d4" fontSize="13" fontFamily="'JetBrains Mono',monospace" fontWeight="700">79 pts</text>
-          <text x="379" y="92" textAnchor="middle" fill="#475569" fontSize="7.5" fontFamily="sans-serif">attractivité</text>
-          <text x="379" y="105" textAnchor="middle" fill="#475569" fontSize="8" fontFamily="sans-serif">2 neurones</text>
+          <text x="379" y="27" textAnchor="middle" fill="#34d399" fontSize="11" fontFamily="sans-serif">sortie</text>
+          <text x="379" y="53" textAnchor="middle" fill="#6ee7b7" fontSize="14" fontFamily="'JetBrains Mono',monospace" fontWeight="700">270 k€</text>
+          <text x="379" y="65" textAnchor="middle" fill="#64748b" fontSize="9.5" fontFamily="sans-serif">prix estimé</text>
+          <text x="379" y="80" textAnchor="middle" fill="#f9a8d4" fontSize="14" fontFamily="'JetBrains Mono',monospace" fontWeight="700">79 pts</text>
+          <text x="379" y="92" textAnchor="middle" fill="#64748b" fontSize="9.5" fontFamily="sans-serif">attractivité</text>
+          <text x="379" y="105" textAnchor="middle" fill="#64748b" fontSize="10" fontFamily="sans-serif">2 neurones</text>
 
           {/* ── Détail des calculs ── */}
           <line x1="432" y1="18" x2="432" y2="130" stroke="rgba(255,255,255,0.06)" strokeWidth="1"/>
-          <text x="438" y="14" fill="#818cf8" fontSize="8" fontFamily="sans-serif" fontWeight="700">Détail des calculs :</text>
-          <text x="438" y="30" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">100×2.0 = 200  (surface)</text>
-          <text x="438" y="42" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">  3×15.0 = 45   (chambres)</text>
-          <text x="438" y="54" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">  5×(−5.0) = −25 (distance)</text>
-          <text x="438" y="66" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">  biais    = +50</text>
-          <text x="438" y="79" fill="#34d399" fontSize="9.5" fontFamily="'JetBrains Mono',monospace" fontWeight="700">→ prix = 270 k€ ✓</text>
+          <text x="438" y="14" fill="#818cf8" fontSize="10" fontFamily="sans-serif" fontWeight="700">Détail des calculs :</text>
+          <text x="438" y="30" fill="#94a3b8" fontSize="9.5" fontFamily="'JetBrains Mono',monospace">100×2.0 = 200  (surface)</text>
+          <text x="438" y="42" fill="#94a3b8" fontSize="9.5" fontFamily="'JetBrains Mono',monospace">  3×15.0 = 45   (chambres)</text>
+          <text x="438" y="54" fill="#94a3b8" fontSize="9.5" fontFamily="'JetBrains Mono',monospace">  5×(−5.0) = −25 (distance)</text>
+          <text x="438" y="66" fill="#94a3b8" fontSize="9.5" fontFamily="'JetBrains Mono',monospace">  biais    = +50</text>
+          <text x="438" y="79" fill="#34d399" fontSize="11" fontFamily="'JetBrains Mono',monospace" fontWeight="700">→ prix = 270 k€ ✓</text>
           <line x1="438" y1="87" x2="615" y2="87" stroke="rgba(255,255,255,0.06)" strokeWidth="1"/>
-          <text x="438" y="99" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">100×0.5 = 50   3×8.0 = 24</text>
-          <text x="438" y="111" fill="#475569" fontSize="8" fontFamily="'JetBrains Mono',monospace">5×(−3.0) = −15  biais = +20</text>
-          <text x="438" y="124" fill="#f472b6" fontSize="9.5" fontFamily="'JetBrains Mono',monospace" fontWeight="700">→ attract. = 79 pts ✓</text>
+          <text x="438" y="99" fill="#94a3b8" fontSize="9.5" fontFamily="'JetBrains Mono',monospace">100×0.5 = 50   3×8.0 = 24</text>
+          <text x="438" y="111" fill="#94a3b8" fontSize="9.5" fontFamily="'JetBrains Mono',monospace">5×(−3.0) = −15  biais = +20</text>
+          <text x="438" y="124" fill="#f472b6" fontSize="11" fontFamily="'JetBrains Mono',monospace" fontWeight="700">→ attract. = 79 pts ✓</text>
         </svg>
       </div>
 
       {/* Explication poids */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
-        <div style={{ marginBottom: 6 }}>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 12, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
+        <div style={{ marginBottom: 8 }}>
           💡 <strong>Neurone 1 — Prix estimé (k€) :</strong> chaque m² ajoute <strong>+2 000 €</strong>, chaque chambre <strong>+15 000 €</strong>, chaque km du centre <strong>−5 000 €</strong>. Le biais 50 k€ est le prix plancher (même à 0 m², 0 chambre, 0 km). Résultat : <strong>270 000 €</strong>.
         </div>
         <div>
@@ -204,7 +204,7 @@ function MatrixMultiplyDiagram() {
       </div>
 
       {/* Encadré : qu'est-ce qu'un "score" ? */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(244,114,182,0.06)', borderRadius: 8, borderLeft: '3px solid rgba(244,114,182,0.4)' }}>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(244,114,182,0.06)', borderRadius: 8, borderLeft: '3px solid rgba(244,114,182,0.4)' }}>
         <strong style={{ color: '#f472b6' }}>Qu'est-ce qu'un "score" dans un réseau de neurones ?</strong><br/>
         Un score (aussi appelé <em>logit</em> ou <em>activation</em>) est simplement un <strong>nombre réel</strong> produit par un neurone — sans unité physique imposée. Il n'a de sens que parce que le réseau a <em>appris</em> à lui en donner un au fil de l'entraînement. Dans les couches cachées, ces scores sont des représentations intermédiaires invisibles (le réseau décide lui-même ce qu'il encode). En sortie, on leur donne un nom métier : "prix", "attractivité", "probabilité de fraude", etc. Le même calcul x @ W + b peut donc produire un euro, une probabilité, ou une note — tout dépend des données sur lesquelles W a été entraîné.
       </div>
@@ -227,14 +227,14 @@ function MLPArchitectureDiagram() {
   // Paramètres : 3×4 + 4×3 + 3×1 = 12+12+3 = 27 poids, 4+3+1 = 8 biais → 35 total
   return (
     <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '14px 18px 10px', background: 'rgba(0,0,0,0.18)' }}>
-      <div style={{ fontSize: '0.63rem', fontWeight: 700, color: '#818cf8', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>
+      <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#818cf8', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
         🧠 MLP([3, 4, 3, 1]) — 35 paramètres apprenables (27 poids + 8 biais)
       </div>
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.5 }}>
+      <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.6 }}>
         Cas concret : <strong style={{ color: '#a5b4fc' }}>est-ce que cette maison (100 m², 3 ch., 5 km) dépasse mon budget de 280 k€ ?</strong>
       </div>
       <div style={{ overflowX: 'auto' }}>
-        <svg viewBox="0 0 490 210" style={{ width: '100%', minWidth: 320, maxWidth: 490, height: 'auto', display: 'block' }}>
+        <svg viewBox="0 0 490 210" style={{ width: '100%', minWidth: 380, maxWidth: 760, height: 'auto', display: 'block' }}>
           {/* Connexions */}
           {layerX.slice(0, -1).map((x1, li) =>
             layerNeurons[li].flatMap((y1, fi) =>
@@ -255,7 +255,7 @@ function MLPArchitectureDiagram() {
           {/* Étiquettes neurones d'entrée */}
           {inputLabels.map((lbl, ni) => (
             <text key={`il${ni}`} x={layerX[0] - 20} y={layerNeurons[0][ni] + 4}
-              textAnchor="end" fill="#6366f1" fontSize="7.5" fontFamily="sans-serif" fontWeight="600">
+              textAnchor="end" fill="#6366f1" fontSize="10" fontFamily="sans-serif" fontWeight="600">
               {lbl.replace('\n', ' ')}
             </text>
           ))}
@@ -263,48 +263,48 @@ function MLPArchitectureDiagram() {
           {['100', '3', '5'].map((v, ni) => (
             <text key={`iv${ni}`} cx={layerX[0]} cy={layerNeurons[0][ni]}
               x={layerX[0]} y={layerNeurons[0][ni] + 4}
-              textAnchor="middle" fill="#a5b4fc" fontSize="9" fontFamily="'JetBrains Mono',monospace" fontWeight="700">
+              textAnchor="middle" fill="#a5b4fc" fontSize="11" fontFamily="'JetBrains Mono',monospace" fontWeight="700">
               {v}
             </text>
           ))}
           {/* Sortie : probabilité */}
           <text x={layerX[3]} y={layerNeurons[3][0] + 4}
-            textAnchor="middle" fill="#34d399" fontSize="9" fontFamily="'JetBrains Mono',monospace" fontWeight="700">
+            textAnchor="middle" fill="#34d399" fontSize="11" fontFamily="'JetBrains Mono',monospace" fontWeight="700">
             0.04
           </text>
           <text x={layerX[3] + 18} y={layerNeurons[3][0] - 8}
-            textAnchor="start" fill="#34d399" fontSize="7.5" fontFamily="sans-serif">
+            textAnchor="start" fill="#34d399" fontSize="10" fontFamily="sans-serif">
             → 4%
           </text>
-          <text x={layerX[3] + 18} y={layerNeurons[3][0] + 4}
-            textAnchor="start" fill="#475569" fontSize="7" fontFamily="sans-serif">
-            chance de
+          <text x={layerX[3] + 18} y={layerNeurons[3][0] + 6}
+            textAnchor="start" fill="#94a3b8" fontSize="9" fontFamily="sans-serif">
+            chance de dépasser
           </text>
-          <text x={layerX[3] + 18} y={layerNeurons[3][0] + 14}
-            textAnchor="start" fill="#475569" fontSize="7" fontFamily="sans-serif">
-            dépasser budget
+          <text x={layerX[3] + 18} y={layerNeurons[3][0] + 17}
+            textAnchor="start" fill="#94a3b8" fontSize="9" fontFamily="sans-serif">
+            le budget
           </text>
           {/* Labels couches */}
           {layerX.map((x, li) => (
             <g key={`lbl${li}`}>
-              <text x={x} y="187" textAnchor="middle" fill={layerColors[li]} fontSize="9.5"
+              <text x={x} y="187" textAnchor="middle" fill={layerColors[li]} fontSize="11"
                 fontFamily="sans-serif" fontWeight="600">{layerLabels[li]}</text>
-              <text x={x} y="200" textAnchor="middle" fill="#475569" fontSize="8.5"
+              <text x={x} y="200" textAnchor="middle" fill="#94a3b8" fontSize="10"
                 fontFamily="sans-serif">{layerSubs[li]}</text>
             </g>
           ))}
           {/* Nombre de poids entre les couches */}
           {layerX.slice(0, -1).map((x, li) => (
             <text key={`pw${li}`} x={(x + layerX[li + 1]) / 2} y="10" textAnchor="middle"
-              fill="#334155" fontSize="8" fontFamily="sans-serif">
+              fill="#475569" fontSize="10" fontFamily="sans-serif">
               {layerNeurons[li].length * layerNeurons[li + 1].length} poids
             </text>
           ))}
         </svg>
       </div>
       {/* Explication du flux */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
-        <div style={{ marginBottom: 4 }}><strong>Étape par étape pour notre maison :</strong></div>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
+        <div style={{ marginBottom: 6 }}><strong>Étape par étape pour notre maison :</strong></div>
         <div>1️⃣ <strong>Entrée :</strong> [100, 3, 5] — surface, chambres, km du centre</div>
         <div>2️⃣ <strong>Couche cachée 1 (4 neurones, ReLU) :</strong> chaque neurone calcule x@W₁+b₁, puis applique ReLU → produit 4 représentations intermédiaires</div>
         <div>3️⃣ <strong>Couche cachée 2 (3 neurones, ReLU) :</strong> recombine les 4 valeurs → 3 représentations plus abstraites</div>
@@ -312,7 +312,7 @@ function MLPArchitectureDiagram() {
       </div>
 
       {/* Qu'est-ce que ReLU ? */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(139,92,246,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(139,92,246,0.4)' }}>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(139,92,246,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(139,92,246,0.4)' }}>
         <strong style={{ color: '#a78bfa' }}>Qu'est-ce que ReLU ?</strong><br/>
         ReLU signifie <em>Rectified Linear Unit</em>. C'est la fonction d'activation la plus courante. Sa règle est ultra-simple :<br/>
         — si le score du neurone est <strong>négatif</strong> → il retourne <strong>0</strong> (le neurone "ne s'active pas")<br/>
@@ -322,7 +322,7 @@ function MLPArchitectureDiagram() {
       </div>
 
       {/* Qu'est-ce que Sigmoid ? */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(52,211,153,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(52,211,153,0.4)' }}>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(52,211,153,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(52,211,153,0.4)' }}>
         <strong style={{ color: '#34d399' }}>Qu'est-ce que Sigmoid ?</strong><br/>
         Sigmoid est la fonction qui convertit <em>n'importe quel nombre réel</em> en un nombre entre 0 et 1. C'est ce qui transforme le score brut du neurone de sortie en <strong>probabilité interprétable</strong>.<br/>
         <em>Exemple : σ(−3.2) ≈ 0.04 → 4% &nbsp;|&nbsp; σ(0) = 0.5 → 50% &nbsp;|&nbsp; σ(2.5) ≈ 0.92 → 92%</em><br/>
@@ -336,56 +336,56 @@ function MLPArchitectureDiagram() {
 function AttentionQKVDiagram() {
   return (
     <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '14px 18px 10px', background: 'rgba(0,0,0,0.18)' }}>
-      <div style={{ fontSize: '0.63rem', fontWeight: 700, color: '#818cf8', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>
+      <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#818cf8', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
         🔀 Mécanisme Scaled Dot-Product Attention
       </div>
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.5 }}>
+      <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.6 }}>
         Cas concret : phrase <em>"Le chat mange du poisson"</em> → pour comprendre "mange", le modèle doit savoir <em>qui</em> mange (→ "chat") et <em>quoi</em> (→ "poisson"). L'attention calcule ces liens automatiquement.
       </div>
       <div style={{ overflowX: 'auto' }}>
-        <svg viewBox="0 0 580 155" style={{ width: '100%', minWidth: 420, maxWidth: 580, height: 'auto', display: 'block' }}>
+        <svg viewBox="0 0 580 155" style={{ width: '100%', minWidth: 480, maxWidth: 860, height: 'auto', display: 'block' }}>
           <rect x="4" y="40" width="52" height="75" rx="5" fill="rgba(99,102,241,0.12)" stroke="rgba(99,102,241,0.5)" strokeWidth="1.5"/>
           {[0,1,2,3,4].map(i => (
             <circle key={i} cx="30" cy={55+i*14} r="4" fill="rgba(99,102,241,0.4)" stroke="#6366f1" strokeWidth="1"/>
           ))}
-          <text x="30" y="124" textAnchor="middle" fill="#818cf8" fontSize="9" fontFamily="sans-serif">X</text>
-          <text x="30" y="135" textAnchor="middle" fill="#475569" fontSize="8" fontFamily="sans-serif">5 tokens</text>
+          <text x="30" y="124" textAnchor="middle" fill="#818cf8" fontSize="11" fontFamily="sans-serif">X</text>
+          <text x="30" y="137" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="sans-serif">5 tokens</text>
           {[45,77,109].map((y2, i) => (
             <line key={i} x1="56" y1="77" x2="72" y2={y2} stroke="rgba(99,102,241,0.4)" strokeWidth="1.2"/>
           ))}
           {[['×WQ','→ Q','#a78bfa',35],['×WK','→ K','#f472b6',67],['×WV','→ V','#34d399',99]].map(([top,bot,color,cy]) => (
             <g key={top}>
               <rect x="73" y={cy-13} width="52" height="28" rx="4" fill={`${color}22`} stroke={color} strokeWidth="1.2"/>
-              <text x="99" y={cy+1} textAnchor="middle" fill={color} fontSize="10" fontFamily="'JetBrains Mono',monospace" fontWeight="700">{top}</text>
-              <text x="99" y={cy+12} textAnchor="middle" fill={color} fontSize="9" fontFamily="sans-serif">{bot}</text>
+              <text x="99" y={cy+1} textAnchor="middle" fill={color} fontSize="11" fontFamily="'JetBrains Mono',monospace" fontWeight="700">{top}</text>
+              <text x="99" y={cy+13} textAnchor="middle" fill={color} fontSize="10" fontFamily="sans-serif">{bot}</text>
             </g>
           ))}
           <line x1="125" y1="48" x2="180" y2="60" stroke="rgba(167,139,250,0.5)" strokeWidth="1.2"/>
           <line x1="125" y1="80" x2="180" y2="73" stroke="rgba(244,114,182,0.5)" strokeWidth="1.2"/>
           <rect x="182" y="42" width="108" height="42" rx="5" fill="rgba(244,114,182,0.1)" stroke="rgba(244,114,182,0.45)" strokeWidth="1.5"/>
-          <text x="236" y="60" textAnchor="middle" fill="#f9a8d4" fontSize="10" fontFamily="'JetBrains Mono',monospace">Q @ Kᵀ / √d_k</text>
-          <text x="236" y="75" textAnchor="middle" fill="#475569" fontSize="8.5" fontFamily="sans-serif">pertinence entre tokens</text>
+          <text x="236" y="60" textAnchor="middle" fill="#f9a8d4" fontSize="11" fontFamily="'JetBrains Mono',monospace">Q @ Kᵀ / √d_k</text>
+          <text x="236" y="76" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="sans-serif">pertinence entre tokens</text>
           <line x1="290" y1="63" x2="310" y2="63" stroke="rgba(245,158,11,0.5)" strokeWidth="1.2"/>
           <polygon points="310,59 318,63 310,67" fill="rgba(245,158,11,0.5)"/>
           <rect x="320" y="42" width="88" height="42" rx="5" fill="rgba(245,158,11,0.1)" stroke="rgba(245,158,11,0.45)" strokeWidth="1.5"/>
-          <text x="364" y="60" textAnchor="middle" fill="#fbbf24" fontSize="10" fontFamily="'JetBrains Mono',monospace">softmax</text>
-          <text x="364" y="75" textAnchor="middle" fill="#475569" fontSize="8.5" fontFamily="sans-serif">poids ∑=1</text>
+          <text x="364" y="60" textAnchor="middle" fill="#fbbf24" fontSize="11" fontFamily="'JetBrains Mono',monospace">softmax</text>
+          <text x="364" y="76" textAnchor="middle" fill="#94a3b8" fontSize="10" fontFamily="sans-serif">poids ∑=1</text>
           <line x1="125" y1="112" x2="416" y2="112" stroke="rgba(52,211,153,0.3)" strokeWidth="1.2"/>
           <line x1="416" y1="112" x2="416" y2="91" stroke="rgba(52,211,153,0.3)" strokeWidth="1.2"/>
           <polygon points="412,91 416,82 420,91" fill="rgba(52,211,153,0.3)"/>
           <line x1="408" y1="63" x2="428" y2="63" stroke="rgba(52,211,153,0.5)" strokeWidth="1.2"/>
           <polygon points="428,59 436,63 428,67" fill="rgba(52,211,153,0.5)"/>
           <rect x="438" y="42" width="108" height="42" rx="5" fill="rgba(52,211,153,0.18)" stroke="rgba(52,211,153,0.6)" strokeWidth="2"/>
-          <text x="492" y="60" textAnchor="middle" fill="#34d399" fontSize="10" fontFamily="'JetBrains Mono',monospace" fontWeight="700">weights @ V</text>
-          <text x="492" y="75" textAnchor="middle" fill="#6ee7b7" fontSize="8.5" fontFamily="sans-serif">repr. contextuelle</text>
-          {[['Entrée',30],['Projections',99],['Score brut',236],['Poids d\'att.',364],['Sortie',492]].map(([lbl,x]) => (
-            <text key={lbl} x={x} y="150" textAnchor="middle" fill="#334155" fontSize="8" fontFamily="sans-serif">{lbl}</text>
+          <text x="492" y="60" textAnchor="middle" fill="#34d399" fontSize="11" fontFamily="'JetBrains Mono',monospace" fontWeight="700">weights @ V</text>
+          <text x="492" y="76" textAnchor="middle" fill="#6ee7b7" fontSize="10" fontFamily="sans-serif">repr. contextuelle</text>
+          {[['Entrée',30],['Projections',99],['Score brut',236],['Poids att.',364],['Sortie',492]].map(([lbl,x]) => (
+            <text key={lbl} x={x} y="150" textAnchor="middle" fill="#475569" fontSize="10" fontFamily="sans-serif">{lbl}</text>
           ))}
         </svg>
       </div>
 
       {/* Qu'est-ce que Q, K, V ? */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(167,139,250,0.06)', borderRadius: 8, borderLeft: '3px solid rgba(167,139,250,0.4)' }}>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(167,139,250,0.06)', borderRadius: 8, borderLeft: '3px solid rgba(167,139,250,0.4)' }}>
         <strong style={{ color: '#a78bfa' }}>Qu'est-ce que Q, K et V ?</strong><br/>
         Ce sont 3 copies du même texte d'entrée X, transformées par 3 matrices de poids différentes :<br/>
         — <strong style={{ color: '#a78bfa' }}>Q (Query = requête)</strong> : "Qu'est-ce que je cherche ?" — chaque mot formule une question sur les autres.<br/>
@@ -397,7 +397,7 @@ function AttentionQKVDiagram() {
       </div>
 
       {/* Qu'est-ce que Q @ Kᵀ / √d_k ? */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(244,114,182,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(244,114,182,0.4)' }}>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(244,114,182,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(244,114,182,0.4)' }}>
         <strong style={{ color: '#f9a8d4' }}>Qu'est-ce que Q @ Kᵀ / √d_k ?</strong><br/>
         C'est le calcul de <strong>pertinence</strong> entre chaque paire de tokens :<br/>
         — <strong>Q @ Kᵀ</strong> : produit scalaire entre la requête d'un token et la clé d'un autre. Plus deux vecteurs pointent dans la même direction, plus le score est élevé → le token est "intéressant" pour la requête.<br/>
@@ -406,7 +406,7 @@ function AttentionQKVDiagram() {
       </div>
 
       {/* Qu'est-ce que softmax ici ? */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(245,158,11,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(245,158,11,0.4)' }}>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(245,158,11,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(245,158,11,0.4)' }}>
         <strong style={{ color: '#fbbf24' }}>Qu'est-ce que softmax fait ici ?</strong><br/>
         Softmax convertit les scores bruts (n'importe quels nombres réels) en <strong>poids qui somment à 1</strong> — exactement comme des pourcentages.<br/>
         <em>Exemple pour le token "mange" : scores bruts [1.2, 3.8, 0.4, 0.9, 2.1] → softmax → [4%, 78%, 2%, 4%, 12%]</em><br/>
@@ -427,23 +427,23 @@ function BackpropFlowDiagram() {
   ]
   return (
     <div style={{ borderTop: '1px solid rgba(255,255,255,0.06)', padding: '14px 18px 10px', background: 'rgba(0,0,0,0.18)' }}>
-      <div style={{ fontSize: '0.63rem', fontWeight: 700, color: '#818cf8', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 6 }}>
+      <div style={{ fontSize: '0.82rem', fontWeight: 700, color: '#818cf8', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.08em', marginBottom: 8 }}>
         🔄 Flux forward → calcul de la perte → backward (gradients)
       </div>
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginBottom: 10, lineHeight: 1.5 }}>
+      <div style={{ fontSize: '0.9rem', color: 'var(--text-muted)', marginBottom: 12, lineHeight: 1.6 }}>
         Cas concret : le réseau prédit <strong style={{ color: '#f87171' }}>310 k€</strong>, le vrai prix est <strong style={{ color: '#34d399' }}>250 k€</strong> → erreur de <strong style={{ color: '#f97316' }}>60 k€</strong> → les poids sont corrigés via backprop
       </div>
       <div style={{ overflowX: 'auto' }}>
-        <svg viewBox="0 0 460 135" style={{ width: '100%', minWidth: 340, maxWidth: 460, height: 'auto', display: 'block' }}>
+        <svg viewBox="0 0 460 135" style={{ width: '100%', minWidth: 380, maxWidth: 720, height: 'auto', display: 'block' }}>
           {/* Forward pass label */}
-          <text x="222" y="12" textAnchor="middle" fill="#818cf8" fontSize="9" fontFamily="sans-serif" fontWeight="700">→ FORWARD PASS →</text>
+          <text x="222" y="12" textAnchor="middle" fill="#818cf8" fontSize="11" fontFamily="sans-serif" fontWeight="700">→ FORWARD PASS →</text>
           {/* Boîtes */}
           {boxes.map((b, i) => (
             <g key={i}>
               <rect x={b.x} y="20" width="92" height="44" rx="5" fill={`${b.color}20`} stroke={b.color} strokeWidth="1.5" />
-              <text x={b.x + 46} y="38" textAnchor="middle" fill={b.color} fontSize="11"
+              <text x={b.x + 46} y="38" textAnchor="middle" fill={b.color} fontSize="12"
                 fontFamily="'JetBrains Mono',monospace" fontWeight="700">{b.label}</text>
-              <text x={b.x + 46} y="55" textAnchor="middle" fill="#475569" fontSize="8.5"
+              <text x={b.x + 46} y="55" textAnchor="middle" fill="#94a3b8" fontSize="10"
                 fontFamily="sans-serif">{b.sub}</text>
             </g>
           ))}
@@ -457,16 +457,16 @@ function BackpropFlowDiagram() {
           ))}
           {/* Labels opérations forward */}
           {[['X@W1+b1', 162], ['a1@W2+b2', 274]].map(([lbl, x]) => (
-            <text key={lbl} x={x} y="17" textAnchor="middle" fill="#334155" fontSize="8"
+            <text key={lbl} x={x} y="17" textAnchor="middle" fill="#475569" fontSize="9.5"
               fontFamily="'JetBrains Mono',monospace">{lbl}</text>
           ))}
           {/* Sortie prédite + vraie valeur */}
-          <text x="386" y="76" textAnchor="middle" fill="#f87171" fontSize="8" fontFamily="sans-serif">prédit: 310 k€</text>
-          <text x="386" y="86" textAnchor="middle" fill="#34d399" fontSize="8" fontFamily="sans-serif">réel:   250 k€</text>
-          <text x="386" y="96" textAnchor="middle" fill="#f97316" fontSize="8.5" fontFamily="sans-serif" fontWeight="700">erreur: −60 k€</text>
+          <text x="386" y="76" textAnchor="middle" fill="#f87171" fontSize="10" fontFamily="sans-serif">prédit: 310 k€</text>
+          <text x="386" y="87" textAnchor="middle" fill="#34d399" fontSize="10" fontFamily="sans-serif">réel:   250 k€</text>
+          <text x="386" y="98" textAnchor="middle" fill="#f97316" fontSize="10.5" fontFamily="sans-serif" fontWeight="700">erreur: −60 k€</text>
           {/* Backward pass label */}
-          <text x="222" y="128" textAnchor="middle" fill="#fca5a5" fontSize="9" fontFamily="sans-serif" fontWeight="700">
-            ← BACKWARD PASS (le gradient de l'erreur remonte couche par couche) ←
+          <text x="222" y="128" textAnchor="middle" fill="#fca5a5" fontSize="10" fontFamily="sans-serif" fontWeight="700">
+            ← BACKWARD PASS (gradient de l'erreur remonte couche par couche) ←
           </text>
           {/* Flèches backward */}
           {boxes.slice(0, -1).map((b, i) => (
@@ -479,14 +479,14 @@ function BackpropFlowDiagram() {
           ))}
           {/* Labels gradient backward */}
           {[['∂L/∂W1', 162], ['∂L/∂W2', 274]].map(([lbl, x]) => (
-            <text key={lbl} x={x} y="97" textAnchor="middle" fill="#fca5a5" fontSize="8"
+            <text key={lbl} x={x} y="97" textAnchor="middle" fill="#fca5a5" fontSize="10"
               fontFamily="'JetBrains Mono',monospace">{lbl}</text>
           ))}
         </svg>
       </div>
       {/* Explication pas à pas */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
-        <div style={{ marginBottom: 4 }}><strong>Ce qui se passe exactement pour notre maison :</strong></div>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(99,102,241,0.05)', borderRadius: 8 }}>
+        <div style={{ marginBottom: 6 }}><strong>Ce qui se passe exactement pour notre maison :</strong></div>
         <div>1️⃣ <strong>Forward pass :</strong> [100, 3, 5] traverse les couches → le réseau calcule <span style={{ color: '#f87171' }}>310 k€</span></div>
         <div>2️⃣ <strong>Calcul de la perte :</strong> Loss = (310 − 250)² = 3 600 — un nombre qui mesure "à quel point on s'est trompé"</div>
         <div>3️⃣ <strong>Backward pass :</strong> on calcule ∂L/∂W pour chaque poids — cela indique dans quelle direction corriger chaque poids</div>
@@ -494,7 +494,7 @@ function BackpropFlowDiagram() {
       </div>
 
       {/* Qu'est-ce que z et a ? */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(139,92,246,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(139,92,246,0.4)' }}>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(139,92,246,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(139,92,246,0.4)' }}>
         <strong style={{ color: '#a78bfa' }}>Qu'est-ce que z et a dans "z1, a1" ?</strong><br/>
         Pour chaque couche, il y a <strong>deux valeurs</strong> distinctes :<br/>
         — <strong>z</strong> (pré-activation) : le résultat brut de la multiplication matricielle, <em>avant</em> la fonction d'activation. Ex : z₁ = x@W₁+b₁ = −1.4<br/>
@@ -503,7 +503,7 @@ function BackpropFlowDiagram() {
       </div>
 
       {/* Qu'est-ce que la Loss ? */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(239,68,68,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(239,68,68,0.4)' }}>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(239,68,68,0.05)', borderRadius: 8, borderLeft: '3px solid rgba(239,68,68,0.4)' }}>
         <strong style={{ color: '#f87171' }}>Qu'est-ce que la Loss (perte) ?</strong><br/>
         La Loss est un <strong>nombre unique</strong> qui mesure à quel point le réseau se trompe sur un exemple. Ici on utilise MSE (<em>Mean Squared Error</em>) :<br/>
         <em>Loss = (prédiction − valeur_réelle)² = (310 − 250)² = 3 600</em><br/>
@@ -511,7 +511,7 @@ function BackpropFlowDiagram() {
       </div>
 
       {/* Qu'est-ce que ∂L/∂W ? */}
-      <div style={{ fontSize: '0.75rem', color: 'var(--text-muted)', marginTop: 8, lineHeight: 1.6, padding: '10px 14px', background: 'rgba(239,68,68,0.04)', borderRadius: 8, borderLeft: '3px solid rgba(239,68,68,0.3)' }}>
+      <div style={{ fontSize: '0.88rem', color: 'var(--text-muted)', marginTop: 10, lineHeight: 1.7, padding: '12px 16px', background: 'rgba(239,68,68,0.04)', borderRadius: 8, borderLeft: '3px solid rgba(239,68,68,0.3)' }}>
         <strong style={{ color: '#fca5a5' }}>Qu'est-ce que ∂L/∂W (le gradient) ?</strong><br/>
         ∂L/∂W se lit "dérivée partielle de la Loss par rapport au poids W". En pratique, ça répond à la question :<br/>
         <em>"Si j'augmente ce poids d'un tout petit peu (+0.001), est-ce que l'erreur monte ou descend, et de combien ?"</em><br/>
