@@ -450,14 +450,15 @@ function DiagramEmbedding() {
 
 // ── Diagram: CNN (Réseau convolutif) ──────────────────────────────────────
 function DiagramCNN() {
-  const W = 560, H = 260
+  const W = 560, H = 240
   const stages = [
-    { icon: '🖼️', title: 'Image', sub: '28 × 28 px', detail: 'Entrée brute', color: '#6366f1', x: 30 },
-    { icon: '🔍', title: 'Convolution', sub: 'Filtres 3×3', detail: 'Détecte bords & textures', color: '#8b5cf6', x: 160 },
-    { icon: '⬇️', title: 'Pooling', sub: 'Max 2×2', detail: 'Réduit la résolution ÷2', color: '#a855f7', x: 290 },
-    { icon: '🧠', title: 'Couches FC', sub: '256 → 128', detail: 'Combine les features', color: '#ec4899', x: 420 },
+    { icon: '🖼️', title: 'Image',      sub: '28×28 px',   detail: 'Entrée brute',           color: '#6366f1' },
+    { icon: '🔍', title: 'Convolution', sub: 'Filtres 3×3', detail: 'Détecte bords & textures', color: '#8b5cf6' },
+    { icon: '⬇️', title: 'Pooling',     sub: 'Max 2×2',    detail: 'Résolution ÷ 2',          color: '#a855f7' },
+    { icon: '🧠', title: 'FC + Sortie', sub: '128 → 10',   detail: 'Classification finale',   color: '#34d399' },
   ]
-  const bw = 100, bh = 120, cy = 80
+  const pad = 16, bw = (W - pad * 2 - 30 * (stages.length - 1)) / stages.length
+  const bh = 120, cy = 50, arrowGap = 30
 
   return (
     <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 640, display: 'block', margin: '0 auto' }}>
@@ -469,35 +470,31 @@ function DiagramCNN() {
       <text x={W / 2} y={18} textAnchor="middle" fontSize={13} fill="rgba(148,163,184,0.7)" fontWeight={600}>
         Architecture CNN — Vision par ordinateur
       </text>
-      {stages.map((s, i) => (
-        <g key={i}>
-          {i < stages.length - 1 && (
-            <line x1={s.x + bw} y1={cy + bh / 2} x2={stages[i + 1].x} y2={cy + bh / 2}
-              stroke="rgba(148,163,184,0.35)" strokeWidth={1.5} markerEnd="url(#cnnArr)" />
-          )}
-          <rect x={s.x} y={cy} width={bw} height={bh} rx={10}
-            fill={`${s.color}18`} stroke={s.color} strokeWidth={1.5} strokeOpacity={0.6} />
-          <text x={s.x + bw / 2} y={cy + 24} textAnchor="middle" fontSize={22}>{s.icon}</text>
-          <text x={s.x + bw / 2} y={cy + 50} textAnchor="middle" fontSize={12} fill={s.color} fontWeight={700}>
-            {s.title}
-          </text>
-          <text x={s.x + bw / 2} y={cy + 67} textAnchor="middle" fontSize={10.5} fill={s.color} fontWeight={500}>
-            {s.sub}
-          </text>
-          <text x={s.x + bw / 2} y={cy + 85} textAnchor="middle" fontSize={9.5} fill="rgba(148,163,184,0.75)">
-            {s.detail}
-          </text>
-        </g>
-      ))}
-      {/* Sortie finale */}
-      <rect x={420 + bw + 30} y={cy + 30} width={70} height={60} rx={10}
-        fill="rgba(52,211,153,0.15)" stroke="#34d399" strokeWidth={1.5} />
-      <text x={420 + bw + 65} y={cy + 55} textAnchor="middle" fontSize={20}>🏷️</text>
-      <text x={420 + bw + 65} y={cy + 73} textAnchor="middle" fontSize={11} fill="#34d399" fontWeight={700}>Classe</text>
-      <text x={420 + bw + 65} y={cy + 87} textAnchor="middle" fontSize={10} fill="rgba(52,211,153,0.7)">10 sorties</text>
-      <line x1={420 + bw} y1={cy + bh / 2} x2={420 + bw + 30} y2={cy + 60}
-        stroke="rgba(52,211,153,0.4)" strokeWidth={1.5} markerEnd="url(#cnnArr)" />
-      <text x={W / 2} y={H - 12} textAnchor="middle" fontSize={11} fill="rgba(148,163,184,0.55)">
+      {stages.map((s, i) => {
+        const x = pad + i * (bw + arrowGap)
+        const nextX = pad + (i + 1) * (bw + arrowGap)
+        return (
+          <g key={i}>
+            {i < stages.length - 1 && (
+              <line x1={x + bw} y1={cy + bh / 2} x2={nextX} y2={cy + bh / 2}
+                stroke="rgba(148,163,184,0.35)" strokeWidth={1.5} markerEnd="url(#cnnArr)" />
+            )}
+            <rect x={x} y={cy} width={bw} height={bh} rx={10}
+              fill={`${s.color}18`} stroke={s.color} strokeWidth={1.5} strokeOpacity={0.6} />
+            <text x={x + bw / 2} y={cy + 24} textAnchor="middle" fontSize={20}>{s.icon}</text>
+            <text x={x + bw / 2} y={cy + 48} textAnchor="middle" fontSize={12} fill={s.color} fontWeight={700}>
+              {s.title}
+            </text>
+            <text x={x + bw / 2} y={cy + 65} textAnchor="middle" fontSize={10} fill={s.color} fillOpacity={0.8}>
+              {s.sub}
+            </text>
+            <text x={x + bw / 2} y={cy + 82} textAnchor="middle" fontSize={9} fill="rgba(148,163,184,0.7)">
+              {s.detail}
+            </text>
+          </g>
+        )
+      })}
+      <text x={W / 2} y={H - 10} textAnchor="middle" fontSize={11} fill="rgba(148,163,184,0.5)">
         Features locales → Features globales → Classification
       </text>
     </svg>
