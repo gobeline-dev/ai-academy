@@ -737,6 +737,19 @@
             "explanation": "Évaluer sur les données d'entraînement donne un score optimiste et trompeur : le modèle a déjà 'vu' ces exemples et peut les mémoriser. Le split train/test simule des données inédites pour mesurer la vraie capacité de généralisation."
           },
           {
+            "type": "usecase",
+            "title": "Cas d'usage réels",
+            "items": [
+              { "company": "Netflix", "desc": "Apprentissage supervisé pour recommander des films (labels = films regardés > 70%). Réduction de 80% du churn selon leurs équipes." },
+              { "company": "Spotify", "desc": "Clustering non-supervisé pour créer des playlists 'Discover Weekly' — regroupe vos habitudes d'écoute sans labels humains." },
+              { "company": "Tesla", "desc": "Apprentissage par renforcement pour améliorer l'Autopilot — l'agent reçoit un signal de récompense quand il conduit sans intervention humaine." }
+            ]
+          },
+          {
+            "type": "warning",
+            "content": "**Erreur classique n°1 : choisir le mauvais paradigme.** Tenter du supervisé sans labels suffisants (< 1000 exemples étiquetés), ou du non-supervisé quand on a des labels — c'est gaspiller des ressources. Règle pratique : si vous avez des labels propres → supervisé. Si annoter coûte cher → non-supervisé + quelques labels (semi-supervisé)."
+          },
+          {
             "type": "summary",
             "title": "Ce qu'on a appris",
             "items": [
@@ -859,6 +872,29 @@
             "explanation": "La régression linéaire modélise une relation pour prédire une valeur continue (prix d'une maison). La régression logistique applique une sigmoïde pour produire une probabilité entre 0 et 1, idéale pour la classification binaire (churn/pas churn, spam/pas spam)."
           },
           {
+            "type": "usecase",
+            "title": "Cas d'usage réels",
+            "items": [
+              { "company": "Airbnb", "desc": "Régression linéaire pour suggérer un prix optimal aux hôtes (surface, localisation, équipements → prix/nuit en €)." },
+              { "company": "Stripe", "desc": "Régression logistique pour scorer le risque de fraude sur chaque transaction (P(fraude) > 0.8 → bloquer)." },
+              { "company": "Assurance", "desc": "Régression logistique pour prédire P(sinistre) et fixer la prime — modèle réglementé car interprétable (RGPD)." }
+            ]
+          },
+          {
+            "type": "warning",
+            "content": "**Erreur classique n°2 : utiliser la régression linéaire pour classifier.** Si votre cible est binaire (0/1, oui/non), la régression linéaire peut prédire des valeurs > 1 ou < 0, ce qui n'a aucun sens comme probabilité. Utilisez toujours la **régression logistique** pour les problèmes de classification binaire."
+          },
+          {
+            "type": "decide",
+            "title": "Régression linéaire vs logistique : quand choisir ?",
+            "rules": [
+              { "condition": "votre cible est un nombre (prix, température, durée)", "choice": "**Régression linéaire** — prédit une valeur continue. MAE et RMSE pour évaluer." },
+              { "condition": "votre cible est binaire (0/1, oui/non, spam/non-spam)", "choice": "**Régression logistique** — prédit P(y=1). Accuracy, F1, AUC-ROC pour évaluer." },
+              { "condition": "vous devez expliquer le modèle à des non-techniciens (légal, médical)", "choice": "**L'un ou l'autre** — les deux sont interprétables via leurs coefficients." },
+              { "condition": "vos features ont des relations non-linéaires complexes", "choice": "Ces modèles vont sous-fitter. Passez à Random Forest ou Gradient Boosting (module suivant)." }
+            ]
+          },
+          {
             "type": "summary",
             "title": "Ce qu'on a appris",
             "items": [
@@ -967,6 +1003,30 @@
             ],
             "correct": 1,
             "explanation": "Un seul arbre de décision overfitte facilement (haute variance). La Random Forest entraîne de nombreux arbres sur des sous-ensembles aléatoires de données et de features, puis agrège leurs prédictions (vote majoritaire). Cette diversification réduit drastiquement la variance."
+          },
+          {
+            "type": "params",
+            "title": "Effet des hyperparamètres — Random Forest",
+            "columns": ["Paramètre", "Valeur basse", "Valeur haute", "Conseil pratique"],
+            "rows": [
+              ["n_estimators", "Rapide mais instable (variance élevée)", "Stable mais lent à entraîner", "100–500 suffit généralement. Augmenter si les scores varient trop."],
+              ["max_depth", "Arbres profonds → overfitting sur données bruyantes", "Arbres peu profonds → underfitting", "None (pas de limite) par défaut est souvent OK. Essayer 10–20 si dataset < 1000 lignes."],
+              ["min_samples_leaf", "1 → mémorise le bruit (overfitting)", "10–20 → modèle plus régularisé", "Augmenter si votre dataset est petit ou très bruité."],
+              ["max_features", "1 → diversité max entre les arbres", "Toutes → corrélation entre arbres", "sqrt(n_features) pour classification, n_features/3 pour régression (valeurs par défaut sklearn)."]
+            ]
+          },
+          {
+            "type": "usecase",
+            "title": "Cas d'usage réels",
+            "items": [
+              { "company": "Kaggle", "desc": "La Random Forest et XGBoost dominent les compétitions sur données tabulaires — 70% des vainqueurs utilisent un de ces deux algorithmes." },
+              { "company": "Crédit Agricole", "desc": "Scoring de crédit : la Random Forest prédit P(défaut de paiement) à partir de 50+ variables financières. Interprétable via feature importance." },
+              { "company": "Médecine", "desc": "Détection précoce du cancer : Random Forest sur données génomiques pour identifier les biomarqueurs les plus prédictifs." }
+            ]
+          },
+          {
+            "type": "warning",
+            "content": "**Erreur classique n°3 : confondre importance de feature et causalité.** Une feature avec haute importance dans la Random Forest est *corrélée* à la target, pas forcément *causale*. Ex : le code postal peut avoir une haute importance pour prédire le revenu, mais le code postal ne *cause* pas le revenu — c'est une variable proxy. Ne jamais décider sur des politiques ou des actions sans analyser la causalité."
           },
           {
             "type": "summary",
@@ -1079,6 +1139,39 @@
             "explanation": "K-Means calcule des distances euclidiennes pour assigner les points aux clusters. Sans normalisation, les variables avec de grandes valeurs absolues dominent le calcul de distance et faussent les clusters. StandardScaler ramène chaque variable à moyenne 0 et écart-type 1."
           },
           {
+            "type": "params",
+            "title": "Effet des hyperparamètres — K-Means",
+            "columns": ["Paramètre", "Valeur basse", "Valeur haute", "Conseil pratique"],
+            "rows": [
+              ["n_clusters (k)", "Trop peu de clusters → groupes hétérogènes non significatifs", "Trop de clusters → groupes trop petits, difficiles à interpréter", "Méthode du coude + connaissance métier. Souvent 3–10 pour la segmentation clients."],
+              ["n_init", "1 → risque de minimum local (mauvaise convergence)", "10–20 → plus stable, plus lent", "10 est la valeur par défaut sklearn. Ne pas mettre en dessous de 5."],
+              ["max_iter", "Convergence partielle si données complexes", "Toujours converge mais peut être très lent", "300 par défaut est largement suffisant pour la plupart des datasets."]
+            ]
+          },
+          {
+            "type": "usecase",
+            "title": "Cas d'usage réels",
+            "items": [
+              { "company": "Amazon", "desc": "Segmentation de 300M+ clients en clusters comportementaux (acheteurs occasionnels, accros aux promos, fidèles premium) pour personnaliser les campagnes marketing." },
+              { "company": "Spotify", "desc": "K-Means sur les embeddings de chansons pour créer des 'genres musicaux émergents' — sans labels définis a priori." },
+              { "company": "Cybersécurité", "desc": "DBSCAN pour détecter des comportements réseau anormaux : les points 'bruit' (outliers) sont des potentielles intrusions." }
+            ]
+          },
+          {
+            "type": "decide",
+            "title": "K-Means vs DBSCAN : quand choisir ?",
+            "rules": [
+              { "condition": "vous connaissez le nombre de groupes à l'avance", "choice": "**K-Means** — rapide, simple, scalable jusqu'à des millions de points." },
+              { "condition": "vos clusters ont des formes irrégulières (non sphériques)", "choice": "**DBSCAN** — découvre des formes arbitraires. K-Means échoue sur des données en forme de lune ou de spirale." },
+              { "condition": "vous avez des anomalies (outliers) à détecter", "choice": "**DBSCAN** — les points qui n'appartiennent à aucun cluster sont marqués comme anomalies (label -1)." },
+              { "condition": "votre dataset a plus de 100k lignes", "choice": "**K-Means** ou **MiniBatchKMeans** — DBSCAN est trop lent sur de grandes dimensions (complexité O(n log n) avec index spatial)." }
+            ]
+          },
+          {
+            "type": "warning",
+            "content": "**Erreur classique n°4 : interpréter les numéros de clusters comme ordonnés.** K-Means assigne des labels 0, 1, 2… de manière aléatoire — le cluster 0 n'est pas 'meilleur' que le cluster 2. Pour interpréter les segments, regardez les centroïdes et les statistiques descriptives de chaque cluster (âge moyen, dépense moyenne, etc.)."
+          },
+          {
             "type": "summary",
             "title": "Ce qu'on a appris",
             "items": [
@@ -1146,6 +1239,36 @@
               {
                 "line": 23,
                 "text": "n_jobs=-1 : parallélise sur tous les cœurs CPU — toujours l'utiliser pour économiser du temps"
+              }
+            ]
+          },
+          {
+            "type": "fill",
+            "title": "Exercice : complétez les phrases clés du module ML",
+            "blanks": [
+              {
+                "before": "Évaluer un modèle sur ses données d'entraînement donne un score artificiel car le modèle a déjà",
+                "answer": "mémorisé",
+                "after": " ces exemples — c'est pourquoi on utilise un jeu de test séparé.",
+                "width": 110
+              },
+              {
+                "before": "Pour des données déséquilibrées (ex: 90% négatif, 10% positif), la métrique la plus fiable est le",
+                "answer": "F1",
+                "after": " ou l'AUC-ROC, pas l'accuracy.",
+                "width": 50
+              },
+              {
+                "before": "RandomizedSearchCV teste",
+                "answer": "n_iter",
+                "after": " combinaisons aléatoires — 10-20x plus rapide que GridSearchCV sur de grands espaces.",
+                "width": 80
+              },
+              {
+                "before": "Quand val_loss remonte alors que train_loss descend, le modèle est en",
+                "answer": "overfitting",
+                "after": " — solution : Dropout, régularisation, ou réduire la complexité.",
+                "width": 110
               }
             ]
           },
@@ -1506,6 +1629,36 @@
             "content": "**TensorBoard** pour monitorer l'entraînement en temps réel : ajoutez `keras.callbacks.TensorBoard(log_dir='./logs')` puis `tensorboard --logdir ./logs`."
           },
           {
+            "type": "fill",
+            "title": "Exercice : maîtrisez le vocabulaire des réseaux de neurones",
+            "blanks": [
+              {
+                "before": "La couche",
+                "answer": "Dropout",
+                "after": " désactive aléatoirement un pourcentage de neurones pendant l'entraînement pour éviter l'overfitting.",
+                "width": 90
+              },
+              {
+                "before": "EarlyStopping arrête l'entraînement quand la métrique surveillée ne s'améliore plus pendant",
+                "answer": "patience",
+                "after": " époques consécutives.",
+                "width": 90
+              },
+              {
+                "before": "val_loss qui remonte alors que train_loss descend = le modèle est en",
+                "answer": "overfitting",
+                "after": " (surapprentissage).",
+                "width": 110
+              },
+              {
+                "before": "Pour comparer plusieurs configurations de modèles équitablement, on utilise un jeu de",
+                "answer": "validation",
+                "after": " — le jeu de test est réservé pour l'évaluation finale uniquement.",
+                "width": 105
+              }
+            ]
+          },
+          {
             "type": "summary",
             "title": "Réseaux de neurones en production",
             "items": [
@@ -1589,6 +1742,15 @@
                 "Invariant par translation grâce aux poids partagés"
               ]
             }
+          },
+          {
+            "type": "usecase",
+            "title": "Cas d'usage réels — CNN",
+            "items": [
+              { "company": "Tesla Autopilot", "desc": "CNN sur les caméras de bord pour détecter en temps réel voitures, piétons, feux rouges. 8 caméras × 30 fps → traitement CNN sub-100ms." },
+              { "company": "Google Lens", "desc": "CNN pour identifier objets, plantes, monuments, textes depuis une photo de smartphone. Modèle MobileNet optimisé pour embarqué." },
+              { "company": "Médecine / Radiologie", "desc": "CNN qui détecte des tumeurs dans des scanners IRM avec une précision comparable aux radiologues (ResNet-50, DenseNet). Ex: détection cancer du poumon sur radiographies." }
+            ]
           },
           {
             "type": "summary",
@@ -1800,6 +1962,36 @@
           {
             "type": "tip",
             "content": "**Règle pratique** : EfficientNetB0 pour < 5K images. EfficientNetB3-B5 si GPU disponible et > 10K images. MobileNetV3 pour déploiement mobile."
+          },
+          {
+            "type": "fill",
+            "title": "Exercice : Transfer Learning & CNN",
+            "blanks": [
+              {
+                "before": "Dans le fine-tuning en 2 phases, on commence par",
+                "answer": "geler",
+                "after": " les poids de la base pré-entraînée pour apprendre seulement la tête de classification.",
+                "width": 80
+              },
+              {
+                "before": "Pour le fine-tuning (phase 2), le learning rate doit être très",
+                "answer": "faible",
+                "after": " (ex: 1e-5) pour ne pas effacer les représentations ImageNet apprises.",
+                "width": 70
+              },
+              {
+                "before": "La data augmentation (rotations, flips, zoom) est appliquée pendant l'",
+                "answer": "entraînement",
+                "after": " mais désactivée automatiquement pendant l'inférence.",
+                "width": 120
+              },
+              {
+                "before": "Les premières couches d'un CNN apprennent des",
+                "answer": "bords",
+                "after": " et textures simples, les couches profondes apprennent des formes complexes.",
+                "width": 70
+              }
+            ]
           },
           {
             "type": "summary",
@@ -2073,6 +2265,30 @@
             "content": "Pour la production, utilisez ChromaDB ou Pinecone qui gèrent persistence + recherche + mise à jour — plus simples que FAISS nu."
           },
           {
+            "type": "fill",
+            "title": "Exercice : recherche sémantique & embeddings",
+            "blanks": [
+              {
+                "before": "Pour comparer deux embeddings, on calcule leur similarité",
+                "answer": "cosinus",
+                "after": " (cosine similarity) — une valeur proche de 1 = très similaires, proche de 0 = non liés.",
+                "width": 90
+              },
+              {
+                "before": "Avant de chercher, on pré-calcule et met en",
+                "answer": "cache",
+                "after": " les embeddings de la base documentaire — les recalculer à chaque requête serait trop lent.",
+                "width": 75
+              },
+              {
+                "before": "FAISS est optimisé pour la recherche de voisins les plus proches dans des espaces de haute",
+                "answer": "dimension",
+                "after": " (384, 768, 1536 dimensions selon le modèle).",
+                "width": 110
+              }
+            ]
+          },
+          {
             "type": "summary",
             "title": "Embeddings et recherche sémantique en production",
             "items": [
@@ -2105,6 +2321,10 @@
         "duration": "35 min",
         "icon": "🏗️",
         "sections": [
+          {
+            "type": "prereq",
+            "items": ["Module 3 — Réseaux de Neurones (backprop, couches denses)", "Module 5 — NLP & Embeddings (tokenisation, représentation vectorielle)", "Module 4 — Deep Learning (CNN/RNN comme contexte de comparaison)"]
+          },
           {
             "type": "intro",
             "content": "\"Attention Is All You Need\" (Vaswani et al., 2017) — ce papier a tout changé. L'architecture Transformer abandonne les RNNs séquentiels pour un mécanisme d'attention parallèle, permettant d'entraîner des modèles de centaines de milliards de paramètres."
@@ -2167,6 +2387,15 @@
           {
             "type": "interactive",
             "widget": "temperature"
+          },
+          {
+            "type": "usecase",
+            "title": "Cas d'usage réels — Transformers",
+            "items": [
+              { "company": "OpenAI GPT-4", "desc": "Architecture Decoder-only avec 1T+ paramètres. Génère du code, raisonne en chaîne (Chain-of-Thought), analyse des images (GPT-4V). Utilisé dans Copilot, ChatGPT." },
+              { "company": "Google BERT", "desc": "Architecture Encoder pré-entraîné sur Wikipedia. Amélioré le moteur de recherche Google de 10% sur les requêtes longues. Fine-tuné pour des milliers de tâches NLP." },
+              { "company": "Anthropic Claude", "desc": "Architecture Transformer avec 200K tokens de contexte. Analyse des documents entiers (PDF, codebase) en une seule inférence grâce à la fenêtre de contexte étendue." }
+            ]
           },
           {
             "type": "summary",
@@ -2322,6 +2551,10 @@
         "duration": "20 min",
         "icon": "🏗️",
         "sections": [
+          {
+            "type": "prereq",
+            "items": ["Module 6 — Architecture Transformer (comprendre ce qu'est un LLM)", "Module 5 — NLP & Embeddings (tokenisation, comment le texte est traité)"]
+          },
           {
             "type": "intro",
             "content": "Un prompt n'est pas une simple requête — c'est une interface de programmation en langage naturel. La différence entre un prompt médiocre et un prompt excellent peut être la différence entre une réponse inutilisable et un livrable prêt à l'emploi."
@@ -2725,6 +2958,10 @@
         "icon": "🔍",
         "sections": [
           {
+            "type": "prereq",
+            "items": ["Module 5 — NLP & Embeddings (embeddings vectoriels, similarité cosinus)", "Module 6 — Transformers & LLMs (comment un LLM génère du texte)", "Module 7 — Prompt Engineering (contexte dans les prompts)"]
+          },
+          {
             "type": "intro",
             "content": "Les LLMs ont un problème : leur connaissance est figée à leur date d'entraînement, et ils ne connaissent pas vos données privées. Le RAG résout cela en permettant au LLM de consulter une base de connaissance externe avant de répondre."
           },
@@ -3040,6 +3277,10 @@
         "icon": "🧬",
         "sections": [
           {
+            "type": "prereq",
+            "items": ["Module 6 — Transformers & LLMs (comprendre ce que fait le LLM)", "Module 7 — Prompt Engineering (function calling, Chain-of-Thought)", "Module 8 — RAG (enrichir le contexte est une forme d'action agentique)"]
+          },
+          {
             "type": "intro",
             "content": "Un agent IA est un LLM qui peut prendre des actions dans le monde réel : chercher sur internet, exécuter du code, appeler des APIs, lire des fichiers. C'est le passage du LLM comme outil passif à l'IA comme acteur autonome."
           },
@@ -3256,6 +3497,10 @@
         "duration": "30 min",
         "icon": "🔌",
         "sections": [
+          {
+            "type": "prereq",
+            "items": ["Module 9 — Agents IA (boucle agentique, outils, mémoire)", "Module 7 — Prompt Engineering (function calling = ancêtre du MCP)", "Notions de base en développement web (API REST, JSON, client-serveur)"]
+          },
           {
             "type": "intro",
             "content": "Le MCP (Model Context Protocol) est un protocole open-source créé par Anthropic en novembre 2024. Il standardise la façon dont les LLMs communiquent avec des sources de données et des outils externes — pensez à lui comme l'USB-C pour les intégrations IA."

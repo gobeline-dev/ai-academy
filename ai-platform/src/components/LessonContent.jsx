@@ -857,6 +857,152 @@ function Section({ section, lang, onLangChange }) {
     case 'interactive':
       return <InteractiveSection section={section} />
 
+    case 'prereq':
+      return (
+        <div style={{
+          display: 'flex', gap: 10, flexWrap: 'wrap', alignItems: 'center',
+          background: 'rgba(99,102,241,0.06)',
+          border: '1px solid rgba(99,102,241,0.18)',
+          borderRadius: 'var(--radius-md)',
+          padding: '12px 18px', marginBottom: 20,
+        }}>
+          <span style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--color-primary-light)', flexShrink: 0 }}>
+            📚 Prérequis :
+          </span>
+          {section.items.map((item, i) => (
+            <span key={i} style={{
+              fontSize: '0.78rem', padding: '3px 10px', borderRadius: 20,
+              background: 'rgba(99,102,241,0.12)', border: '1px solid rgba(99,102,241,0.2)',
+              color: 'var(--text-secondary)',
+            }}>
+              {item}
+            </span>
+          ))}
+        </div>
+      )
+
+    case 'usecase':
+      return (
+        <div style={{
+          background: 'rgba(16,185,129,0.05)',
+          border: '1px solid rgba(16,185,129,0.2)',
+          borderRadius: 'var(--radius-lg)',
+          overflow: 'hidden', marginBottom: 24,
+        }}>
+          <div style={{
+            padding: '10px 18px',
+            background: 'rgba(16,185,129,0.09)',
+            borderBottom: '1px solid rgba(16,185,129,0.15)',
+            fontSize: '0.8rem', fontWeight: 700, color: '#34d399',
+            display: 'flex', alignItems: 'center', gap: 6,
+          }}>
+            <span>🌍</span> {section.title || 'Cas d\'usage réels'}
+          </div>
+          <div style={{ padding: '14px 18px', display: 'flex', flexDirection: 'column', gap: 10 }}>
+            {section.items.map((item, i) => (
+              <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+                <span style={{
+                  fontSize: '0.75rem', fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                  background: 'rgba(16,185,129,0.12)', color: '#34d399', flexShrink: 0, marginTop: 2,
+                }}>{item.company}</span>
+                <RichText text={item.desc} tag="span"
+                  style={{ fontSize: '0.83rem', color: 'var(--text-secondary)', lineHeight: 1.6 }} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+
+    case 'params':
+      return (
+        <div style={{
+          background: 'rgba(139,92,246,0.05)',
+          border: '1px solid rgba(139,92,246,0.2)',
+          borderRadius: 'var(--radius-lg)',
+          overflow: 'hidden', marginBottom: 24,
+        }}>
+          <div style={{
+            padding: '10px 18px',
+            background: 'rgba(139,92,246,0.09)',
+            borderBottom: '1px solid rgba(139,92,246,0.15)',
+            fontSize: '0.8rem', fontWeight: 700, color: '#a78bfa',
+            display: 'flex', alignItems: 'center', gap: 6,
+          }}>
+            <span>⚙️</span> {section.title || 'Effet des hyperparamètres'}
+          </div>
+          <div style={{ overflowX: 'auto' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: '0.8rem' }}>
+              <thead>
+                <tr style={{ background: 'rgba(139,92,246,0.07)' }}>
+                  {section.columns.map((col, i) => (
+                    <th key={i} style={{
+                      padding: '8px 14px', textAlign: 'left', color: '#a78bfa',
+                      fontWeight: 700, borderBottom: '1px solid rgba(139,92,246,0.15)',
+                      whiteSpace: 'nowrap',
+                    }}>{col}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {section.rows.map((row, i) => (
+                  <tr key={i} style={{ borderBottom: i < section.rows.length - 1 ? '1px solid rgba(255,255,255,0.04)' : 'none' }}>
+                    {row.map((cell, j) => (
+                      <td key={j} style={{
+                        padding: '8px 14px', color: j === 0 ? '#c4b5fd' : 'var(--text-secondary)',
+                        fontFamily: j === 0 ? 'var(--font-mono)' : 'inherit', fontWeight: j === 0 ? 600 : 400,
+                      }}>
+                        <RichText text={cell} tag="span" />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )
+
+    case 'decide':
+      return (
+        <div style={{
+          background: 'rgba(245,158,11,0.05)',
+          border: '1px solid rgba(245,158,11,0.2)',
+          borderRadius: 'var(--radius-lg)',
+          overflow: 'hidden', marginBottom: 24,
+        }}>
+          <div style={{
+            padding: '10px 18px',
+            background: 'rgba(245,158,11,0.08)',
+            borderBottom: '1px solid rgba(245,158,11,0.15)',
+            fontSize: '0.8rem', fontWeight: 700, color: '#fbbf24',
+            display: 'flex', alignItems: 'center', gap: 6,
+          }}>
+            <span>🤔</span> {section.title || 'Quand choisir quel algorithme ?'}
+          </div>
+          <div style={{ padding: '14px 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            {section.rules.map((rule, i) => (
+              <div key={i} style={{
+                display: 'flex', gap: 10, padding: '8px 12px',
+                background: 'rgba(255,255,255,0.02)', borderRadius: 8,
+                alignItems: 'flex-start',
+              }}>
+                <span style={{
+                  fontSize: '0.72rem', fontWeight: 700, padding: '2px 8px', borderRadius: 20,
+                  background: 'rgba(245,158,11,0.12)', color: '#fbbf24',
+                  flexShrink: 0, marginTop: 2, whiteSpace: 'nowrap',
+                }}>Si {rule.condition}</span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--color-primary-light)', fontWeight: 600, flexShrink: 0, marginTop: 2 }}>→</span>
+                <RichText text={rule.choice} tag="span"
+                  style={{ fontSize: '0.82rem', color: 'var(--text-secondary)', lineHeight: 1.6 }} />
+              </div>
+            ))}
+          </div>
+        </div>
+      )
+
+    case 'fill':
+      return <FillSection section={section} />
+
     default:
       return null
   }
@@ -943,6 +1089,106 @@ function CheckSection({ section }) {
           </button>
         </div>
       )}
+    </div>
+  )
+}
+
+// ── FillSection — exercice à trous interactif ────────────────────────────────
+function FillSection({ section }) {
+  const [answers, setAnswers] = useState({})
+  const [revealed, setRevealed] = useState(false)
+
+  const check = (idx, val) => {
+    if (revealed) return
+    setAnswers(prev => ({ ...prev, [idx]: val }))
+  }
+
+  const allFilled = section.blanks.every((_, i) => answers[i] !== undefined && answers[i] !== '')
+  const score = revealed ? section.blanks.filter((b, i) =>
+    (answers[i] || '').trim().toLowerCase() === b.answer.toLowerCase()
+  ).length : 0
+
+  return (
+    <div style={{
+      background: 'rgba(99,102,241,0.06)',
+      border: '1px solid rgba(99,102,241,0.2)',
+      borderRadius: 'var(--radius-lg)',
+      padding: '20px 22px', marginBottom: 24,
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14 }}>
+        <span style={{ fontSize: '1rem' }}>✏️</span>
+        <span style={{ fontWeight: 700, color: 'var(--text-primary)', fontSize: '0.9rem' }}>
+          {section.title || 'Complétez les phrases'}
+        </span>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+        {section.blanks.map((blank, i) => {
+          const val = answers[i] || ''
+          const isCorrect = revealed && val.trim().toLowerCase() === blank.answer.toLowerCase()
+          const isWrong = revealed && !isCorrect
+          return (
+            <div key={i} style={{ fontSize: '0.88rem', color: 'var(--text-secondary)', lineHeight: 1.8 }}>
+              <RichText text={blank.before} tag="span" />
+              <input
+                type="text"
+                value={val}
+                onChange={e => check(i, e.target.value)}
+                disabled={revealed}
+                placeholder="…"
+                style={{
+                  display: 'inline-block',
+                  width: blank.width || 120,
+                  padding: '2px 8px',
+                  margin: '0 4px',
+                  borderRadius: 6,
+                  border: `1px solid ${isCorrect ? 'rgba(16,185,129,0.6)' : isWrong ? 'rgba(239,68,68,0.6)' : 'rgba(99,102,241,0.35)'}`,
+                  background: isCorrect ? 'rgba(16,185,129,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'rgba(99,102,241,0.08)',
+                  color: isCorrect ? '#34d399' : isWrong ? '#f87171' : 'var(--text-primary)',
+                  fontFamily: 'var(--font-mono)', fontSize: '0.82rem', outline: 'none',
+                }}
+              />
+              {isWrong && (
+                <span style={{ color: '#34d399', fontSize: '0.78rem', marginLeft: 4 }}>→ {blank.answer}</span>
+              )}
+              <RichText text={blank.after || ''} tag="span" />
+            </div>
+          )
+        })}
+      </div>
+      <div style={{ marginTop: 16, display: 'flex', gap: 10, alignItems: 'center' }}>
+        {!revealed ? (
+          <button
+            onClick={() => setRevealed(true)}
+            disabled={!allFilled}
+            style={{
+              padding: '6px 16px', borderRadius: 8, fontSize: '0.82rem', fontWeight: 600,
+              background: allFilled ? 'var(--gradient-primary)' : 'rgba(99,102,241,0.1)',
+              border: 'none', color: allFilled ? '#fff' : 'var(--text-muted)', cursor: allFilled ? 'pointer' : 'not-allowed',
+            }}
+          >
+            Vérifier
+          </button>
+        ) : (
+          <>
+            <span style={{
+              fontSize: '0.88rem', fontWeight: 700,
+              color: score === section.blanks.length ? '#34d399' : '#fbbf24',
+            }}>
+              {score}/{section.blanks.length} correct{score > 1 ? 's' : ''}
+            </span>
+            <button
+              onClick={() => { setAnswers({}); setRevealed(false) }}
+              style={{
+                padding: '6px 14px', borderRadius: 8, fontSize: '0.78rem',
+                background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+                color: 'var(--text-muted)', cursor: 'pointer',
+              }}
+            >
+              Réessayer
+            </button>
+          </>
+        )}
+      </div>
     </div>
   )
 }
