@@ -147,20 +147,58 @@
             "contentJava": "// Java 11 avec Weka (bibliothèque ML la plus populaire en Java)\n// Dépendance Maven : weka-stable:3.8.6\nimport weka.classifiers.trees.RandomForest;\nimport weka.core.*;\nimport java.util.ArrayList;\n\npublic class PremierClassifieur {\n    public static void main(String[] args) throws Exception {\n        // Définir les attributs : heures_etude, heures_sommeil, resultat\n        ArrayList<Attribute> attrs = new ArrayList<>();\n        attrs.add(new Attribute(\"heures_etude\"));\n        attrs.add(new Attribute(\"heures_sommeil\"));\n        ArrayList<String> classes = new ArrayList<>();\n        classes.add(\"echec\");\n        classes.add(\"succes\");\n        attrs.add(new Attribute(\"resultat\", classes));\n\n        // Créer le dataset et ajouter les données\n        Instances dataset = new Instances(\"Apprentissage\", attrs, 5);\n        dataset.setClassIndex(2);\n\n        // Données : [heures_étude, heures_sommeil, résultat]\n        double[][] data = {{2,5,0},{8,7,1},{3,4,0},{9,8,1},{1,3,0}};\n        for (double[] row : data)\n            dataset.add(new DenseInstance(1.0, row));\n\n        // Entraîner le classifieur Random Forest\n        RandomForest clf = new RandomForest();\n        clf.buildClassifier(dataset);\n\n        // Prédiction : 7h d'étude, 8h de sommeil\n        DenseInstance test = new DenseInstance(1.0, new double[]{7, 8, 0});\n        test.setDataset(dataset);\n        double result = clf.classifyInstance(test);\n        System.out.println(\"Prédiction : \"\n            + dataset.classAttribute().value((int) result));\n        // -> succes prédit !\n    }\n}",
             "annotations": [
               {
+                "line": 1,
+                "text": "RandomForestClassifier = classifieur sklearn qui entraîne N arbres de décision sur des sous-échantillons aléatoires et vote à la majorité. Très robuste, peu de réglage nécessaire."
+              },
+              {
                 "line": 5,
-                "text": "X = les données d'entrée : 5 exemples avec 2 features [heures_étude, heures_sommeil]"
+                "text": "X = matrice d'entrée (5 exemples × 2 features). Chaque ligne est un étudiant, chaque colonne une caractéristique mesurée."
               },
               {
                 "line": 6,
-                "text": "y = les labels de vérité : 0=échec, 1=succès — ce que le modèle doit apprendre à prédire"
+                "text": "y = vecteur des labels de vérité : 0=échec, 1=succès. C'est ce que le modèle doit apprendre à reproduire."
               },
               {
                 "line": 9,
-                "text": "fit() = phase d'entraînement : le modèle analyse les patterns (X, y) et construit ses règles de décision"
+                "text": ".fit(X, y) = phase d'entraînement. Le modèle analyse les paires (X, y) et construit 100 arbres de décision internes."
               },
               {
                 "line": 12,
-                "text": "predict() = inférence : le modèle applique les règles apprises pour prédire un exemple jamais vu"
+                "text": ".predict([[7, 8]]) = inférence sur un nouvel exemple. Les 100 arbres votent, la majorité l'emporte → [1] = succès prédit."
+              }
+            ],
+            "annotationsJava": [
+              {
+                "line": 10,
+                "text": "Attribute(\"heures_etude\") = définit une colonne numérique du dataset. Sans 2ème argument = valeur continue (float). Équivalent d'une colonne dans un DataFrame pandas."
+              },
+              {
+                "line": 16,
+                "text": "Attribute(\"resultat\", classes) = attribut nominal (catégoriel) avec les valeurs possibles listées. Weka doit connaître toutes les classes à l'avance."
+              },
+              {
+                "line": 19,
+                "text": "Instances(\"Apprentissage\", attrs, 5) = crée un dataset vide. 1er arg = nom, 2ème = liste des colonnes (Attribute), 3ème = capacité initiale (peut grandir)."
+              },
+              {
+                "line": 20,
+                "text": "setClassIndex(2) = indique à Weka quelle colonne est le label à prédire (index 2 = \"resultat\"). OBLIGATOIRE avant d'entraîner."
+              },
+              {
+                "line": 25,
+                "text": "DenseInstance(1.0, row) = une ligne de données. Le 1.0 est le poids de l'exemple (1.0 = normal, 2.0 = compte double dans l'entraînement). row = tableau de valeurs."
+              },
+              {
+                "line": 28,
+                "text": "RandomForest = classifieur Weka. Entraîne N arbres de décision (setNumIterations) sur des sous-échantillons Bootstrap. Équivalent de sklearn.RandomForestClassifier."
+              },
+              {
+                "line": 29,
+                "text": "buildClassifier(dataset) = phase d'entraînement. Équivalent de .fit() en scikit-learn. Lance la construction des arbres de décision."
+              },
+              {
+                "line": 34,
+                "text": "classifyInstance(test) = prédit la classe d'un DenseInstance. Retourne un double (index de la classe). Équivalent de .predict() en scikit-learn."
               }
             ]
           },
@@ -726,7 +764,83 @@
             "language": "python",
             "label": "Régression linéaire : prédire un prix",
             "content": "from sklearn.linear_model import LinearRegression, LogisticRegression\nfrom sklearn.model_selection import train_test_split\nfrom sklearn.metrics import mean_absolute_error, accuracy_score\nimport numpy as np\n\n# ── RÉGRESSION LINÉAIRE ──────────────────────────────\n# Prédire le prix d'une maison (en k€)\nnp.random.seed(42)\nn = 200\nsurface = np.random.uniform(30, 200, n)\nnb_pieces = np.random.randint(1, 8, n).astype(float)\nprix = 1.2 * surface + 15 * nb_pieces + np.random.normal(0, 20, n)\n\nX = np.column_stack([surface, nb_pieces])\nX_train, X_test, y_train, y_test = train_test_split(X, prix, test_size=0.2)\n\nmodel = LinearRegression()\nmodel.fit(X_train, y_train)\n\npred = model.predict(X_test)\nprint(f'MAE: {mean_absolute_error(y_test, pred):.0f}k€')\nprint(f'Coefs: surface={model.coef_[0]:.2f}, pièces={model.coef_[1]:.2f}')\n\n# ── RÉGRESSION LOGISTIQUE ────────────────────────────\n# Prédire si un client va churner (0/1)\nX_clf = np.column_stack([\n    np.random.normal(50, 15, n),   # âge\n    np.random.normal(500, 200, n), # dépense mensuelle\n    np.random.randint(0, 5, n)     # nb réclamations\n])\ny_clf = (X_clf[:,1] < 350).astype(int)  # churne si dépense < 350€\n\nX_tr, X_te, y_tr, y_te = train_test_split(X_clf, y_clf, test_size=0.2)\nlog_reg = LogisticRegression()\nlog_reg.fit(X_tr, y_tr)\nprint(f'\\nAccuracy churn: {accuracy_score(y_te, log_reg.predict(X_te)):.1%}')",
-            "contentJava": "// Java 11 avec Weka (weka-stable:3.8.6)\nimport weka.classifiers.functions.LinearRegression;\nimport weka.classifiers.functions.Logistic;\nimport weka.classifiers.evaluation.Evaluation;\nimport weka.core.*;\nimport java.util.*;\n\npublic class RegressionLineaireLogistique {\n    public static void main(String[] args) throws Exception {\n        // ── RÉGRESSION LINÉAIRE ──────────────────────────\n        // Prédire le prix d'une maison (en k€)\n        ArrayList<Attribute> attrsReg = new ArrayList<>();\n        attrsReg.add(new Attribute(\"surface\"));\n        attrsReg.add(new Attribute(\"nb_pieces\"));\n        attrsReg.add(new Attribute(\"prix\"));\n\n        Instances dataReg = new Instances(\"Maisons\", attrsReg, 5);\n        dataReg.setClassIndex(2);\n\n        double[][] maisons = {{50,2,90},{100,4,175},{150,5,250},{80,3,130},{120,4,200}};\n        for (double[] row : maisons) dataReg.add(new DenseInstance(1.0, row));\n\n        LinearRegression linReg = new LinearRegression();\n        linReg.buildClassifier(dataReg);\n        System.out.println(\"Modèle linéaire appris !\");\n\n        // Prédiction : 90m², 3 pièces\n        DenseInstance test = new DenseInstance(1.0, new double[]{90, 3, 0});\n        test.setDataset(dataReg);\n        System.out.printf(\"Prix estimé : %.0f k€%n\",\n            linReg.classifyInstance(test));\n\n        // ── RÉGRESSION LOGISTIQUE ────────────────────────\n        // Prédire si un client va churner (0/1)\n        ArrayList<Attribute> attrsClf = new ArrayList<>();\n        attrsClf.add(new Attribute(\"age\"));\n        attrsClf.add(new Attribute(\"depense_mensuelle\"));\n        attrsClf.add(new Attribute(\"nb_reclamations\"));\n        List<String> cls = Arrays.asList(\"reste\", \"churne\");\n        attrsClf.add(new Attribute(\"churn\", cls));\n\n        Instances dataClf = new Instances(\"Churn\", attrsClf, 6);\n        dataClf.setClassIndex(3);\n        double[][] clients = {{45,600,0,0},{30,280,3,1},{55,750,1,0},\n                               {25,200,5,1},{40,500,0,0},{35,300,2,1}};\n        for (double[] row : clients) dataClf.add(new DenseInstance(1.0, row));\n\n        Logistic logReg = new Logistic();\n        logReg.buildClassifier(dataClf);\n\n        Evaluation eval = new Evaluation(dataClf);\n        eval.evaluateModel(logReg, dataClf);\n        System.out.printf(\"Accuracy churn: %.1f%%%n\", eval.pctCorrect());\n    }\n}"
+            "annotations": [
+              {
+                "line": 1,
+                "text": "LinearRegression (sklearn) = apprend l'équation y = w₀ + w₁×surface + w₂×nb_pièces en minimisant l'erreur quadratique sur les données d'entraînement."
+              },
+              {
+                "line": 2,
+                "text": "train_test_split = découpe le dataset en 2 parties : 80% pour entraîner le modèle, 20% pour tester sa précision sur des données jamais vues."
+              },
+              {
+                "line": 3,
+                "text": "mean_absolute_error = MAE = moyenne des |prédiction - valeur_réelle|. En k€ ici : un MAE de 15 signifie qu'on se trompe en moyenne de 15 000 €."
+              },
+              {
+                "line": 17,
+                "text": "model.fit(X_train, y_train) = entraîne sur les 80%. Le modèle cherche les coefficients w qui minimisent l'erreur sur ces exemples."
+              },
+              {
+                "line": 22,
+                "text": "model.coef_ = les coefficients appris. coef_[0] ≈ 1.2 signifie que chaque m² de surface ajoute 1 200 € au prix prédit."
+              },
+              {
+                "line": 32,
+                "text": "LogisticRegression = applique une sigmoïde sur la combinaison linéaire des features → produit une probabilité entre 0 et 1 (ici : P(churn)). Malgré son nom, c'est un classifieur."
+              },
+              {
+                "line": 35,
+                "text": "accuracy_score(y_te, log_reg.predict(X_te)) = taux de prédictions correctes sur le jeu de test. Ex: 0.85 = 85% des clients bien classés."
+              }
+            ],
+            "contentJava": "// Java 11 avec Weka (weka-stable:3.8.6)\nimport weka.classifiers.functions.LinearRegression;\nimport weka.classifiers.functions.Logistic;\nimport weka.classifiers.evaluation.Evaluation;\nimport weka.core.*;\nimport java.util.*;\n\npublic class RegressionLineaireLogistique {\n    public static void main(String[] args) throws Exception {\n        // ── RÉGRESSION LINÉAIRE ──────────────────────────\n        // Prédire le prix d'une maison (en k€)\n        ArrayList<Attribute> attrsReg = new ArrayList<>();\n        attrsReg.add(new Attribute(\"surface\"));\n        attrsReg.add(new Attribute(\"nb_pieces\"));\n        attrsReg.add(new Attribute(\"prix\"));\n\n        Instances dataReg = new Instances(\"Maisons\", attrsReg, 5);\n        dataReg.setClassIndex(2);\n\n        double[][] maisons = {{50,2,90},{100,4,175},{150,5,250},{80,3,130},{120,4,200}};\n        for (double[] row : maisons) dataReg.add(new DenseInstance(1.0, row));\n\n        LinearRegression linReg = new LinearRegression();\n        linReg.buildClassifier(dataReg);\n        System.out.println(\"Modèle linéaire appris !\");\n\n        // Prédiction : 90m², 3 pièces\n        DenseInstance test = new DenseInstance(1.0, new double[]{90, 3, 0});\n        test.setDataset(dataReg);\n        System.out.printf(\"Prix estimé : %.0f k€%n\",\n            linReg.classifyInstance(test));\n\n        // ── RÉGRESSION LOGISTIQUE ────────────────────────\n        // Prédire si un client va churner (0/1)\n        ArrayList<Attribute> attrsClf = new ArrayList<>();\n        attrsClf.add(new Attribute(\"age\"));\n        attrsClf.add(new Attribute(\"depense_mensuelle\"));\n        attrsClf.add(new Attribute(\"nb_reclamations\"));\n        List<String> cls = Arrays.asList(\"reste\", \"churne\");\n        attrsClf.add(new Attribute(\"churn\", cls));\n\n        Instances dataClf = new Instances(\"Churn\", attrsClf, 6);\n        dataClf.setClassIndex(3);\n        double[][] clients = {{45,600,0,0},{30,280,3,1},{55,750,1,0},\n                               {25,200,5,1},{40,500,0,0},{35,300,2,1}};\n        for (double[] row : clients) dataClf.add(new DenseInstance(1.0, row));\n\n        Logistic logReg = new Logistic();\n        logReg.buildClassifier(dataClf);\n\n        Evaluation eval = new Evaluation(dataClf);\n        eval.evaluateModel(logReg, dataClf);\n        System.out.printf(\"Accuracy churn: %.1f%%%n\", eval.pctCorrect());\n    }\n}",
+            "annotationsJava": [
+              {
+                "line": 12,
+                "text": "Attribute(\"surface\") = déclare une colonne numérique continue (pas de 2ème argument = float). Weka a besoin de connaître le schéma des données avant d'y ajouter des lignes."
+              },
+              {
+                "line": 17,
+                "text": "Instances(\"Maisons\", attrsReg, 5) = dataset vide prêt à recevoir des lignes. \"Maisons\" = nom du dataset, attrsReg = colonnes définies, 5 = capacité initiale (pas une limite)."
+              },
+              {
+                "line": 18,
+                "text": "setClassIndex(2) = colonne index 2 (\"prix\") est la cible à prédire. OBLIGATOIRE. Sans ça, Weka ne sait pas quoi prédire."
+              },
+              {
+                "line": 21,
+                "text": "DenseInstance(1.0, row) = une ligne du dataset. row = {surface, nb_pieces, prix}. Le 1.0 est le poids de l'exemple — 1.0 signifie qu'il compte normalement dans l'entraînement."
+              },
+              {
+                "line": 23,
+                "text": "LinearRegression (Weka) = apprend y = w₀ + w₁×surface + w₂×nb_pieces. buildClassifier() est la méthode d'entraînement unifiée en Weka (même nom pour tous les modèles)."
+              },
+              {
+                "line": 31,
+                "text": "classifyInstance(test) = prédit le prix pour ce DenseInstance. Le 0 dans {90, 3, 0} est un placeholder pour la colonne cible (\"prix\") — sa valeur est ignorée à la prédiction."
+              },
+              {
+                "line": 39,
+                "text": "Attribute(\"churn\", cls) = attribut nominal avec 2 valeurs possibles : \"reste\" (index 0) et \"churne\" (index 1). Pour la régression logistique, la cible doit être nominale."
+              },
+              {
+                "line": 48,
+                "text": "Logistic (Weka) = régression logistique. Apprend P(churn | age, dépense, réclamations) via une sigmoïde. Équivalent de LogisticRegression dans scikit-learn."
+              },
+              {
+                "line": 51,
+                "text": "Evaluation(dataClf) = objet qui calcule toutes les métriques de performance (accuracy, F1, matrice de confusion, AUC...). On lui passe le dataset de référence pour connaître les classes."
+              },
+              {
+                "line": 52,
+                "text": "evaluateModel(logReg, dataClf) = évalue le modèle sur dataClf. Ici train = test (pas idéal — en pratique utiliser crossValidateModel pour une évaluation honnête)."
+              },
+              {
+                "line": 53,
+                "text": "eval.pctCorrect() = accuracy en pourcentage (0 à 100). Ex: 83.3 = 83% des clients correctement classés comme \"reste\" ou \"churne\"."
+              }
+            ]
           },
           {
             "type": "tip",
@@ -772,7 +886,71 @@
             "language": "python",
             "label": "Random Forest + importance des features",
             "content": "from sklearn.ensemble import RandomForestClassifier, GradientBoostingClassifier\nfrom sklearn.datasets import make_classification\nfrom sklearn.model_selection import cross_val_score\nimport numpy as np\n\n# Génération d'un dataset de classification\nX, y = make_classification(\n    n_samples=1000, n_features=10,\n    n_informative=5, n_redundant=2,\n    random_state=42\n)\n\nfeature_names = [f'feature_{i}' for i in range(10)]\n\n# Random Forest\nrf = RandomForestClassifier(n_estimators=100, random_state=42)\nscores = cross_val_score(rf, X, y, cv=5, scoring='accuracy')\nprint(f'Random Forest : {scores.mean():.3f} ± {scores.std():.3f}')\n\n# Entraîner pour voir l'importance des features\nrf.fit(X, y)\nimportances = rf.feature_importances_\nranked = sorted(zip(feature_names, importances), key=lambda x: -x[1])\n\nprint('\\nImportance des features :')\nfor name, imp in ranked[:5]:\n    bar = '█' * int(imp * 100)\n    print(f'  {name}: {imp:.3f} {bar}')\n\n# XGBoost-like : Gradient Boosting\ngb = GradientBoostingClassifier(n_estimators=100, learning_rate=0.1)\nscores_gb = cross_val_score(gb, X, y, cv=5, scoring='accuracy')\nprint(f'\\nGradient Boosting : {scores_gb.mean():.3f} ± {scores_gb.std():.3f}')",
-            "contentJava": "// Java 11 avec Weka (weka-stable:3.8.6)\nimport weka.classifiers.trees.RandomForest;\nimport weka.classifiers.evaluation.Evaluation;\nimport weka.classifiers.meta.Bagging;\nimport weka.core.*;\nimport java.util.*;\n\npublic class RandomForestImportance {\n    public static void main(String[] args) throws Exception {\n        // Génération d'un dataset de classification (10 features)\n        int nFeatures = 10;\n        ArrayList<Attribute> attrs = new ArrayList<>();\n        for (int i = 0; i < nFeatures; i++) attrs.add(new Attribute(\"feature_\" + i));\n        List<String> cls = Arrays.asList(\"classe0\", \"classe1\");\n        attrs.add(new Attribute(\"label\", cls));\n\n        Instances data = new Instances(\"Classification\", attrs, 1000);\n        data.setClassIndex(nFeatures);\n\n        Random rng = new Random(42);\n        for (int i = 0; i < 1000; i++) {\n            double[] row = new double[nFeatures + 1];\n            for (int j = 0; j < nFeatures; j++) row[j] = rng.nextGaussian();\n            row[nFeatures] = (row[0] + row[1] > 0) ? 1 : 0; // features 0+1 sont informatives\n            data.add(new DenseInstance(1.0, row));\n        }\n\n        // Random Forest avec cross-validation 5 folds\n        RandomForest rf = new RandomForest();\n        rf.setNumIterations(100);\n        rf.buildClassifier(data);\n\n        Evaluation eval = new Evaluation(data);\n        eval.crossValidateModel(rf, data, 5, new Random(42));\n        System.out.printf(\"Random Forest : %.3f (5-fold CV)%n\",\n            eval.pctCorrect() / 100);\n\n        // Gradient Boosting avec Weka (AdaBoost ou Bagging)\n        Bagging gb = new Bagging();\n        gb.setNumIterations(100);\n        gb.buildClassifier(data);\n        Evaluation evalGb = new Evaluation(data);\n        evalGb.crossValidateModel(gb, data, 5, new Random(42));\n        System.out.printf(\"Gradient Boosting : %.3f%n\",\n            evalGb.pctCorrect() / 100);\n\n        System.out.println();\n        System.out.println(\"Pour l'importance des features en Java :\");\n        System.out.println(\"  weka.attributeSelection.InfoGainAttributeEval\");\n        System.out.println(\"  weka.attributeSelection.ReliefFAttributeEval\");\n    }\n}"
+            "annotations": [
+              {
+                "line": 1,
+                "text": "RandomForestClassifier, GradientBoostingClassifier = deux classifieurs ensemblistes de sklearn. Random Forest = N arbres indépendants en parallèle. Gradient Boosting = N arbres séquentiels où chacun corrige les erreurs du précédent."
+              },
+              {
+                "line": 2,
+                "text": "make_classification = génère un dataset synthétique. n_informative=5 : seules 5 features sur 10 sont vraiment utiles pour prédire y. n_redundant=2 : 2 features sont des combinaisons linéaires des features informatives."
+              },
+              {
+                "line": 3,
+                "text": "cross_val_score = évalue un modèle par validation croisée sans avoir à diviser manuellement. cv=5 : découpe les données en 5 parts, entraîne 5 fois, retourne 5 scores. Plus fiable qu'un simple train/test split."
+              },
+              {
+                "line": 16,
+                "text": "n_estimators=100 = nombre d'arbres dans la forêt. Plus d'arbres = plus stable, mais plus lent à entraîner. 100 est une valeur par défaut raisonnable."
+              },
+              {
+                "line": 17,
+                "text": "cross_val_score(rf, X, y, cv=5) = retourne un tableau de 5 scores. scores.mean() = performance moyenne, scores.std() = variabilité (faible = modèle stable)."
+              },
+              {
+                "line": 22,
+                "text": "rf.feature_importances_ = tableau des importances de chaque feature (somme = 1.0). Plus une feature est utilisée dans les arbres pour couper, plus son importance est élevée."
+              },
+              {
+                "line": 31,
+                "text": "GradientBoostingClassifier(learning_rate=0.1) = chaque arbre corrige les erreurs résiduelles du précédent avec un pas de 0.1. learning_rate faible + n_estimators élevé = meilleure précision mais plus lent."
+              }
+            ],
+            "contentJava": "// Java 11 avec Weka (weka-stable:3.8.6)\nimport weka.classifiers.trees.RandomForest;\nimport weka.classifiers.evaluation.Evaluation;\nimport weka.classifiers.meta.Bagging;\nimport weka.core.*;\nimport java.util.*;\n\npublic class RandomForestImportance {\n    public static void main(String[] args) throws Exception {\n        // Génération d'un dataset de classification (10 features)\n        int nFeatures = 10;\n        ArrayList<Attribute> attrs = new ArrayList<>();\n        for (int i = 0; i < nFeatures; i++) attrs.add(new Attribute(\"feature_\" + i));\n        List<String> cls = Arrays.asList(\"classe0\", \"classe1\");\n        attrs.add(new Attribute(\"label\", cls));\n\n        Instances data = new Instances(\"Classification\", attrs, 1000);\n        data.setClassIndex(nFeatures);\n\n        Random rng = new Random(42);\n        for (int i = 0; i < 1000; i++) {\n            double[] row = new double[nFeatures + 1];\n            for (int j = 0; j < nFeatures; j++) row[j] = rng.nextGaussian();\n            row[nFeatures] = (row[0] + row[1] > 0) ? 1 : 0; // features 0+1 sont informatives\n            data.add(new DenseInstance(1.0, row));\n        }\n\n        // Random Forest avec cross-validation 5 folds\n        RandomForest rf = new RandomForest();\n        rf.setNumIterations(100);\n        rf.buildClassifier(data);\n\n        Evaluation eval = new Evaluation(data);\n        eval.crossValidateModel(rf, data, 5, new Random(42));\n        System.out.printf(\"Random Forest : %.3f (5-fold CV)%n\",\n            eval.pctCorrect() / 100);\n\n        // Gradient Boosting avec Weka (AdaBoost ou Bagging)\n        Bagging gb = new Bagging();\n        gb.setNumIterations(100);\n        gb.buildClassifier(data);\n        Evaluation evalGb = new Evaluation(data);\n        evalGb.crossValidateModel(gb, data, 5, new Random(42));\n        System.out.printf(\"Gradient Boosting : %.3f%n\",\n            evalGb.pctCorrect() / 100);\n\n        System.out.println();\n        System.out.println(\"Pour l'importance des features en Java :\");\n        System.out.println(\"  weka.attributeSelection.InfoGainAttributeEval\");\n        System.out.println(\"  weka.attributeSelection.ReliefFAttributeEval\");\n    }\n}",
+            "annotationsJava": [
+              {
+                "line": 13,
+                "text": "Attribute(\"feature_0\") = attribut numérique continu (pas de 2ème arg). Créé en boucle pour les 10 features. La dernière colonne (L.15) est nominale : c'est le label à prédire."
+              },
+              {
+                "line": 17,
+                "text": "Instances(\"Classification\", attrs, 1000) = dataset vide de 1000 lignes. setClassIndex(nFeatures) : la colonne 10 (\"label\") est la cible — les 10 premières sont les features."
+              },
+              {
+                "line": 24,
+                "text": "row[0] + row[1] > 0 ? 1 : 0 = règle de génération des labels. Seules les features 0 et 1 sont réellement informatives. Les 8 autres sont du bruit — le modèle devra l'apprendre."
+              },
+              {
+                "line": 25,
+                "text": "DenseInstance(1.0, row) = une ligne du dataset. row contient 11 valeurs : 10 features + 1 label encodé comme double (0.0 = \"classe0\", 1.0 = \"classe1\")."
+              },
+              {
+                "line": 29,
+                "text": "RandomForest (Weka) = construit setNumIterations(100) arbres. Chaque arbre est entraîné sur un sous-échantillon Bootstrap et utilise des features aléatoires à chaque nœud."
+              },
+              {
+                "line": 30,
+                "text": "setNumIterations(100) = nombre d'arbres dans la forêt. Équivalent de n_estimators=100 en sklearn. Plus d'arbres = meilleure stabilité, diminishing returns au-delà de 200-500."
+              },
+              {
+                "line": 34,
+                "text": "crossValidateModel(rf, data, 5, rng) = validation croisée 5-fold. Weka coupe data en 5 parts, entraîne 5 fois en testant sur chaque part. Plus fiable qu'un simple train/test."
+              },
+              {
+                "line": 39,
+                "text": "Bagging (weka.classifiers.meta) = méta-classifieur ensembliste. Entraîne N modèles de base sur des sous-échantillons Bootstrap, agrège par vote majoritaire. Ici utilisé comme approximation du Gradient Boosting."
+              }
+            ]
           },
           {
             "type": "warning",
@@ -818,7 +996,71 @@
             "language": "python",
             "label": "K-Means : segmentation clients",
             "content": "from sklearn.cluster import KMeans, DBSCAN\nfrom sklearn.preprocessing import StandardScaler\nfrom sklearn.datasets import make_blobs\nimport numpy as np\n\n# Simulation de données clients\nnp.random.seed(42)\nclients = np.random.randn(300, 2)\n\n# Normalisation OBLIGATOIRE pour le clustering\nscaler = StandardScaler()\nclients_scaled = scaler.fit_transform(clients)\n\n# K-Means : chercher 3 segments\nkmeans = KMeans(n_clusters=3, random_state=42, n_init=10)\nlabels = kmeans.fit_predict(clients_scaled)\n\nfor i in range(3):\n    segment = clients[labels == i]\n    print(f'Segment {i+1}: {len(segment)} clients')\n    print(f'  Centre: {scaler.inverse_transform([kmeans.cluster_centers_[i]])[0].round(2)}')\n\n# Trouver le bon k : méthode du coude\ninertias = []\nfor k in range(2, 10):\n    km = KMeans(n_clusters=k, random_state=42, n_init=10)\n    km.fit(clients_scaled)\n    inertias.append(km.inertia_)\n    \nprint('\\nInertie par k (cherchez le coude) :')\nfor k, inertia in zip(range(2, 10), inertias):\n    print(f'  k={k}: {inertia:.1f}')",
-            "contentJava": "// Java 11 avec Weka (weka-stable:3.8.6)\nimport weka.clusterers.SimpleKMeans;\nimport weka.core.*;\nimport weka.filters.Filter;\nimport weka.filters.unsupervised.attribute.Standardize;\nimport java.util.*;\n\npublic class KMeansSegmentation {\n    public static void main(String[] args) throws Exception {\n        // Simulation de données clients (2 dimensions)\n        ArrayList<Attribute> attrs = new ArrayList<>();\n        attrs.add(new Attribute(\"x\"));\n        attrs.add(new Attribute(\"y\"));\n        Instances clients = new Instances(\"Clients\", attrs, 300);\n\n        Random rng = new Random(42);\n        for (int i = 0; i < 300; i++)\n            clients.add(new DenseInstance(1.0,\n                new double[]{rng.nextGaussian(), rng.nextGaussian()}));\n\n        // Normalisation OBLIGATOIRE pour le clustering\n        Standardize std = new Standardize();\n        std.setInputFormat(clients);\n        Instances clientsScaled = Filter.useFilter(clients, std);\n\n        // K-Means : chercher 3 segments\n        SimpleKMeans kmeans = new SimpleKMeans();\n        kmeans.setNumClusters(3);\n        kmeans.setSeed(42);\n        kmeans.buildClusterer(clientsScaled);\n\n        Instances centroids = kmeans.getClusterCentroids();\n        for (int i = 0; i < centroids.numInstances(); i++) {\n            System.out.printf(\"Segment %d: %d clients, centre=(%.2f, %.2f)%n\",\n                i + 1, kmeans.getClusterSizes()[i],\n                centroids.instance(i).value(0),\n                centroids.instance(i).value(1));\n        }\n\n        // Trouver le bon k : méthode du coude\n        System.out.println();\n        System.out.println(\"Inertie par k (cherchez le coude) :\");\n        for (int k = 2; k <= 9; k++) {\n            SimpleKMeans km = new SimpleKMeans();\n            km.setNumClusters(k);\n            km.buildClusterer(clientsScaled);\n            System.out.printf(\"  k=%d: %.1f%n\", k, km.getSquaredError());\n        }\n    }\n}"
+            "annotations": [
+              {
+                "line": 1,
+                "text": "KMeans = partitionne les données en k groupes en minimisant la distance intra-cluster. DBSCAN = alternative qui détecte des formes non-sphériques et marque les points isolés comme anomalies."
+              },
+              {
+                "line": 2,
+                "text": "StandardScaler = normalise chaque feature à moyenne 0 et écart-type 1. OBLIGATOIRE pour K-Means car l'algorithme calcule des distances — sans ça une feature en milliers d'€ écraserait une feature en 0-5."
+              },
+              {
+                "line": 11,
+                "text": "StandardScaler() puis .fit_transform(clients) = deux étapes en une. fit() calcule la moyenne et l'écart-type de chaque colonne. transform() applique la normalisation. fit_transform = les deux d'un coup."
+              },
+              {
+                "line": 15,
+                "text": "KMeans(n_clusters=3, n_init=10) = cherche 3 groupes. n_init=10 : relance l'algorithme 10 fois avec des centroïdes initiaux différents et garde le meilleur résultat (évite les minima locaux)."
+              },
+              {
+                "line": 16,
+                "text": ".fit_predict(clients_scaled) = entraîne ET retourne les labels de cluster pour chaque point. Équivalent de .fit(X).predict(X). Retourne un tableau d'entiers : 0, 1 ou 2 pour chaque client."
+              },
+              {
+                "line": 20,
+                "text": "scaler.inverse_transform() = annule la normalisation pour afficher les coordonnées dans l'unité d'origine. cluster_centers_[i] = coordonnées du centroïde i dans l'espace normalisé."
+              },
+              {
+                "line": 27,
+                "text": "km.inertia_ = somme des distances² de chaque point à son centroïde le plus proche. Plus c'est bas = clusters plus compacts. La \"méthode du coude\" cherche le k où inertia_ cesse de chuter brusquement."
+              }
+            ],
+            "contentJava": "// Java 11 avec Weka (weka-stable:3.8.6)\nimport weka.clusterers.SimpleKMeans;\nimport weka.core.*;\nimport weka.filters.Filter;\nimport weka.filters.unsupervised.attribute.Standardize;\nimport java.util.*;\n\npublic class KMeansSegmentation {\n    public static void main(String[] args) throws Exception {\n        // Simulation de données clients (2 dimensions)\n        ArrayList<Attribute> attrs = new ArrayList<>();\n        attrs.add(new Attribute(\"x\"));\n        attrs.add(new Attribute(\"y\"));\n        Instances clients = new Instances(\"Clients\", attrs, 300);\n\n        Random rng = new Random(42);\n        for (int i = 0; i < 300; i++)\n            clients.add(new DenseInstance(1.0,\n                new double[]{rng.nextGaussian(), rng.nextGaussian()}));\n\n        // Normalisation OBLIGATOIRE pour le clustering\n        Standardize std = new Standardize();\n        std.setInputFormat(clients);\n        Instances clientsScaled = Filter.useFilter(clients, std);\n\n        // K-Means : chercher 3 segments\n        SimpleKMeans kmeans = new SimpleKMeans();\n        kmeans.setNumClusters(3);\n        kmeans.setSeed(42);\n        kmeans.buildClusterer(clientsScaled);\n\n        Instances centroids = kmeans.getClusterCentroids();\n        for (int i = 0; i < centroids.numInstances(); i++) {\n            System.out.printf(\"Segment %d: %d clients, centre=(%.2f, %.2f)%n\",\n                i + 1, kmeans.getClusterSizes()[i],\n                centroids.instance(i).value(0),\n                centroids.instance(i).value(1));\n        }\n\n        // Trouver le bon k : méthode du coude\n        System.out.println();\n        System.out.println(\"Inertie par k (cherchez le coude) :\");\n        for (int k = 2; k <= 9; k++) {\n            SimpleKMeans km = new SimpleKMeans();\n            km.setNumClusters(k);\n            km.buildClusterer(clientsScaled);\n            System.out.printf(\"  k=%d: %.1f%n\", k, km.getSquaredError());\n        }\n    }\n}",
+            "annotationsJava": [
+              {
+                "line": 14,
+                "text": "Instances(\"Clients\", attrs, 300) = dataset de 300 clients avec 2 colonnes numériques x et y. Pas de setClassIndex() ici : le clustering est non-supervisé, il n'y a pas de label cible."
+              },
+              {
+                "line": 18,
+                "text": "DenseInstance(1.0, new double[]{x, y}) = un client avec ses 2 coordonnées. nextGaussian() génère un nombre aléatoire suivant une loi normale (moyenne 0, écart-type 1)."
+              },
+              {
+                "line": 22,
+                "text": "Standardize (weka.filters.unsupervised.attribute) = normalise chaque colonne à moyenne 0 et écart-type 1. setInputFormat() dit au filtre à quoi ressemblent les données (colonnes, types)."
+              },
+              {
+                "line": 24,
+                "text": "Filter.useFilter(clients, std) = applique le filtre de normalisation et retourne un nouveau dataset transformé. Équivalent de StandardScaler().fit_transform() en sklearn."
+              },
+              {
+                "line": 27,
+                "text": "SimpleKMeans (weka.clusterers) = algorithme K-Means standard. \"Simple\" = implémentation de base, sans variantes avancées. setNumClusters(3) = on cherche 3 groupes de clients."
+              },
+              {
+                "line": 30,
+                "text": "buildClusterer(clientsScaled) = entraîne le clustering. Différent de buildClassifier() car non-supervisé : il n'y a pas de label, juste des groupes à découvrir."
+              },
+              {
+                "line": 32,
+                "text": "getClusterCentroids() = retourne un Instances où chaque ligne est le centre d'un cluster. getClusterSizes()[i] = nombre de clients dans le cluster i."
+              },
+              {
+                "line": 47,
+                "text": "getSquaredError() = inertie du clustering = somme des distances² au centroïde. Équivalent de km.inertia_ en sklearn. Sert à la méthode du coude : on cherche le k où la décroissance ralentit."
+              }
+            ]
           },
           {
             "type": "tip",

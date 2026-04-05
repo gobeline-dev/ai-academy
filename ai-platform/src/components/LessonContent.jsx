@@ -533,7 +533,7 @@ function CodeDiagram({ type }) {
 }
 
 // ── CodeBlock ─────────────────────────────────────────────────────────────────
-function CodeBlock({ content, contentJava, label, language = 'python', lang, onLangChange, annotations, diagram }) {
+function CodeBlock({ content, contentJava, label, language = 'python', lang, onLangChange, annotations, annotationsJava, diagram }) {
   const [copied, setCopied] = useState(false)
 
   const hasJava      = Boolean(contentJava)
@@ -638,7 +638,7 @@ function CodeBlock({ content, contentJava, label, language = 'python', lang, onL
         dangerouslySetInnerHTML={{ __html: highlighted }}
       />
 
-      <AnnotationLegend annotations={annotations} />
+      <AnnotationLegend annotations={activeLang === 'java' && annotationsJava ? annotationsJava : annotations} />
       {diagram && <CodeDiagram type={diagram} />}
     </div>
   )
@@ -712,6 +712,7 @@ function Section({ section, lang, onLangChange }) {
           lang={lang}
           onLangChange={onLangChange}
           annotations={section.annotations}
+          annotationsJava={section.annotationsJava}
           diagram={section.diagram}
         />
       )
