@@ -134,7 +134,6 @@ export default function Header({ modules, progressHook, theme, toggleTheme }) {
         <nav style={{ display: 'flex', alignItems: 'center', gap: 4 }} className="desktop-nav">
           <NavLink to="/" label="Accueil" active={location.pathname === '/'} />
           <NavLink to="/modules" label="Modules" active={location.pathname.startsWith('/module')} />
-          <NavLink to="/parcours" label="Parcours" active={location.pathname === '/parcours'} />
           <NavLink
             to="/achievements"
             label={
@@ -333,7 +332,6 @@ export default function Header({ modules, progressHook, theme, toggleTheme }) {
         <div className="mobile-nav-menu">
           <MobileNavLink to="/" label="🏠 Accueil" active={location.pathname === '/'} />
           <MobileNavLink to="/modules" label="📚 Modules" active={location.pathname.startsWith('/module')} />
-          <MobileNavLink to="/parcours" label="🗺️ Parcours" active={location.pathname === '/parcours'} />
           <MobileNavLink
             to="/achievements"
             label={`🏆 Trophées${unlockedCount > 0 ? ` (${unlockedCount})` : ''}`}

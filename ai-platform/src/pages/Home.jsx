@@ -1,10 +1,8 @@
 import { Link } from 'react-router-dom'
-import { useState } from 'react'
-import ModuleCard from '../components/ModuleCard.jsx'
 import NeuralNetHero from '../components/NeuralNetHero.jsx'
 
 export default function Home({ modules, progressHook }) {
-  const { getModuleProgress, getOverallProgress, progress } = progressHook
+  const { getOverallProgress, progress } = progressHook
   const overall = getOverallProgress(modules)
 
   return (
@@ -177,73 +175,6 @@ export default function Home({ modules, progressHook }) {
         </section>
       )}
 
-      {/* ── VISUAL ROADMAP ────────────────────────────────────────────── */}
-      <section style={{ padding: '0 0 80px' }}>
-        <div className="container">
-          <div style={{ textAlign: 'center', marginBottom: 48 }}>
-            <h2 style={{ marginBottom: 12 }}>Parcours d'apprentissage</h2>
-            <p style={{ color: 'var(--text-muted)', maxWidth: 500, margin: '0 auto' }}>
-              10 modules ordonnés du plus accessible au plus avancé. Chaque module s'appuie sur le précédent.
-            </p>
-          </div>
-
-          {/* Timeline roadmap */}
-          <div style={{ position: 'relative', marginBottom: 60 }}>
-            {/* Connecting line */}
-            <div style={{
-              position: 'absolute',
-              top: 28,
-              left: '5%', right: '5%',
-              height: 2,
-              background: 'linear-gradient(90deg, #6366f1, #8b5cf6, #ec4899, #6366f1)',
-              backgroundSize: '200% 100%',
-              opacity: 0.25,
-              borderRadius: 2,
-            }} />
-
-            <div style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(5, 1fr)',
-              gap: 8,
-              position: 'relative',
-            }}
-            className="roadmap-grid"
-            >
-              {modules.map((module, index) => (
-                <RoadmapStop
-                  key={module.id}
-                  module={module}
-                  index={index}
-                  progressData={getModuleProgress(module.slug, module.lessons)}
-                  row={Math.floor(index / 5)}
-                />
-              ))}
-            </div>
-          </div>
-
-          {/* Full module cards grid */}
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: 20,
-          }}>
-            {modules.map((module, index) => (
-              <ModuleCard
-                key={module.id}
-                module={module}
-                progressData={getModuleProgress(module.slug, module.lessons)}
-                index={index}
-              />
-            ))}
-          </div>
-        </div>
-        <style>{`
-          @media (max-width: 900px) {
-            .roadmap-grid { display: none !important; }
-          }
-        `}</style>
-      </section>
-
       {/* ── FEATURES ─────────────────────────────────────────────────── */}
       <section style={{
         padding: '80px 0',
@@ -308,92 +239,3 @@ export default function Home({ modules, progressHook }) {
   )
 }
 
-// ── Roadmap stop component ────────────────────────────────────────────────────
-function RoadmapStop({ module, index, progressData, row }) {
-  const [hovered, setHovered] = useState(false)
-  const { percent } = progressData
-  const isDone = percent === 100
-  const isStarted = percent > 0
-
-  const levelColors = {
-    'Débutant':      '#34d399',
-    'Intermédiaire': '#fbbf24',
-    'Avancé':        '#f87171',
-    'Expert':        '#c084fc',
-    'Tous niveaux':  '#22d3ee',
-  }
-  const levelColor = levelColors[module.level] || '#818cf8'
-
-  return (
-    <Link
-      to={`/module/${module.slug}`}
-      style={{ textDecoration: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Circle stop */}
-      <div style={{
-        width: 56, height: 56,
-        borderRadius: '50%',
-        background: isDone
-          ? `radial-gradient(circle, ${module.color}40, ${module.color}20)`
-          : isStarted
-          ? `radial-gradient(circle, ${module.color}25, rgba(17,24,39,0.9))`
-          : 'rgba(17,24,39,0.9)',
-        border: `2px solid ${isDone ? module.color : isStarted ? `${module.color}88` : 'rgba(255,255,255,0.1)'}`,
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: '1.4rem',
-        transition: 'all 0.25s ease',
-        transform: hovered ? 'scale(1.12)' : 'scale(1)',
-        boxShadow: hovered ? `0 0 20px ${module.color}44` : isDone ? `0 0 12px ${module.color}33` : 'none',
-        position: 'relative',
-        zIndex: 1,
-        flexShrink: 0,
-      }}>
-        {isDone ? '✓' : module.icon}
-
-        {/* Progress ring */}
-        {isStarted && !isDone && (
-          <svg style={{ position: 'absolute', inset: -3, width: 62, height: 62 }} viewBox="0 0 62 62">
-            <circle cx={31} cy={31} r={28} fill="none" stroke={module.color}
-              strokeWidth={2} strokeOpacity={0.3} />
-            <circle cx={31} cy={31} r={28} fill="none" stroke={module.color}
-              strokeWidth={2}
-              strokeDasharray={`${2 * Math.PI * 28 * percent / 100} ${2 * Math.PI * 28 * (1 - percent / 100)}`}
-              strokeLinecap="round"
-              transform="rotate(-90 31 31)"
-            />
-          </svg>
-        )}
-      </div>
-
-      {/* Module number */}
-      <div style={{ fontSize: '0.62rem', fontFamily: 'monospace', color: 'var(--text-muted)', marginTop: 6 }}>
-        {String(module.id).padStart(2, '0')}
-      </div>
-
-      {/* Title */}
-      <div style={{
-        fontSize: '0.72rem',
-        fontWeight: hovered ? 700 : 600,
-        color: hovered ? 'var(--text-primary)' : 'var(--text-muted)',
-        textAlign: 'center',
-        maxWidth: 80,
-        lineHeight: 1.3,
-        marginTop: 2,
-        transition: 'color 0.2s',
-      }}>
-        {module.title}
-      </div>
-
-      {/* Level badge */}
-      <div style={{
-        marginTop: 4,
-        width: 6, height: 6,
-        borderRadius: '50%',
-        background: levelColor,
-        opacity: 0.8,
-      }} />
-    </Link>
-  )
-}

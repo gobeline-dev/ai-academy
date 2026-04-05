@@ -8,8 +8,6 @@ import LessonPage from './pages/LessonPage.jsx'
 import QuizPage from './pages/QuizPage.jsx'
 import AchievementsPage from './pages/AchievementsPage.jsx'
 import FlashcardsPage from './pages/FlashcardsPage.jsx'
-import MapPage from './pages/MapPage.jsx'
-import PyramidPage from './pages/PyramidPage.jsx'
 import { useProgress } from './hooks/useProgress.js'
 import { useTheme } from './hooks/useTheme.js'
 import modules from './data/modules.json'
@@ -32,8 +30,7 @@ export default function App() {
             <Route path="/module/:slug/lesson/:lessonId"       element={<LessonPage modules={modules} progressHook={progressHook} />} />
             <Route path="/module/:slug/quiz"                   element={<QuizPage modules={modules} progressHook={progressHook} />} />
             <Route path="/module/:slug/flashcards"             element={<FlashcardsPage modules={modules} />} />
-            <Route path="/module/:slug/map"                    element={<MapPage modules={modules} />} />
-            <Route path="/parcours"                            element={<PyramidPage modules={modules} progressHook={progressHook} />} />
+
             <Route path="/achievements"                        element={<AchievementsPage modules={modules} progressHook={progressHook} />} />
           </Routes>
         </div>
