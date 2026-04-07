@@ -650,6 +650,35 @@ function RichText({ text, style, tag = 'p' }) {
   return <AutoTooltipText text={text} style={style} tag={tag} />
 }
 
+// ── MultiParaRichText — splits on \n\n into multiple paragraphs ───────────────
+function MultiParaRichText({ text, style }) {
+  if (!text) return null
+  const paras = text.split('\n\n').filter(p => p.trim())
+  if (paras.length <= 1) {
+    // Single paragraph — still handle single \n as <br>
+    return (
+      <p style={{ margin: 0, ...style }}>
+        {text.split('\n').flatMap((line, i, arr) => {
+          const node = <AutoTooltipText key={i} text={line} tag="span" style={{}} />
+          return i < arr.length - 1 ? [node, <br key={`br${i}`} />] : [node]
+        })}
+      </p>
+    )
+  }
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {paras.map((para, i) => (
+        <p key={i} style={{ margin: 0, ...style }}>
+          {para.split('\n').flatMap((line, j, arr) => {
+            const node = <AutoTooltipText key={j} text={line} tag="span" style={{}} />
+            return j < arr.length - 1 ? [node, <br key={`br${j}`} />] : [node]
+          })}
+        </p>
+      ))}
+    </div>
+  )
+}
+
 // ── LessonContent — owns the language preference ──────────────────────────────
 export default function LessonContent({ sections }) {
   const [lang, setLang] = useState('java')
@@ -727,8 +756,8 @@ function Section({ section, lang, onLangChange }) {
           padding: '14px 18px', marginBottom: 20,
         }}>
           <span style={{ fontSize: '1.1rem', flexShrink: 0, marginTop: 1 }}>💡</span>
-          <RichText text={section.content} tag="p"
-            style={{ color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0, fontSize: '0.9rem' }} />
+          <MultiParaRichText text={section.content}
+            style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '0.9rem' }} />
         </div>
       )
 
@@ -742,8 +771,8 @@ function Section({ section, lang, onLangChange }) {
           padding: '14px 18px', marginBottom: 20,
         }}>
           <span style={{ fontSize: '1.1rem', flexShrink: 0, marginTop: 1 }}>⚠️</span>
-          <RichText text={section.content} tag="p"
-            style={{ color: 'var(--text-secondary)', lineHeight: 1.7, margin: 0, fontSize: '0.9rem' }} />
+          <MultiParaRichText text={section.content}
+            style={{ color: 'var(--text-secondary)', lineHeight: 1.7, fontSize: '0.9rem' }} />
         </div>
       )
 
