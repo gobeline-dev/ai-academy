@@ -1032,6 +1032,9 @@ function Section({ section, lang, onLangChange }) {
     case 'fill':
       return <FillSection section={section} />
 
+    case 'quiz':
+      return <QuizSection section={section} />
+
     default:
       return null
   }
@@ -1291,6 +1294,146 @@ function CompareSection({ section }) {
           </div>
         )
       })}
+    </div>
+  )
+}
+
+// ── QuizSection — quiz multi-questions à la fin d'un module ──────────────────
+function QuizSection({ section }) {
+  const questions = section.questions || []
+  const [current, setCurrent] = useState(0)
+  const [selected, setSelected] = useState(Array(questions.length).fill(null))
+  const [revealed, setRevealed] = useState(Array(questions.length).fill(false))
+  const [finished, setFinished] = useState(false)
+
+  if (!questions.length) return null
+
+  const q = questions[current]
+  const sel = selected[current]
+  const rev = revealed[current]
+  const isCorrect = sel === q.correct
+
+  const choose = (i) => {
+    if (rev) return
+    setSelected(prev => { const a = [...prev]; a[current] = i; return a })
+  }
+
+  const confirm = () => {
+    if (sel === null) return
+    setRevealed(prev => { const a = [...prev]; a[current] = true; return a })
+  }
+
+  const next = () => {
+    if (current < questions.length - 1) setCurrent(c => c + 1)
+    else setFinished(true)
+  }
+
+  const reset = () => {
+    setCurrent(0)
+    setSelected(Array(questions.length).fill(null))
+    setRevealed(Array(questions.length).fill(false))
+    setFinished(false)
+  }
+
+  const score = revealed.reduce((acc, r, i) => r && selected[i] === questions[i].correct ? acc + 1 : acc, 0)
+  const answeredCount = revealed.filter(Boolean).length
+
+  if (finished) {
+    const pct = Math.round((score / questions.length) * 100)
+    const medal = pct === 100 ? '🏆' : pct >= 70 ? '🎯' : pct >= 50 ? '💪' : '📖'
+    const msg = pct === 100 ? 'Parfait ! Tu maîtrises ce module.' : pct >= 70 ? 'Très bien ! Quelques points à revoir.' : pct >= 50 ? 'Pas mal — relis les sections manquées.' : 'Relis le module avant de continuer.'
+    return (
+      <div style={{ background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 'var(--radius-lg)', padding: '28px 24px', marginBottom: 24, textAlign: 'center' }}>
+        <div style={{ fontSize: '2.5rem', marginBottom: 10 }}>{medal}</div>
+        <div style={{ fontSize: '1.6rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: 6 }}>
+          {score} / {questions.length} — {pct}%
+        </div>
+        <div style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: 20 }}>{msg}</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, textAlign: 'left', marginBottom: 20 }}>
+          {questions.map((qi, i) => {
+            const ok = selected[i] === qi.correct
+            return (
+              <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start', fontSize: '0.83rem', color: ok ? '#34d399' : '#fca5a5' }}>
+                <span style={{ flexShrink: 0, marginTop: 1 }}>{ok ? '✓' : '✗'}</span>
+                <span style={{ color: 'var(--text-muted)' }}>{qi.question}</span>
+              </div>
+            )
+          })}
+        </div>
+        <button onClick={reset} className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '7px 18px' }}>
+          ↺ Recommencer le quiz
+        </button>
+      </div>
+    )
+  }
+
+  return (
+    <div style={{ background: 'rgba(99,102,241,0.06)', border: '1px solid rgba(99,102,241,0.2)', borderRadius: 'var(--radius-lg)', padding: '20px 22px', marginBottom: 24 }}>
+      {/* Header */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 16 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: '1rem' }}>🧠</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, color: 'var(--color-primary-light)', fontFamily: 'var(--font-mono)', textTransform: 'uppercase', letterSpacing: '0.05em' }}>
+            {section.title || 'Quiz du module'}
+          </span>
+        </div>
+        <span style={{ fontSize: '0.75rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+          {current + 1} / {questions.length}
+        </span>
+      </div>
+
+      {/* Progress bar */}
+      <div style={{ height: 3, background: 'rgba(255,255,255,0.06)', borderRadius: 999, marginBottom: 18, overflow: 'hidden' }}>
+        <div style={{ height: '100%', width: `${((current + (rev ? 1 : 0)) / questions.length) * 100}%`, background: 'linear-gradient(90deg,#6366f1,#a855f7)', borderRadius: 999, transition: 'width 0.4s ease' }} />
+      </div>
+
+      {/* Question */}
+      <p style={{ fontWeight: 600, color: 'var(--text-primary)', fontSize: '0.95rem', lineHeight: 1.5, marginBottom: 16 }}>
+        {q.question}
+      </p>
+
+      {/* Options */}
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 14 }}>
+        {q.options.map((opt, i) => {
+          let bg = 'rgba(255,255,255,0.04)'
+          let border = '1px solid rgba(255,255,255,0.08)'
+          let color = 'var(--text-secondary)'
+          if (sel === i && !rev) { bg = 'rgba(99,102,241,0.15)'; border = '1px solid rgba(99,102,241,0.4)'; color = 'var(--text-primary)' }
+          if (rev && i === q.correct) { bg = 'rgba(16,185,129,0.12)'; border = '1px solid rgba(16,185,129,0.35)'; color = '#34d399' }
+          if (rev && sel === i && i !== q.correct) { bg = 'rgba(239,68,68,0.1)'; border = '1px solid rgba(239,68,68,0.3)'; color = '#fca5a5' }
+          return (
+            <button key={i} onClick={() => choose(i)} style={{ background: bg, border, borderRadius: 'var(--radius-md)', padding: '10px 14px', textAlign: 'left', cursor: rev ? 'default' : 'pointer', color, fontSize: '0.88rem', lineHeight: 1.4, transition: 'all 0.2s ease', display: 'flex', alignItems: 'center', gap: 10 }}>
+              <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.7rem', opacity: 0.7 }}>{String.fromCharCode(65 + i)}</span>
+              {opt}
+              {rev && i === q.correct && <span style={{ marginLeft: 'auto' }}>✓</span>}
+              {rev && sel === i && i !== q.correct && <span style={{ marginLeft: 'auto' }}>✗</span>}
+            </button>
+          )
+        })}
+      </div>
+
+      {/* Explanation */}
+      {rev && (
+        <div style={{ padding: '12px 14px', borderRadius: 'var(--radius-md)', marginBottom: 12, background: isCorrect ? 'rgba(16,185,129,0.08)' : 'rgba(245,158,11,0.08)', border: `1px solid ${isCorrect ? 'rgba(16,185,129,0.2)' : 'rgba(245,158,11,0.2)'}` }}>
+          <p style={{ margin: 0, fontSize: '0.85rem', color: isCorrect ? '#34d399' : '#fbbf24', fontWeight: 600, marginBottom: 4 }}>
+            {isCorrect ? '🎉 Correct !' : '💡 Pas tout à fait —'}
+          </p>
+          <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--text-muted)', lineHeight: 1.5 }}>{q.explanation}</p>
+        </div>
+      )}
+
+      {/* Actions */}
+      <div style={{ display: 'flex', gap: 8 }}>
+        {!rev ? (
+          <button onClick={confirm} disabled={sel === null} className="btn btn-secondary" style={{ fontSize: '0.82rem', padding: '6px 16px' }}>
+            Valider
+          </button>
+        ) : (
+          <button onClick={next} className="btn btn-primary" style={{ fontSize: '0.82rem', padding: '6px 16px' }}>
+            {current < questions.length - 1 ? 'Question suivante →' : 'Voir les résultats'}
+          </button>
+        )}
+      </div>
     </div>
   )
 }
