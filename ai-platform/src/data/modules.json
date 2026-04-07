@@ -773,6 +773,10 @@
             "content": "La régression linéaire prédit une valeur continue. La régression logistique prédit une probabilité (0 à 1). Ces deux modèles simples sont la fondation de la compréhension du ML — et restent très utilisés en production."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** **Régression linéaire** — Imagine que tu veux estimer le prix d'une maison. Tu as remarqué que plus une maison est grande, plus elle est chère. Si tu traces un graphique 'surface → prix', les points forment à peu près une ligne droite. La régression linéaire *trouve la meilleure ligne* qui passe au plus près de tous tes points. Formule : prix = 1200 × surface + 50 000. **Régression logistique** — même idée, mais pour répondre à des questions oui/non : 'cet email est-il un spam ?' ou 'ce client va-t-il partir ?'. La réponse n'est plus un chiffre mais une probabilité entre 0 et 1 : 0.85 veut dire '85% de chance que ce soit un spam'. La sigmoïde (une courbe en S) fait la transformation magique pour rester entre 0 et 1."
+          },
+          {
             "type": "code",
             "language": "python",
             "label": "Régression linéaire : prédire un prix",
@@ -918,6 +922,10 @@
             "content": "Les arbres de décision sont intuitivement interprétables : une série de if/else sur les features. Les Random Forests combinent des centaines d'arbres pour obtenir des prédictions robustes — un des algorithmes les plus efficaces sur données tabulaires."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple — l'arbre de décision :** Imagine le jeu des 20 questions pour deviner un animal. 'Est-ce que ça vit dans l'eau ?' → Non. 'Est-ce que ça a 4 pattes ?' → Oui. 'Est-ce que ça ronronne ?' → Oui → C'est un chat ! Un arbre de décision fait exactement ça : il pose une série de questions sur les données pour arriver à une réponse. **La Random Forest (Forêt Aléatoire)**, c'est l'étape supérieure : imagine 100 amis qui jouent chacun au jeu des 20 questions avec des questions différentes, puis qui votent ensemble. Si 80 d'entre eux disent 'chat' et 20 disent 'chien', la forêt répond 'chat'. Résultat : bien plus fiable qu'un seul joueur, même si chaque individu fait des erreurs !"
+          },
+          {
             "type": "code",
             "language": "python",
             "label": "Random Forest + importance des features",
@@ -1050,6 +1058,10 @@
           {
             "type": "intro",
             "content": "Quand on n'a pas de labels, on cherche la structure naturelle des données. K-Means regroupe les points en k clusters. DBSCAN détecte des formes arbitraires et des anomalies. Ces techniques sont cruciales pour la segmentation clients et la détection d'anomalies."
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine que tu étales 500 photos de personnes sur une grande table sans qu'on te dise rien à leur sujet. Naturellement, tu commencerais à les regrouper : 'ces 100 personnes se ressemblent, elles ont l'air de sportifs... ces 80-là ressemblent à des cadres d'entreprise...' C'est exactement ce que fait le clustering : **regrouper automatiquement des données similaires sans jamais avoir de labels**. K-Means, c'est comme si tu décidais d'avance 'je veux 3 groupes' et que tu déplaçais progressivement les centres de ces groupes jusqu'à ce que chaque photo soit dans le groupe le plus logique. DBSCAN, lui, ne demande pas combien de groupes — il les découvre tout seul, et il est capable de dire 'cette photo ne ressemble à rien, c'est une anomalie.'"
           },
           {
             "type": "code",
@@ -1310,6 +1322,10 @@
             "content": "Le neurone artificiel s'inspire (vaguement) du neurone biologique. Il reçoit des entrées pondérées, les somme, applique une fonction d'activation, et produit une sortie. Empilés en couches, ces neurones forment un réseau capable d'apprendre des patterns complexes."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine que tu dois décider si tu vas à la plage demain. Tu regardes plusieurs signaux : 'il fait soleil ?' (poids fort), 'c'est le week-end ?' (poids moyen), 'j'ai du travail ?' (poids négatif fort). Tu additionnes ces signaux dans ta tête et si le total dépasse un certain seuil, tu décides 'd'accord, on y va !' Un neurone artificiel fait la même chose : il reçoit des entrées (les signaux), les multiplie par des poids (l'importance de chaque signal), additionne tout, et si le résultat est assez fort, il 's'active'. Un réseau de neurones, c'est des milliers de ces décideurs organisés en couches, où chaque couche extrait des informations de plus en plus abstraites."
+          },
+          {
             "type": "heading",
             "content": "Anatomie d'un neurone"
           },
@@ -1460,6 +1476,10 @@
             "content": "Sans fonctions d'activation non-linéaires, un réseau de neurones profond équivaudrait à une simple régression linéaire. Les activations introduisent la non-linéarité qui permet au réseau d'apprendre des patterns complexes."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple — pourquoi a-t-on besoin des fonctions d'activation ?** Imagine que tu empiles 10 filtres Instagram transparents l'un sur l'autre. Le résultat sera toujours juste un filtre transparent — empiler des choses linéaires ne donne rien de nouveau. C'est pareil en maths : empiler des couches sans activation, c'est juste une multiplication de matrices, équivalent à... une seule couche. **La fonction d'activation introduit une 'courbure'** : elle rend le réseau capable de tracer des frontières complexes (pas juste des lignes droites) et d'apprendre des relations non-linéaires entre les données. **ReLU** (la plus simple) dit juste : si le signal est positif, je le laisse passer — sinon, je mets zéro. Ce simple geste suffit à débloquer une puissance d'apprentissage extraordinaire."
+          },
+          {
             "type": "cards",
             "items": [
               {
@@ -1539,6 +1559,10 @@
           {
             "type": "intro",
             "content": "L'overfitting est le fléau du ML : le modèle apprend le bruit des données d'entraînement par cœur plutôt que les patterns généralisables. Il performe excellemment en train mais échoue sur de nouvelles données."
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine un étudiant qui prépare un examen en mémorisant les réponses exactes des 20 annales qu'il a étudiées. Le jour de l'examen, si les questions sont identiques aux annales, il a 100%. Si les questions sont légèrement différentes, il est perdu — car il a mémorisé, pas compris. C'est l'overfitting. Un modèle qui overfitte a appris les données d'entraînement par cœur (avec leurs imperfections et leur bruit), mais il ne sait pas généraliser. **La régularisation**, c'est comme obliger l'étudiant à comprendre les principes plutôt que mémoriser : **Dropout** (désactiver aléatoirement des neurones pendant l'entraînement) force le réseau à ne pas dépendre d'un seul neurone spécifique — comme forcer l'étudiant à mémoriser sans ses notes. **L'early stopping** (arrêter avant que ça overfitte) c'est comme dire 'arrête de réviser, tu connais suffisamment'."
           },
           {
             "type": "code",
@@ -1696,6 +1720,10 @@
             "content": "Les CNNs sont la révolution de la vision par ordinateur. Au lieu de connecter chaque pixel à chaque neurone (ingérable pour une image 1080p), ils utilisent des filtres qui 'glissent' sur l'image, détectant des patterns locaux : bords, textures, formes."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine que tu dois reconnaître si une photo contient un chat. Tu ne regardes pas l'image entière d'un coup — ton œil cherche des indices locaux : 'des oreilles pointues par ici', 'des moustaches là', 'des yeux en amande'. Un CNN fait pareil avec des **filtres** (petites grilles 3×3 ou 5×5) qui glissent sur l'image comme une loupe. Chaque filtre cherche un pattern précis. Les premières couches détectent des choses simples (bords horizontaux, bords verticaux). Les couches suivantes combinent ces bords pour voir des formes (cercles, lignes courbes). Les couches profondes reconnaissent des objets entiers (oreille de chat, roue de voiture). Et le coup de génie : **le même filtre est réutilisé partout sur l'image** — une oreille de chat reste une oreille qu'elle soit en haut à gauche ou en bas à droite."
+          },
+          {
             "type": "text",
             "content": "Une convolution applique un filtre (kernel) sur une région locale de l'image. Le réseau apprend automatiquement les meilleurs filtres. Les premières couches détectent des bords, les couches profondes des formes complexes (oreilles de chat, roues de voiture...)."
           },
@@ -1774,6 +1802,10 @@
           {
             "type": "intro",
             "content": "Le Transfer Learning est probablement la technique la plus impactante du deep learning pratique : utiliser un modèle pré-entraîné sur des millions d'images (ImageNet) comme point de départ pour votre propre tâche, même avec peu de données."
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine que tu veux apprendre à conduire une moto, mais tu sais déjà conduire une voiture. Tu n'apprends pas de zéro : tu transfères des compétences déjà acquises (signalisation routière, gestion du trafic, réflexes de sécurité) et tu te concentres uniquement sur ce qui change (l'équilibre, l'embrayage différent). C'est exactement le Transfer Learning. Un modèle pré-entraîné sur 14 millions d'images (ImageNet) a déjà appris à reconnaître des bords, des textures, des formes, des objets. Si tu veux maintenant reconnaître des maladies sur des radio médicales, tu n'as pas besoin de 14M d'images médicales — tu 'transfères' les connaissances générales du modèle et tu lui montres seulement 500 radios pour lui apprendre ce qui est spécifique à ton problème. **Phase 1 (geler)** : on garde les connaissances générales intactes, on apprend juste la couche finale. **Phase 2 (dégeler/fine-tuner)** : on affine les dernières couches avec un tout petit learning rate pour adapter les représentations à ton domaine."
           },
           {
             "type": "code",
@@ -2031,6 +2063,10 @@
             "content": "Avant qu'un modèle puisse traiter du texte, il faut le convertir en nombres. La tokenisation est cette étape cruciale : découper le texte en unités (tokens) et les mapper sur des indices numériques."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Un ordinateur ne comprend que des nombres — pas des mots. Pour lui parler en français, il faut d'abord traduire chaque morceau de texte en un numéro. La tokenisation, c'est ce dictionnaire de traduction. Mais attention : on ne découpe pas mot par mot (trop de mots dans toutes les langues !). On découpe en **sous-mots fréquents** : le mot 'extraordinaire' deviendra par exemple les tokens ['extra', 'ordin', 'aire'] — trois morceaux connus. Le mot 'chat' est tellement courant qu'il a son propre token. Résultat : avec seulement ~50 000 tokens, on peut écrire absolument n'importe quoi dans n'importe quelle langue. Quand ChatGPT te répond, il réassemble des tokens un par un — c'est pourquoi les réponses s'affichent progressivement !"
+          },
+          {
             "type": "code",
             "language": "python",
             "label": "Tokenisation : des mots aux sous-mots (BPE)",
@@ -2144,6 +2180,10 @@
           {
             "type": "intro",
             "content": "L'attention est la révolution qui a mené aux Transformers et aux LLMs. Au lieu de traiter chaque mot de manière isolée, l'attention permet à chaque token de 'regarder' tous les autres tokens et de décider lesquels sont pertinents pour son contexte."
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple — l'attention comme une réunion :** Imagine une réunion de 10 personnes. Quand la directrice parle de 'le budget de ce projet', chaque mot dans sa phrase doit comprendre à quoi réfère 'ce projet'. Pour ça, le mot 'projet' va consulter tous les autres mots en salle et demander 'qui est pertinent pour me définir ?'. Il va 'faire très attention' aux mots 'budget' et 'directrice' (très pertinents) et peu attention aux mots 'de' et 'ce' (peu informatifs). Le mécanisme d'attention fait exactement ça, avec des maths. Trois rôles : **Query** (ce que je cherche), **Key** (ce que j'offre aux autres), **Value** (l'information que je fournis si on me choisit). Chaque mot joue ces trois rôles simultanément avec tous les autres mots — d'où la puissance."
           },
           {
             "type": "heading",
@@ -2330,6 +2370,10 @@
             "content": "\"Attention Is All You Need\" (Vaswani et al., 2017) — ce papier a tout changé. L'architecture Transformer abandonne les RNNs séquentiels pour un mécanisme d'attention parallèle, permettant d'entraîner des modèles de centaines de milliards de paramètres."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple — comprendre le Transformer :** Avant 2017, les réseaux lisaient le texte mot par mot, séquentiellement — comme toi qui lis cette phrase de gauche à droite sans jamais revenir en arrière. Le problème : si le mot important est au début d'un long texte, il est 'oublié' quand on arrive à la fin. Le Transformer résout ça avec un mécanisme d'**attention** : au lieu de lire séquentiellement, il regarde **tous les mots en même temps** et calcule pour chaque mot 'à quels autres mots dois-je faire attention pour comprendre ce mot-ci ?'. Dans la phrase 'Le chat mange sa souris parce qu'il avait faim', quand il lit 'il', le Transformer peut instantanément retrouver que 'il' réfère à 'chat' (pas 'souris') en regardant tous les mots à la fois. Et bonus décisif : ce traitement parallèle permet d'utiliser massivement les GPU."
+          },
+          {
             "type": "heading",
             "content": "Encoder-Decoder vs Decoder-only"
           },
@@ -2419,6 +2463,10 @@
           {
             "type": "intro",
             "content": "Un LLM pré-entraîné prédit des tokens — il n'est pas un assistant. Le fine-tuning le transforme en assistant utile, inoffensif et honnête. RLHF (Reinforcement Learning from Human Feedback) est la clé qui a fait de GPT-3 (pas impressionnant) → InstructGPT/ChatGPT (révolutionnaire)."
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Un LLM juste après son pré-entraînement, c'est comme un étudiant brillant qui a lu toute la bibliothèque de l'humanité — il sait tout, mais n'a pas appris à être *utile*. Demande-lui 'Comment faire une omelette ?' et il peut te répondre n'importe comment — continuer le texte de façon aléatoire plutôt que t'aider. **Le fine-tuning** lui apprend à répondre : on lui montre des milliers d'exemples 'question → bonne réponse humaine'. **Le RLHF** est encore plus puissant : des humains comparent plusieurs réponses du modèle et votent pour la meilleure. On entraîne un 'juge automatique' (reward model) qui apprend les préférences humaines. Ensuite ce juge guide le LLM vers des réponses utiles, inoffensives et honnêtes. C'est ce processus en 3 étapes qui a transformé GPT-3 brut en ChatGPT."
           },
           {
             "type": "text",
@@ -2966,6 +3014,10 @@
             "content": "Les LLMs ont un problème : leur connaissance est figée à leur date d'entraînement, et ils ne connaissent pas vos données privées. Le RAG résout cela en permettant au LLM de consulter une base de connaissance externe avant de répondre."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine que tu passes un examen 'livre ouvert' : tu peux consulter tes cours avant de répondre. Un LLM sans RAG c'est l'examen 'sans notes' — il ne sait que ce qu'il avait dans la tête au moment de son entraînement (sa 'date limite de connaissances'). Le RAG, c'est lui donner un **examen livre ouvert** : quand tu lui poses une question, il commence par chercher dans une bibliothèque de documents pertinents, lit les passages les plus utiles, *puis* formule sa réponse en s'appuyant sur ce qu'il vient de lire. Résultat : il peut accéder à tes documents d'entreprise confidentiels, aux actualités de ce matin, à n'importe quelle base de connaissance — sans avoir besoin de réentraîner le modèle."
+          },
+          {
             "type": "heading",
             "content": "Le pipeline RAG en 3 étapes"
           },
@@ -3030,6 +3082,10 @@
           {
             "type": "intro",
             "content": "La qualité d'un système RAG dépend à 80% de la qualité du chunking. Un bon chunk contient une idée complète, ni trop long (dilue la précision) ni trop court (perd le contexte)."
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Imagine que tu veux pouvoir retrouver n'importe quelle information dans un livre de 500 pages. Solution évidente : faire des fiches. Mais quelle taille pour ces fiches ? Si chaque fiche contient une seule phrase → trop court, tu perds le contexte. Si chaque fiche contient un chapitre entier → trop long, les 20 autres pages du chapitre vont noyer l'info pertinente. Le **chunking**, c'est l'art de couper les documents en morceaux de la bonne taille — des 'fiches intelligentes'. La bonne taille : environ 512-1024 mots, avec un léger chevauchement (overlap) entre deux fiches consécutives pour ne pas couper une idée en plein milieu. Et la règle d'or : couper aux **frontières naturelles** du document — aux titres, aux paragraphes — pas au milieu d'une phrase."
           },
           {
             "type": "code",
@@ -3285,6 +3341,10 @@
             "content": "Un agent IA est un LLM qui peut prendre des actions dans le monde réel : chercher sur internet, exécuter du code, appeler des APIs, lire des fichiers. C'est le passage du LLM comme outil passif à l'IA comme acteur autonome."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Un LLM classique c'est comme un expert qu'on consulte par écrit — on lui pose une question, il répond, terminé. **Un agent**, c'est cet expert qui a aussi le droit d'agir : il peut ouvrir son ordinateur pour chercher sur Google, lancer un calcul, appeler un collègue, lire un document, puis revenir avec une réponse enrichie de tout ça. La différence fondamentale : le LLM répond en une fois, l'agent **boucle** — il réfléchit, agit, regarde le résultat, réfléchit à nouveau, agit encore — jusqu'à accomplir la mission. Exemple concret : 'Réserve-moi un vol Paris-Tokyo pour la semaine prochaine au meilleur prix.' Un LLM dirait 'voici comment chercher un vol'. Un agent irait chercher les prix sur plusieurs sites, les comparerait, et confirmerait la réservation."
+          },
+          {
             "type": "heading",
             "content": "La boucle agentique"
           },
@@ -3358,6 +3418,10 @@
           {
             "type": "intro",
             "content": "Pour les tâches complexes, un seul agent est insuffisant. Les systèmes multi-agents décomposent les problèmes : un agent chercheur, un agent codeur, un agent réviseur... comme une équipe qui collabore."
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **En simple :** Pour construire une maison, tu n'embauches pas une seule personne qui fait tout — architecte, maçon, électricien, plombier à la fois. Tu as une **équipe spécialisée** qui travaille en coordination. Les systèmes multi-agents c'est pareil : au lieu d'un seul LLM surchargé, tu as plusieurs agents avec des rôles distincts. Un **agent Chercheur** qui fouille internet. Un **agent Développeur** qui écrit le code. Un **agent Réviseur** qui cherche les bugs. Un **agent Chef de projet** qui coordonne tout le monde. Chaque agent a un contexte focalisé sur sa spécialité → il fait moins d'erreurs. Et ils peuvent travailler **en parallèle** sur différentes parties du problème → c'est aussi plus rapide. Le défi : faire en sorte qu'ils se comprennent et ne se contredisent pas — c'est la coordination."
           },
           {
             "type": "code",
@@ -3506,6 +3570,10 @@
             "content": "Le MCP (Model Context Protocol) est un protocole open-source créé par Anthropic en novembre 2024. Il standardise la façon dont les LLMs communiquent avec des sources de données et des outils externes — pensez à lui comme l'USB-C pour les intégrations IA."
           },
           {
+            "type": "tip",
+            "content": "🧒 **En simple :** Avant l'USB-C, chaque fabricant avait ses propres câbles incompatibles — tu avais besoin de 5 adaptateurs différents. Puis l'USB-C est arrivé : un seul standard qui fonctionne avec tout le monde. Le MCP, c'est pareil pour les IA. Avant MCP, chaque LLM (Claude, GPT, Gemini) avait sa propre façon d'appeler des outils — si tu voulais connecter ton LLM à ta base de données, à GitHub, à Slack, tu devais tout recoder pour chaque modèle. Avec MCP, tu crées **un seul serveur MCP** qui expose tes outils, et **tous les clients compatibles MCP** (Claude Desktop, VS Code Copilot, Cursor...) peuvent l'utiliser immédiatement. Un serveur MCP pour ta base de données interne → tout tes outils IA peuvent y accéder. C'est l'interopérabilité universelle pour l'IA."
+          },
+          {
             "type": "heading",
             "content": "Architecture MCP"
           },
@@ -3574,6 +3642,10 @@
           {
             "type": "intro",
             "content": "Le paysage de l'IA évolue à une vitesse vertigineuse. Voici les avancées les plus importantes de 2024-2025 et les directions que prend le domaine."
+          },
+          {
+            "type": "tip",
+            "content": "🧒 **Repère-toi dans l'écosystème IA 2025 :** Il y a quatre grandes ruptures à comprendre. **1. Multimodalité** : les LLMs peuvent maintenant voir, écouter et parler — pas juste lire du texte. **2. Fenêtre de contexte géante** : avant, le LLM 'oubliait' après quelques pages. Aujourd'hui, Claude peut lire un roman entier ou une codebase complète en une fois. **3. Modèles de raisonnement (o1, o3, R1)** : une nouvelle génération de modèles qui 'réfléchissent avant de répondre' — ils ont une pensée interne cachée avant de te donner leur réponse finale, ce qui les rend bien meilleurs sur des problèmes complexes (maths, logique, code difficile). **4. Edge AI** : des LLMs suffisamment petits pour tourner sur ton téléphone ou ton laptop, sans aucune connexion internet — confidentialité totale et zéro latence."
           },
           {
             "type": "heading",
