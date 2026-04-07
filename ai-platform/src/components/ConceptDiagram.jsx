@@ -1597,7 +1597,7 @@ function DiagramMLPipeline() {
 const DIAGRAMS = {
   '1-1':  DiagramHierarchyIA,
   '1-3':  DiagramStats,
-  '1-4':  DiagramGradientDescent,
+  // '1-4' uses the interactive GradientDescentWidget in lesson content — no static diagram needed
   '1-p':  DiagramTrainValTest,
   '2-1':  DiagramMLTypes,
   '2-2':  DiagramRegression,
@@ -1614,7 +1614,7 @@ const DIAGRAMS = {
   '4-3':  DiagramRNN,
   '5-1':  DiagramTokenization,
   '5-2':  DiagramEmbedding,
-  '6-1':  DiagramAttention,
+  // '6-1' uses the interactive TemperatureWidget in lesson content — no static diagram needed
   '6-2':  DiagramRLHF,
   '7-1':  DiagramPromptEngineering,
   '7-2':  DiagramFewShot,
