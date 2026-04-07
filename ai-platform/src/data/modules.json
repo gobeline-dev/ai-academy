@@ -128,30 +128,6 @@
             "content": "Retenir : IA ⊃ Machine Learning ⊃ Deep Learning. Le Deep Learning est une sous-catégorie du ML, qui lui-même est une sous-catégorie de l'IA."
           },
           {
-            "type": "check",
-            "question": "Qui est à l'origine du test qui évalue la capacité d'une machine à imiter une conversation humaine ?",
-            "options": [
-              "John McCarthy",
-              "Alan Turing",
-              "Geoffrey Hinton",
-              "Yann LeCun"
-            ],
-            "correct": 1,
-            "explanation": "Alan Turing a proposé en 1950 le 'Test de Turing' pour évaluer si une machine peut imiter une conversation humaine de façon convaincante. Ce test reste une référence philosophique fondamentale en IA."
-          },
-          {
-            "type": "check",
-            "question": "Quels sont les trois facteurs qui ont convergé pour créer l'explosion de l'IA moderne ?",
-            "options": [
-              "Données, puissance de calcul, algorithmes",
-              "Internet, smartphones, cloud",
-              "Python, TensorFlow, GPU",
-              "Turing, McCarthy, LeCun"
-            ],
-            "correct": 0,
-            "explanation": "Les données massives (Internet), la puissance de calcul (GPU) et les avancées algorithmiques (Transformers) ont convergé pour rendre l'IA moderne possible."
-          },
-          {
             "type": "compare",
             "before": {
               "label": "IA Symbolique (règles explicites)",
@@ -252,18 +228,6 @@
             ]
           },
           {
-            "type": "check",
-            "question": "Quels sont les trois facteurs qui ont convergé pour créer l'explosion de l'IA moderne ?",
-            "options": [
-              "Données, puissance de calcul, algorithmes",
-              "Internet, smartphones, cloud",
-              "Python, TensorFlow, GPU",
-              "Turing, McCarthy, LeCun"
-            ],
-            "correct": 0,
-            "explanation": "Les données massives (Internet), la puissance de calcul (GPU) et les avancées algorithmiques (Transformers) ont convergé pour rendre l'IA moderne possible. Ces trois éléments se sont combinés à partir des années 2010."
-          },
-          {
             "type": "warning",
             "content": "⚠️ **IA étroite vs IA générale :** La quasi-totalité des systèmes actuels sont des IA étroites — ils excellent dans une tâche précise (reconnaître des visages, traduire du texte) mais échouent complètement hors de leur domaine. ChatGPT lui-même est une IA étroite très large, pas une AGI (Intelligence Artificielle Générale)."
           },
@@ -275,15 +239,8 @@
               "Il existe trois grandes familles : IA symbolique, Machine Learning et Deep Learning (IA ⊃ ML ⊃ DL)",
               "L'explosion de l'IA moderne repose sur trois facteurs : données, puissance de calcul (GPU) et algorithmes (Transformers)",
               "Le premier classifieur s'écrit en quelques lignes avec scikit-learn — la barrière d'entrée n'a jamais été aussi basse",
-              "L'IA est aujourd'hui dans tous les secteurs : santé, finance, transport, éducation et créativité"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
+              "L'IA est aujourd'hui dans tous les secteurs : santé, finance, transport, éducation et créativité",
               "L'IA est un ensemble de techniques pour simuler l'intelligence humaine, né dans les années 1950",
-              "Il existe trois grandes familles : IA symbolique, Machine Learning et Deep Learning (IA ⊃ ML ⊃ DL)",
               "L'explosion de l'IA moderne repose sur trois facteurs : données, GPU et algorithmes (Transformers)",
               "Le premier classifieur s'écrit en quelques lignes avec scikit-learn",
               "L'IA est aujourd'hui dans tous les secteurs : santé, finance, transport, éducation"
@@ -308,10 +265,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "Vecteur", "content": "Liste ordonnée de nombres représentant un objet. Ex: une maison = [100m², 3 chambres, 5km du centre]. En IA, chaque donnée est un vecteur." },
-              { "title": "Matrice", "content": "Tableau 2D de vecteurs. Ex: un dataset de 1000 maisons = matrice 1000×3. Les poids d'un réseau de neurones sont des matrices." },
-              { "title": "Produit scalaire", "content": "Mesure la similarité entre deux vecteurs — résultat élevé = vecteurs pointent dans la même direction. Fondement du mécanisme d'attention." },
-              { "title": "Norme", "content": "Longueur d'un vecteur (distance à l'origine). Utilisée pour normaliser les vecteurs (les mettre à la même échelle) et calculer des distances." }
+              {
+                "title": "Vecteur",
+                "content": "Liste ordonnée de nombres représentant un objet. Ex: une maison = [100m², 3 chambres, 5km du centre]. En IA, chaque donnée est un vecteur."
+              },
+              {
+                "title": "Matrice",
+                "content": "Tableau 2D de vecteurs. Ex: un dataset de 1000 maisons = matrice 1000×3. Les poids d'un réseau de neurones sont des matrices."
+              },
+              {
+                "title": "Produit scalaire",
+                "content": "Mesure la similarité entre deux vecteurs — résultat élevé = vecteurs pointent dans la même direction. Fondement du mécanisme d'attention."
+              },
+              {
+                "title": "Norme",
+                "content": "Longueur d'un vecteur (distance à l'origine). Utilisée pour normaliser les vecteurs (les mettre à la même échelle) et calculer des distances."
+              }
             ]
           },
           {
@@ -354,18 +323,6 @@
             "content": "📐 **Décodons `x @ W + b` pas à pas :** C'est l'opération centrale de TOUT réseau de neurones. Voici ce que signifie chaque symbole.\n\n**`x`** = le vecteur d'entrée — les données brutes. Ex: [surface=80, nb_pièces=3, étage=4]\n\n**`W`** = la matrice de poids — les paramètres que le réseau **apprend**. C'est un tableau 2D où chaque case est un coefficient. Ex (3 entrées → 2 neurones) :\n```\nW = [[0.2, -0.1],   ← poids depuis 'surface' vers neurone1 et neurone2\n     [0.5,  0.3],   ← poids depuis 'nb_pièces'\n     [-0.2, 0.8]]   ← poids depuis 'étage'\n```\n\n**`@`** = le produit matriciel — PAS une simple multiplication nombre×nombre. C'est une multiplication 'croisée' : pour calculer la sortie de neurone1, on multiplie chaque entrée par son poids correspondant et on additionne tout. Neurone1 = 80×0.2 + 3×0.5 + 4×(-0.2) = 16 + 1.5 - 0.8 = 16.7. Neurone2 = 80×(-0.1) + 3×0.3 + 4×0.8 = -8 + 0.9 + 3.2 = -3.9.\n\n**`b`** = le biais (bias) — un petit décalage ajouté après, indépendant des données. Ex: b=[0.1, -0.2] → sorties finales = [16.7+0.1, -3.9-0.2] = [16.8, -4.1].\n\n**Différence avec une multiplication ordinaire :** `3 × 5 = 15` (deux nombres → un nombre). `x @ W` (un vecteur × une matrice → un nouveau vecteur). Chaque valeur de sortie est une combinaison de TOUTES les entrées. C'est ce qui permet au réseau de détecter des patterns complexes — la surface ET le nombre de pièces ET l'étage influencent simultanément chaque neurone."
           },
           {
-            "type": "check",
-            "question": "Dans un réseau de neurones, que représente le produit matriciel X @ W + b dans une couche Dense ?",
-            "options": [
-              "Une fonction d'activation non-linéaire",
-              "Le calcul de la perte (loss)",
-              "La transformation linéaire des données d'entrée",
-              "L'algorithme de backpropagation"
-            ],
-            "correct": 2,
-            "explanation": "X @ W + b est la transformation linéaire fondamentale d'une couche Dense : chaque neurone calcule une combinaison linéaire des entrées, pondérée par ses poids W, plus un biais b."
-          },
-          {
             "type": "text",
             "content": "Une matrice est un tableau 2D de nombres. Dans un réseau de neurones, chaque couche est une matrice de poids qui transforme les données d'entrée. La multiplication matricielle est l'opération centrale du deep learning."
           },
@@ -396,18 +353,6 @@
             "content": "Le produit matriciel X @ W est l'opération la plus importante du deep learning. Elle permet de projeter des données dans de nouveaux espaces où les patterns sont plus visibles."
           },
           {
-            "type": "check",
-            "question": "Dans un réseau de neurones, que représente le produit matriciel X @ W + b dans une couche Dense ?",
-            "options": [
-              "Une fonction d'activation non-linéaire",
-              "Le calcul de la perte (loss)",
-              "La transformation linéaire des données d'entrée",
-              "L'algorithme de backpropagation"
-            ],
-            "correct": 2,
-            "explanation": "X @ W + b est la transformation linéaire fondamentale d'une couche Dense : chaque neurone calcule une combinaison linéaire des entrées, pondérée par ses poids W, plus un biais b. C'est l'opération de base répétée des millions de fois dans un réseau profond."
-          },
-          {
             "type": "heading",
             "content": "La décomposition SVD et les embeddings"
           },
@@ -427,18 +372,6 @@
             "contentJava": "// Java 11 avec Apache Commons Math 3\n// Dépendance Maven : commons-math3:3.6.1\nimport org.apache.commons.math3.linear.*;\n\npublic class SVDExemple {\n    public static void main(String[] args) {\n        // Matrice films x utilisateurs (notes 0-5)\n        double[][] data = {\n            {5, 4, 0, 1},  // Alice\n            {4, 5, 0, 2},  // Bob  (similaire à Alice)\n            {0, 1, 5, 4},  // Carol\n            {1, 0, 4, 5},  // Dave (similaire à Carol)\n        };\n\n        RealMatrix ratings = MatrixUtils.createRealMatrix(data);\n        SingularValueDecomposition svd = new SingularValueDecomposition(ratings);\n\n        // U : embeddings utilisateurs, S : importance, Vt : embeddings films\n        double[] S = svd.getSingularValues();\n        System.out.print(\"Dimensions latentes : [\");\n        for (int i = 0; i < S.length; i++)\n            System.out.printf(\"%.2f%s\", S[i], i < S.length - 1 ? \", \" : \"]%n\");\n        // -> 2 concepts principaux : films d'action vs films romantiques\n    }\n}"
           },
           {
-            "type": "check",
-            "question": "Quelle opération mesure l'angle entre deux vecteurs et est massivement utilisée en NLP pour la similarité sémantique ?",
-            "options": [
-              "Le produit matriciel",
-              "La norme euclidienne",
-              "La similarité cosinus",
-              "La décomposition SVD"
-            ],
-            "correct": 2,
-            "explanation": "La similarité cosinus mesure le cosinus de l'angle entre deux vecteurs. Deux vecteurs dans la même direction donnent un cosinus de 1 (identiques), dans des directions opposées -1. Très utilisée pour comparer des embeddings de mots ou de phrases."
-          },
-          {
             "type": "warning",
             "content": "⚠️ **Curse of Dimensionality :** En haute dimension (> 100 features), les distances perdent leur sens intuitif — presque tous les points deviennent équidistants. C'est pourquoi les algorithmes comme k-NN se dégradent avec beaucoup de features et pourquoi la réduction de dimension (PCA, UMAP) est si importante en pratique."
           },
@@ -450,17 +383,8 @@
               "Le produit scalaire mesure la similarité entre deux vecteurs ; la similarité cosinus normalise par la longueur",
               "Une matrice de poids W transforme les données via le produit matriciel X @ W + b — c'est le cœur d'une couche Dense",
               "La SVD décompose une matrice en facteurs latents, fondement des systèmes de recommandation et des embeddings",
-              "En deep learning, le produit matriciel est l'opération la plus importante ; les GPU l'accélèrent massivement en parallèle"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
+              "En deep learning, le produit matriciel est l'opération la plus importante ; les GPU l'accélèrent massivement en parallèle",
               "Un vecteur est une liste ordonnée de nombres — en IA, tout (images, mots, sons) est représenté sous forme de vecteurs",
-              "Le produit scalaire mesure la similarité entre deux vecteurs ; la similarité cosinus normalise par la longueur",
-              "Une matrice de poids W transforme les données via le produit matriciel X @ W + b — c'est le cœur d'une couche Dense",
-              "La SVD décompose une matrice en facteurs latents, fondement des systèmes de recommandation et des embeddings",
               "En deep learning, le produit matriciel est l'opération la plus importante ; les GPU l'accélèrent massivement"
             ]
           }
@@ -487,10 +411,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "Moyenne", "content": "Centre de gravité des données. Sensible aux valeurs extrêmes (outliers) — une seule valeur aberrante peut la déplacer significativement." },
-              { "title": "Variance", "content": "Dispersion des données autour de la moyenne. Variance élevée = données très dispersées. La racine carrée de la variance = l'écart-type." },
-              { "title": "Distribution normale", "content": "La courbe en cloche ubiquitaire. 68% des données dans ±1σ, 95% dans ±2σ. Apparaît naturellement dans la nature (tailles, erreurs de mesure)." },
-              { "title": "Corrélation", "content": "Relation linéaire entre deux variables, entre -1 et 1. +1 = évoluent ensemble, -1 = évoluent en sens inverse, 0 = aucune relation linéaire." }
+              {
+                "title": "Moyenne",
+                "content": "Centre de gravité des données. Sensible aux valeurs extrêmes (outliers) — une seule valeur aberrante peut la déplacer significativement."
+              },
+              {
+                "title": "Variance",
+                "content": "Dispersion des données autour de la moyenne. Variance élevée = données très dispersées. La racine carrée de la variance = l'écart-type."
+              },
+              {
+                "title": "Distribution normale",
+                "content": "La courbe en cloche ubiquitaire. 68% des données dans ±1σ, 95% dans ±2σ. Apparaît naturellement dans la nature (tailles, erreurs de mesure)."
+              },
+              {
+                "title": "Corrélation",
+                "content": "Relation linéaire entre deux variables, entre -1 et 1. +1 = évoluent ensemble, -1 = évoluent en sens inverse, 0 = aucune relation linéaire."
+              }
             ]
           },
           {
@@ -521,32 +457,8 @@
             "contentJava": "import java.util.Arrays;\n\npublic class Distributions {\n    public static void main(String[] args) {\n        String[] vocabulaire = {\"chat\", \"chien\", \"oiseau\", \"poisson\"};\n        double[] logits = {3.2, 1.5, 0.8, 0.3};\n\n        // Softmax : convertit en probabilités (somme = 1)\n        double[] probs = softmax(logits);\n        for (int i = 0; i < vocabulaire.length; i++) {\n            String bar = \"█\".repeat((int)(probs[i] * 20));\n            System.out.printf(\"%-10s : %.1f%% %s%n\",\n                vocabulaire[i], probs[i] * 100, bar);\n        }\n\n        // Température : contrôle la 'créativité'\n        // T=0.5 -> plus déterministe  |  T=2.0 -> plus aléatoire\n        System.out.println();\n        System.out.println(\"Avec température T=0.5 :\");\n        double[] scaled = Arrays.stream(logits).map(x -> x / 0.5).toArray();\n        double[] probsCold = softmax(scaled);\n        for (int i = 0; i < vocabulaire.length; i++)\n            System.out.printf(\"%-10s : %.1f%%%n\",\n                vocabulaire[i], probsCold[i] * 100);\n    }\n\n    static double[] softmax(double[] x) {\n        double max = Arrays.stream(x).max().orElse(0);\n        double[] exp = Arrays.stream(x).map(v -> Math.exp(v - max)).toArray();\n        double sum = Arrays.stream(exp).sum();\n        return Arrays.stream(exp).map(v -> v / sum).toArray();\n    }\n}"
           },
           {
-            "type": "check",
-            "question": "Que fait la fonction Softmax sur un vecteur de logits (scores bruts) ?",
-            "options": [
-              "Elle les normalise entre -1 et 1",
-              "Elle convertit les scores en probabilités dont la somme vaut 1",
-              "Elle sélectionne uniquement le score maximum",
-              "Elle calcule la moyenne des scores"
-            ],
-            "correct": 1,
-            "explanation": "Softmax exponentie chaque valeur puis divise par la somme totale, produisant une distribution de probabilités (valeurs positives, somme = 1). C'est la dernière couche des classificateurs et le mécanisme de sélection de tokens dans les LLMs."
-          },
-          {
             "type": "heading",
             "content": "Le Théorème de Bayes — l'IA qui met à jour ses croyances"
-          },
-          {
-            "type": "check",
-            "question": "Dans le théorème de Bayes appliqué à la détection de spam, que représente P(spam|'gratuit') ?",
-            "options": [
-              "La probabilité qu'un email soit spam avant toute observation",
-              "La probabilité de trouver le mot 'gratuit' dans un spam",
-              "La probabilité que l'email soit un spam sachant qu'il contient 'gratuit'",
-              "La proportion de spams dans tous les emails"
-            ],
-            "correct": 2,
-            "explanation": "P(spam|'gratuit') est une probabilité conditionnelle : la probabilité que l'email soit un spam SACHANT qu'on a observé le mot 'gratuit'. C'est ce qu'on appelle la probabilité a posteriori (posterior), mise à jour grâce au théorème de Bayes."
           },
           {
             "type": "tip",
@@ -585,18 +497,6 @@
             "content": "Règle d'or : MSE pour prédire des valeurs continues (prix, température), Cross-Entropy pour prédire des classes (chat/chien, spam/ham, prochain token)."
           },
           {
-            "type": "check",
-            "question": "Dans le théorème de Bayes appliqué à la détection de spam, que représente P(spam|'gratuit') ?",
-            "options": [
-              "La probabilité qu'un email soit spam avant toute observation",
-              "La probabilité de trouver le mot 'gratuit' dans un spam",
-              "La probabilité que l'email soit un spam sachant qu'il contient 'gratuit'",
-              "La proportion de spams dans tous les emails"
-            ],
-            "correct": 2,
-            "explanation": "P(spam|'gratuit') est une probabilité conditionnelle : la probabilité que l'email soit un spam SACHANT qu'on a observé le mot 'gratuit'. C'est la probabilité a posteriori, mise à jour grâce au théorème de Bayes par rapport à la probabilité a priori P(spam)."
-          },
-          {
             "type": "warning",
             "content": "⚠️ **Corrélation ≠ Causalité :** L'erreur classique en data science. Les ventes de glaces et les noyades augmentent toutes les deux en été — mais les glaces ne causent pas les noyades (variable cachée : la chaleur). Avant de conclure qu'une variable X cause Y parce qu'elles sont corrélées, cherche toujours la variable confondante."
           },
@@ -608,17 +508,8 @@
               "La température contrôle la 'créativité' d'un LLM : T < 1 rend les réponses plus déterministes, T > 1 plus aléatoires",
               "Le théorème de Bayes permet de mettre à jour ses croyances avec chaque nouvelle preuve — base des filtres anti-spam",
               "MSE est la fonction de perte pour la régression (valeurs continues), Cross-Entropy pour la classification",
-              "Minimiser la perte est l'objectif central de l'entraînement : le modèle ajuste ses poids pour réduire l'erreur"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Une distribution de probabilité décrit la répartition des valeurs ; Softmax convertit des scores bruts en probabilités",
-              "La température contrôle la 'créativité' d'un LLM : T < 1 rend les réponses plus déterministes, T > 1 plus aléatoires",
+              "Minimiser la perte est l'objectif central de l'entraînement : le modèle ajuste ses poids pour réduire l'erreur",
               "Le théorème de Bayes permet de mettre à jour ses croyances avec chaque nouvelle preuve — c'est la base des filtres anti-spam",
-              "MSE est la fonction de perte pour la régression (valeurs continues), Cross-Entropy pour la classification",
               "Minimiser la perte est l'objectif central de l'entraînement d'un modèle de ML"
             ]
           }
@@ -671,34 +562,6 @@
             "widget": "gradient-descent"
           },
           {
-            "type": "check",
-            "question": "Dans la descente de gradient, dans quelle direction le modèle met-il à jour ses paramètres par rapport au gradient ?",
-            "options": [
-              "Dans la direction du gradient (là où la perte augmente)",
-              "Dans la direction opposée au gradient (là où la perte diminue)",
-              "Perpendiculairement au gradient",
-              "Aléatoirement avec un bruit gaussien"
-            ],
-            "correct": 1,
-            "explanation": "Le gradient pointe dans la direction de la montée (augmentation de la perte). Pour minimiser la perte, le modèle fait un pas dans la direction OPPOSÉE au gradient : w = w - lr × ∇L(w). C'est l'essence même de la descente de gradient."
-          },
-          {
-            "type": "interactive",
-            "widget": "gradient-descent"
-          },
-          {
-            "type": "check",
-            "question": "Quel optimiseur est considéré comme le choix par défaut en 2024 pour la plupart des architectures de deep learning ?",
-            "options": [
-              "SGD classique",
-              "Momentum seul",
-              "Adam (Adaptive Moment Estimation)",
-              "RMSProp"
-            ],
-            "correct": 2,
-            "explanation": "Adam combine le momentum (mémoire des gradients passés) et les learning rates adaptatifs par paramètre. Il converge rapidement et nécessite peu de tuning, ce qui en fait le choix par défaut pour la quasi-totalité des architectures modernes."
-          },
-          {
             "type": "code",
             "language": "python",
             "label": "Gradient Descent from scratch",
@@ -745,18 +608,6 @@
             "content": "Piège classique : un learning rate trop grand fait osciller sans converger. Trop petit et l'entraînement prend une éternité. Commencez avec lr=0.001 pour Adam — c'est un bon défaut."
           },
           {
-            "type": "check",
-            "question": "Quel optimiseur est considéré comme le choix par défaut en 2024 pour la plupart des architectures de deep learning ?",
-            "options": [
-              "SGD classique",
-              "Momentum seul",
-              "Adam (Adaptive Moment Estimation)",
-              "RMSProp"
-            ],
-            "correct": 2,
-            "explanation": "Adam combine le momentum (mémoire des gradients passés) et les learning rates adaptatifs par paramètre. Il converge rapidement et nécessite peu de tuning, ce qui en fait le choix par défaut pour la quasi-totalité des architectures modernes."
-          },
-          {
             "type": "summary",
             "title": "Ce qu'on a appris",
             "items": [
@@ -764,17 +615,7 @@
               "Le learning rate contrôle la taille du pas : trop grand → diverge, trop petit → entraînement très lent",
               "SGD calcule le gradient sur un mini-batch ; Adam y ajoute le momentum et des learning rates adaptatifs",
               "Adam (lr=0.001 par défaut) est le choix par défaut pour la plupart des architectures modernes",
-              "La convergence peut être visualisée : la perte diminue progressivement vers un minimum local ou global"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "La descente de gradient fait avancer les paramètres dans la direction opposée au gradient pour minimiser la perte",
-              "Le learning rate contrôle la taille du pas : trop grand → diverge, trop petit → entraînement très lent",
-              "SGD calcule le gradient sur un mini-batch ; Adam y ajoute le momentum et des learning rates adaptatifs",
-              "Adam (lr=0.001 par défaut) est le choix par défaut pour la plupart des architectures modernes",
+              "La convergence peut être visualisée : la perte diminue progressivement vers un minimum local ou global",
               "La convergence peut être visualisée : la perte diminue progressivement vers un minimum local (ou global)"
             ]
           }
@@ -1124,18 +965,6 @@
             ]
           },
           {
-            "type": "check",
-            "question": "Pourquoi ne doit-on jamais évaluer les performances d'un modèle sur ses données d'entraînement ?",
-            "options": [
-              "C'est trop lent à calculer",
-              "Le modèle a mémorisé ces données et obtient un score artificiellement élevé (overfitting)",
-              "Les données d'entraînement sont confidentielles",
-              "Les métriques ne sont pas comparables"
-            ],
-            "correct": 1,
-            "explanation": "Évaluer sur les données d'entraînement donne un score optimiste et trompeur : le modèle a déjà 'vu' ces exemples et peut les mémoriser. Le split train/test simule des données inédites pour mesurer la vraie capacité de généralisation."
-          },
-          {
             "type": "usecase",
             "title": "Cas d'usage réels",
             "items": [
@@ -1165,16 +994,7 @@
               "L'apprentissage supervisé représente ~80% des cas en production",
               "Le pipeline ML suit 6 étapes : collecte, feature engineering, split, entraînement, évaluation, déploiement",
               "Ne jamais évaluer sur les données d'entraînement — utiliser un jeu de test séparé et indépendant",
-              "Le data drift en production est un risque réel : les modèles doivent être monitorés et réentraînés régulièrement"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Il existe trois paradigmes : apprentissage supervisé (avec labels), non-supervisé (sans labels) et par renforcement (récompenses)",
-              "L'apprentissage supervisé représente ~80% des cas en production",
-              "Le pipeline ML suit 6 étapes : collecte, feature engineering, split, entraînement, évaluation, déploiement",
+              "Le data drift en production est un risque réel : les modèles doivent être monitorés et réentraînés régulièrement",
               "Ne jamais évaluer sur les données d'entraînement — utiliser un jeu de test séparé",
               "Le data drift en production est un risque réel : les modèles doivent être monitorés et réentraînés"
             ]
@@ -1206,10 +1026,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "Régression Linéaire", "content": "Prédit un nombre continu : prix d'une maison, température de demain, chiffre d'affaires. Trouve la droite (ou hyperplan) qui minimise l'erreur quadratique." },
-              { "title": "Régression Logistique", "content": "Prédit une probabilité entre 0 et 1 : spam ou non, malade ou sain, client qui part ou reste. Utilise une fonction sigmoïde pour rester dans [0, 1]." },
-              { "title": "MSE Loss", "content": "Mean Squared Error — pénalise fortement les grandes erreurs (erreur au carré). Adapté à la régression. Sensible aux outliers." },
-              { "title": "Log Loss", "content": "Binary Cross-Entropy — adapté aux probabilités. Pénalise fortement les prédictions très confiantes qui sont fausses." }
+              {
+                "title": "Régression Linéaire",
+                "content": "Prédit un nombre continu : prix d'une maison, température de demain, chiffre d'affaires. Trouve la droite (ou hyperplan) qui minimise l'erreur quadratique."
+              },
+              {
+                "title": "Régression Logistique",
+                "content": "Prédit une probabilité entre 0 et 1 : spam ou non, malade ou sain, client qui part ou reste. Utilise une fonction sigmoïde pour rester dans [0, 1]."
+              },
+              {
+                "title": "MSE Loss",
+                "content": "Mean Squared Error — pénalise fortement les grandes erreurs (erreur au carré). Adapté à la régression. Sensible aux outliers."
+              },
+              {
+                "title": "Log Loss",
+                "content": "Binary Cross-Entropy — adapté aux probabilités. Pénalise fortement les prédictions très confiantes qui sont fausses."
+              }
             ]
           },
           {
@@ -1304,18 +1136,6 @@
             "content": "La régression logistique donne des probabilités calibrées, idéales pour décider d'un seuil. Ex: envoyer une offre de rétention uniquement aux clients avec P(churn) > 0.7."
           },
           {
-            "type": "check",
-            "question": "Quelle est la principale différence entre la régression linéaire et la régression logistique ?",
-            "options": [
-              "La régression linéaire utilise des arbres de décision",
-              "La régression linéaire prédit une valeur continue, la logistique prédit une probabilité (0 à 1)",
-              "La régression logistique est toujours plus précise",
-              "La régression linéaire ne fonctionne qu'avec une seule variable"
-            ],
-            "correct": 1,
-            "explanation": "La régression linéaire modélise une relation pour prédire une valeur continue (prix d'une maison). La régression logistique applique une sigmoïde pour produire une probabilité entre 0 et 1, idéale pour la classification binaire (churn/pas churn, spam/pas spam)."
-          },
-          {
             "type": "usecase",
             "title": "Cas d'usage réels",
             "items": [
@@ -1367,17 +1187,7 @@
               "La régression logistique applique une sigmoïde pour prédire P(y=1|X), parfaite pour la classification binaire",
               "Les coefficients du modèle sont directement interprétables : un coef positif augmente la probabilité prédite",
               "La régression logistique produit des probabilités calibrées, utiles pour fixer un seuil de décision métier",
-              "Ces deux modèles restent très utilisés en production pour leur interprétabilité et leur rapidité d'entraînement"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "La régression linéaire (y = aX + b) prédit des valeurs continues en minimisant l'erreur quadratique (MSE)",
-              "La régression logistique applique une sigmoïde pour prédire P(y=1|X), parfaite pour la classification binaire",
-              "Les coefficients du modèle sont directement interprétables : un coef positif augmente la probabilité prédite",
-              "La régression logistique produit des probabilités calibrées, utiles pour fixer un seuil de décision métier",
+              "Ces deux modèles restent très utilisés en production pour leur interprétabilité et leur rapidité d'entraînement",
               "Ces deux modèles restent très utilisés en production pour leur interprétabilité et leur rapidité"
             ]
           }
@@ -1408,10 +1218,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "Arbre de Décision", "content": "Série de if/else sur les features. Interprétable et visualisable. Sujet à l'overfitting (mémorise l'entraînement). Idéal pour comprendre un problème avant de passer à des modèles plus complexes." },
-              { "title": "Random Forest", "content": "Ensemble de centaines d'arbres, chacun entraîné sur un sous-échantillon aléatoire. Vote à la majorité. Très robuste et peu de réglage nécessaire." },
-              { "title": "Gini Impurity", "content": "Mesure de désordre à un nœud de l'arbre. Gini = 0 = nœud pur (une seule classe). L'arbre cherche les splits qui minimisent le Gini des nœuds fils." },
-              { "title": "Feature Importance", "content": "Score qui indique quelles variables (features) comptent le plus dans les prédictions. Calculé en moyennant la réduction de Gini pour chaque feature à travers tous les arbres." }
+              {
+                "title": "Arbre de Décision",
+                "content": "Série de if/else sur les features. Interprétable et visualisable. Sujet à l'overfitting (mémorise l'entraînement). Idéal pour comprendre un problème avant de passer à des modèles plus complexes."
+              },
+              {
+                "title": "Random Forest",
+                "content": "Ensemble de centaines d'arbres, chacun entraîné sur un sous-échantillon aléatoire. Vote à la majorité. Très robuste et peu de réglage nécessaire."
+              },
+              {
+                "title": "Gini Impurity",
+                "content": "Mesure de désordre à un nœud de l'arbre. Gini = 0 = nœud pur (une seule classe). L'arbre cherche les splits qui minimisent le Gini des nœuds fils."
+              },
+              {
+                "title": "Feature Importance",
+                "content": "Score qui indique quelles variables (features) comptent le plus dans les prédictions. Calculé en moyennant la réduction de Gini pour chaque feature à travers tous les arbres."
+              }
             ]
           },
           {
@@ -1494,18 +1316,6 @@
             "content": "Random Forest vs XGBoost : XGBoost (gradient boosting) bat souvent Random Forest sur données tabulaires compétitives. Mais Random Forest est plus simple à tuner et moins susceptible d'overfitter."
           },
           {
-            "type": "check",
-            "question": "Pourquoi les Random Forests sont-ils plus robustes qu'un seul arbre de décision ?",
-            "options": [
-              "Ils utilisent un algorithme plus complexe",
-              "Ils combinent les prédictions de centaines d'arbres entraînés sur des sous-échantillons aléatoires, réduisant la variance",
-              "Ils nécessitent moins de données d'entraînement",
-              "Ils n'ont pas de hyperparamètres à régler"
-            ],
-            "correct": 1,
-            "explanation": "Un seul arbre de décision overfitte facilement (haute variance). La Random Forest entraîne de nombreux arbres sur des sous-ensembles aléatoires de données et de features, puis agrège leurs prédictions (vote majoritaire). Cette diversification réduit drastiquement la variance."
-          },
-          {
             "type": "params",
             "title": "Effet des hyperparamètres — Random Forest",
             "columns": [
@@ -1573,17 +1383,6 @@
               "Le Gradient Boosting (XGBoost, LightGBM) bat souvent Random Forest sur des données tabulaires compétitives",
               "La cross-validation (k-fold) donne une estimation fiable des performances sans gaspiller de données de test"
             ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Un arbre de décision est une série de règles if/else apprenables — intuitif mais sujet à l'overfitting",
-              "La Random Forest combine des centaines d'arbres entraînés sur des sous-échantillons pour réduire la variance",
-              "L'importance des features permet d'identifier quelles variables influencent le plus les prédictions",
-              "Le Gradient Boosting (XGBoost, LightGBM) bat souvent Random Forest sur des données tabulaires compétitives",
-              "La cross-validation (k-fold) donne une estimation fiable des performances sans gaspiller de données de test"
-            ]
           }
         ]
       },
@@ -1612,10 +1411,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "K-Means", "content": "Clusters sphériques, k fixé à l'avance. Rapide et scalable. Échoue sur des formes non-sphériques et sensible aux outliers. Utilise la méthode du coude pour choisir k." },
-              { "title": "DBSCAN", "content": "Clusters de forme libre, détecte automatiquement les outliers (bruit). k pas fixé à l'avance. Paramètres : eps (rayon de voisinage) et min_samples." },
-              { "title": "Hierarchical", "content": "Construit un dendrogramme (arbre de similarité). k choisi après coup en coupant l'arbre. Utile pour visualiser la structure des données mais lent sur grands datasets." },
-              { "title": "t-SNE / UMAP", "content": "Réduction de dimension pour visualisation en 2D uniquement. Ne pas utiliser pour clustering ou features — uniquement pour explorer visuellement les données." }
+              {
+                "title": "K-Means",
+                "content": "Clusters sphériques, k fixé à l'avance. Rapide et scalable. Échoue sur des formes non-sphériques et sensible aux outliers. Utilise la méthode du coude pour choisir k."
+              },
+              {
+                "title": "DBSCAN",
+                "content": "Clusters de forme libre, détecte automatiquement les outliers (bruit). k pas fixé à l'avance. Paramètres : eps (rayon de voisinage) et min_samples."
+              },
+              {
+                "title": "Hierarchical",
+                "content": "Construit un dendrogramme (arbre de similarité). k choisi après coup en coupant l'arbre. Utile pour visualiser la structure des données mais lent sur grands datasets."
+              },
+              {
+                "title": "t-SNE / UMAP",
+                "content": "Réduction de dimension pour visualisation en 2D uniquement. Ne pas utiliser pour clustering ou features — uniquement pour explorer visuellement les données."
+              }
             ]
           },
           {
@@ -1698,18 +1509,6 @@
             "content": "Toujours normaliser les données avant de clusterer ! K-Means est sensible aux échelles. Une variable en milliers d'euros dominera une variable en 0-5 étoiles sans normalisation."
           },
           {
-            "type": "check",
-            "question": "Pourquoi est-il obligatoire de normaliser les données avant d'appliquer K-Means ?",
-            "options": [
-              "Pour accélérer le calcul",
-              "K-Means utilise des distances euclidiennes : une variable en milliers d'euros dominerait une variable en 0-5 étoiles sans normalisation",
-              "La normalisation améliore toujours la qualité des clusters",
-              "Pour satisfaire les hypothèses gaussiennes de K-Means"
-            ],
-            "correct": 1,
-            "explanation": "K-Means calcule des distances euclidiennes pour assigner les points aux clusters. Sans normalisation, les variables avec de grandes valeurs absolues dominent le calcul de distance et faussent les clusters. StandardScaler ramène chaque variable à moyenne 0 et écart-type 1."
-          },
-          {
             "type": "params",
             "title": "Effet des hyperparamètres — K-Means",
             "columns": [
@@ -1782,17 +1581,6 @@
           {
             "type": "warning",
             "content": "**Erreur classique n°4 : interpréter les numéros de clusters comme ordonnés.** K-Means assigne des labels 0, 1, 2… de manière aléatoire — le cluster 0 n'est pas 'meilleur' que le cluster 2. Pour interpréter les segments, regardez les centroïdes et les statistiques descriptives de chaque cluster (âge moyen, dépense moyenne, etc.)."
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "L'apprentissage non-supervisé découvre la structure cachée des données sans labels",
-              "K-Means regroupe les points en k clusters en minimisant la distance intra-cluster — toujours normaliser avant !",
-              "La méthode du coude (elbow method) aide à choisir le bon nombre de clusters k",
-              "DBSCAN détecte des clusters de forme arbitraire et identifie les anomalies (points isolés)",
-              "Applications clés : segmentation clients, détection d'anomalies, compression de données"
-            ]
           },
           {
             "type": "summary",
@@ -2166,10 +1954,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "Perceptron", "content": "Un seul neurone : classification linéaire uniquement. Ne peut pas résoudre XOR. Point de départ historique (1958) de tous les réseaux de neurones." },
-              { "title": "MLP", "content": "Multi-Layer Perceptron : couches de neurones empilées. Chaque couche cachée ajoute de la non-linéarité. Peut approximer n'importe quelle fonction (théorème d'approximation universelle)." },
-              { "title": "Couche cachée", "content": "Couche intermédiaire entre l'entrée et la sortie. Transforme les données dans un espace où elles sont linéairement séparables. Plus de couches = représentations plus abstraites." },
-              { "title": "Fonction d'activation", "content": "Introduit la non-linéarité indispensable. Sans elle, empiler des couches lineaires = une seule couche linéaire. ReLU est le standard actuel pour les couches cachées." }
+              {
+                "title": "Perceptron",
+                "content": "Un seul neurone : classification linéaire uniquement. Ne peut pas résoudre XOR. Point de départ historique (1958) de tous les réseaux de neurones."
+              },
+              {
+                "title": "MLP",
+                "content": "Multi-Layer Perceptron : couches de neurones empilées. Chaque couche cachée ajoute de la non-linéarité. Peut approximer n'importe quelle fonction (théorème d'approximation universelle)."
+              },
+              {
+                "title": "Couche cachée",
+                "content": "Couche intermédiaire entre l'entrée et la sortie. Transforme les données dans un espace où elles sont linéairement séparables. Plus de couches = représentations plus abstraites."
+              },
+              {
+                "title": "Fonction d'activation",
+                "content": "Introduit la non-linéarité indispensable. Sans elle, empiler des couches lineaires = une seule couche linéaire. ReLU est le standard actuel pour les couches cachées."
+              }
             ]
           },
           {
@@ -2219,18 +2019,6 @@
             "diagram": "mlp-architecture"
           },
           {
-            "type": "check",
-            "question": "Dans un neurone artificiel, que représente le biais (bias) b ?",
-            "options": [
-              "Le taux d'apprentissage du réseau",
-              "Un paramètre appris qui déplace le seuil d'activation, indépendamment des entrées",
-              "La fonction d'activation non-linéaire",
-              "Le nombre de couches du réseau"
-            ],
-            "correct": 1,
-            "explanation": "Le biais b est un paramètre appris (comme les poids) qui permet de déplacer la frontière de décision. Sans biais, le neurone serait contraint de passer par l'origine. Il donne au réseau plus de flexibilité pour s'adapter aux données."
-          },
-          {
             "type": "warning",
             "content": "⚠️ **Limites du perceptron unique :** Un seul neurone (perceptron) ne peut résoudre que des problèmes linéairement séparables — il échoue sur XOR (impossible de tracer une droite pour séparer les cas). C'est pour ça que les réseaux multicouches (MLP) ont été inventés : chaque couche cachée permet de créer des frontières de décision non-linéaires."
           },
@@ -2242,18 +2030,8 @@
               "Les poids (w) et biais (b) sont les paramètres que le réseau apprend pendant l'entraînement",
               "Un MLP (Multi-Layer Perceptron) empile plusieurs couches de neurones pour apprendre des patterns complexes",
               "L'initialisation He (pour ReLU) évite les problèmes de gradient vanishing/exploding dans les réseaux profonds",
-              "Plus un réseau a de paramètres, plus il peut modéliser des fonctions complexes — mais plus il risque d'overfitter"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Un neurone artificiel calcule : sortie = f(w₁x₁ + ... + wₙxₙ + b) où f est une fonction d'activation non-linéaire",
-              "Les poids (w) et biais (b) sont les paramètres que le réseau apprend pendant l'entraînement",
-              "Un MLP (Multi-Layer Perceptron) empile plusieurs couches de neurones pour apprendre des patterns complexes",
-              "L'initialisation des poids est cruciale : l'initialisation He (pour ReLU) évite les problèmes de gradient vanishing/exploding",
-              "Plus un réseau a de paramètres, plus il peut modéliser des fonctions complexes — mais plus il risque d'overfitter"
+              "Plus un réseau a de paramètres, plus il peut modéliser des fonctions complexes — mais plus il risque d'overfitter",
+              "L'initialisation des poids est cruciale : l'initialisation He (pour ReLU) évite les problèmes de gradient vanishing/exploding"
             ]
           }
         ]
@@ -2323,24 +2101,24 @@
             "content": "En pratique, on n'implémente jamais backprop manuellement. PyTorch et TensorFlow le font automatiquement via l'autograd. Mais comprendre la mécanique permet de déboguer deux pathologies classiques : le **gradient vanishing** (gradient qui disparaît) — les gradients se multiplient couche par couche en remontant, et si chaque multiplicateur est < 1, le gradient devient exponentiellement petit, les premières couches n'apprennent plus rien. Le **gradient exploding** (gradient qui explose) — si les multiplicateurs sont > 1, le gradient devient exponentiellement grand, les poids font des bonds géants et l'entraînement diverge. Solutions : fonctions d'activation ReLU/GELU, normalisation (BatchNorm), initialisation He/Xavier, gradient clipping."
           },
           {
-            "type": "check",
-            "question": "Dans la backpropagation, quelle règle mathématique permet de calculer le gradient de la perte par rapport à chaque poids ?",
-            "options": [
-              "La règle de l'intégration par parties",
-              "La règle de la chaîne (chain rule) du calcul différentiel",
-              "Le théorème de Bayes",
-              "La décomposition en valeurs singulières (SVD)"
-            ],
-            "correct": 1,
-            "explanation": "La règle de la chaîne permet de décomposer le gradient d'une composition de fonctions : dL/dw = dL/da × da/dz × dz/dw. C'est ce qui permet de propager le signal d'erreur depuis la sortie jusqu'à chaque poids du réseau, couche par couche."
-          },
-          {
             "type": "cards",
             "items": [
-              { "title": "Forward pass", "content": "Calculer la prédiction du réseau : les données traversent les couches de l'entrée vers la sortie. Toutes les activations intermédiaires sont mémorisées." },
-              { "title": "Loss", "content": "Mesurer l'erreur entre la prédiction et la vérité. MSE pour la régression, Cross-Entropy pour la classification. C'est ce qu'on cherche à minimiser." },
-              { "title": "Backward pass", "content": "Calculer les gradients via la chain rule en remontant de la sortie vers l'entrée. Chaque poids reçoit un gradient indiquant comment l'ajuster." },
-              { "title": "Mise à jour", "content": "θ = θ - lr × gradient. On ajuste chaque poids dans la direction opposée au gradient (descente de gradient). Répété pour chaque batch." }
+              {
+                "title": "Forward pass",
+                "content": "Calculer la prédiction du réseau : les données traversent les couches de l'entrée vers la sortie. Toutes les activations intermédiaires sont mémorisées."
+              },
+              {
+                "title": "Loss",
+                "content": "Mesurer l'erreur entre la prédiction et la vérité. MSE pour la régression, Cross-Entropy pour la classification. C'est ce qu'on cherche à minimiser."
+              },
+              {
+                "title": "Backward pass",
+                "content": "Calculer les gradients via la chain rule en remontant de la sortie vers l'entrée. Chaque poids reçoit un gradient indiquant comment l'ajuster."
+              },
+              {
+                "title": "Mise à jour",
+                "content": "θ = θ - lr × gradient. On ajuste chaque poids dans la direction opposée au gradient (descente de gradient). Répété pour chaque batch."
+              }
             ]
           },
           {
@@ -2355,17 +2133,8 @@
               "Elle utilise la règle de la chaîne : le gradient se propage de la sortie vers l'entrée, couche par couche",
               "Forward pass : calcul des prédictions. Backward pass : calcul des gradients. Mise à jour : ajustement des poids",
               "En pratique, PyTorch et TensorFlow calculent la backprop automatiquement via l'autograd",
-              "Comprendre la backprop aide à diagnostiquer le vanishing gradient (gradients qui s'annulent) et l'exploding gradient"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
+              "Comprendre la backprop aide à diagnostiquer le vanishing gradient (gradients qui s'annulent) et l'exploding gradient",
               "La backpropagation est l'algorithme qui calcule le gradient de la perte par rapport à chaque paramètre du réseau",
-              "Elle utilise la règle de la chaîne : le gradient se propage de la sortie vers l'entrée, couche par couche",
-              "Forward pass : calcul des prédictions. Backward pass : calcul des gradients. Mise à jour : ajustement des poids",
-              "En pratique, PyTorch et TensorFlow calculent la backprop automatiquement via l'autograd",
               "Comprendre la backprop aide à diagnostiquer les problèmes : vanishing gradient (gradients qui disparaissent) et exploding gradient"
             ]
           }
@@ -2522,18 +2291,6 @@
             ]
           },
           {
-            "type": "check",
-            "question": "Pourquoi faut-il éviter les fonctions Sigmoid et Tanh dans les couches cachées de réseaux profonds ?",
-            "options": [
-              "Elles sont trop lentes à calculer",
-              "Elles provoquent le vanishing gradient : leur dérivée est proche de 0 pour les grandes valeurs, ce qui bloque l'apprentissage",
-              "Elles ne produisent pas de valeurs entre 0 et 1",
-              "Elles sont incompatibles avec l'optimiseur Adam"
-            ],
-            "correct": 1,
-            "explanation": "Sigmoid et Tanh saturent (dérivée ≈ 0) pour les grandes valeurs. Lors de la backpropagation, les gradients sont multipliés par ces dérivées : ils deviennent exponentiellement petits dans les couches profondes (vanishing gradient), bloquant l'apprentissage."
-          },
-          {
             "type": "compare",
             "before": {
               "label": "Réseaux historiques (Sigmoid/Tanh)",
@@ -2553,17 +2310,6 @@
                 "ResNet (152 couches) rendu possible grâce à ReLU + skip connections"
               ]
             }
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Les fonctions d'activation introduisent la non-linéarité indispensable pour qu'un réseau apprenne des patterns complexes",
-              "ReLU (max(0,x)) est le choix par défaut pour les couches cachées : simple, efficace, pas de saturation",
-              "GELU est la variante lissée utilisée dans les LLMs modernes (GPT, BERT, Claude)",
-              "Softmax convertit un vecteur de scores en distribution de probabilités — utilisée en sortie pour la classification",
-              "Sigmoid et Tanh sont à éviter dans les couches cachées profondes à cause du vanishing gradient"
-            ]
           },
           {
             "type": "summary",
@@ -2616,18 +2362,6 @@
             "content": "Règle d'or : commencez par overfitter intentionnellement sur un petit batch (vérification du modèle), puis ajoutez de la régularisation progressivement. Un modèle qui ne peut pas overfitter a souvent un bug."
           },
           {
-            "type": "check",
-            "question": "Quel est l'effet du Dropout pendant l'entraînement d'un réseau de neurones ?",
-            "options": [
-              "Il réduit le learning rate progressivement",
-              "Il désactive aléatoirement un pourcentage de neurones à chaque batch, forçant le réseau à apprendre des représentations robustes",
-              "Il normalise les activations pour stabiliser l'entraînement",
-              "Il ajoute un terme de pénalité sur les poids dans la fonction de perte"
-            ],
-            "correct": 1,
-            "explanation": "Le Dropout désactive aléatoirement p% des neurones à chaque batch pendant l'entraînement. Le réseau ne peut plus se reposer sur des neurones spécifiques et doit distribuer l'information. Résultat : des représentations plus robustes qui généralisent mieux sur de nouvelles données."
-          },
-          {
             "type": "heading",
             "content": "Batch Normalization & Layer Normalization — stabiliser l'entraînement"
           },
@@ -2676,17 +2410,6 @@
                 "line": 29,
                 "text": "Skip connection (connexion résiduelle) : x = x + attn_out — permet aux gradients de circuler directement, évite la disparition du gradient"
               }
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "L'overfitting survient quand le modèle mémorise le bruit des données d'entraînement au lieu d'apprendre des patterns généralisables",
-              "Le Dropout (0.2-0.5) désactive des neurones aléatoirement pour forcer des représentations robustes",
-              "La régularisation L2 (weight decay) pénalise les gros poids et les maintient proches de zéro",
-              "L'Early Stopping arrête l'entraînement dès que la validation cesse de s'améliorer",
-              "Règle d'or : commencer par overfitter intentionnellement sur un petit batch, puis ajouter la régularisation progressivement"
             ]
           },
           {
@@ -2932,18 +2655,6 @@
             "content": "MaxPooling vs GlobalAveragePooling : MaxPooling garde les features spatiales (bon pour la détection), GlobalAveragePooling agrège tout (bon pour la classification). Les architectures modernes préfèrent GlobalAveragePooling."
           },
           {
-            "type": "check",
-            "question": "Quelle est la propriété fondamentale des convolutions qui les rend si efficaces pour les images ?",
-            "options": [
-              "Elles connectent chaque pixel à chaque neurone de la couche suivante",
-              "Elles appliquent le même filtre sur des régions locales (invariance par translation), réduisant massivement le nombre de paramètres",
-              "Elles travaillent uniquement en noir et blanc",
-              "Elles remplacent le pooling dans les architectures modernes"
-            ],
-            "correct": 1,
-            "explanation": "Une convolution applique le même filtre (kernel) partout sur l'image (poids partagés). Cela exploite l'invariance par translation : un bord vertical est un bord vertical qu'il soit en haut à gauche ou en bas à droite. Cela réduit drastiquement le nombre de paramètres comparé à un réseau fully-connected."
-          },
-          {
             "type": "compare",
             "before": {
               "label": "ML Classique sur images",
@@ -2967,10 +2678,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "Convolution", "content": "Filtre glissant qui détecte un pattern local (bord, texture, couleur). Le même filtre est appliqué partout sur l'image (poids partagés) — c'est ce qui rend les CNN si efficaces." },
-              { "title": "Pooling", "content": "Réduit la taille spatiale en gardant l'essentiel. MaxPooling garde la valeur maximale dans chaque région — robuste aux petits décalages. GlobalAveragePooling agrège tout." },
-              { "title": "Feature Map", "content": "Résultat d'un filtre appliqué à l'image. Si le filtre détecte les bords horizontaux, la feature map montre où sont les bords horizontaux dans l'image." },
-              { "title": "Flatten", "content": "Transforme le volume spatial (H×W×C) en vecteur 1D pour passer aux couches fully-connected de classification. Souvent remplacé par GlobalAveragePooling dans les architectures modernes." }
+              {
+                "title": "Convolution",
+                "content": "Filtre glissant qui détecte un pattern local (bord, texture, couleur). Le même filtre est appliqué partout sur l'image (poids partagés) — c'est ce qui rend les CNN si efficaces."
+              },
+              {
+                "title": "Pooling",
+                "content": "Réduit la taille spatiale en gardant l'essentiel. MaxPooling garde la valeur maximale dans chaque région — robuste aux petits décalages. GlobalAveragePooling agrège tout."
+              },
+              {
+                "title": "Feature Map",
+                "content": "Résultat d'un filtre appliqué à l'image. Si le filtre détecte les bords horizontaux, la feature map montre où sont les bords horizontaux dans l'image."
+              },
+              {
+                "title": "Flatten",
+                "content": "Transforme le volume spatial (H×W×C) en vecteur 1D pour passer aux couches fully-connected de classification. Souvent remplacé par GlobalAveragePooling dans les architectures modernes."
+              }
             ]
           },
           {
@@ -2994,17 +2717,6 @@
           {
             "type": "warning",
             "content": "⚠️ **Les CNN ne comprennent pas la position globale :** Un CNN peut reconnaître un visage même si les yeux sont en bas et la bouche en haut — il détecte des patterns locaux, pas des relations spatiales globales. Les Vision Transformers (ViT) gèrent mieux ce problème grâce à l'attention sur les patches globaux."
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Les CNNs utilisent des filtres convolutifs qui 'glissent' sur l'image pour détecter des patterns locaux",
-              "Les premières couches détectent des bords et textures, les couches profondes des formes complexes",
-              "MaxPooling réduit la résolution spatiale et crée une invariance aux petites translations",
-              "BatchNormalization stabilise l'entraînement et accélère la convergence",
-              "Les CNNs modernes (EfficientNet, ResNet) atteignent plus de 90% sur ImageNet grâce à des architectures profondes"
-            ]
           },
           {
             "type": "summary",
@@ -3078,18 +2790,6 @@
             "content": "Règle des 500 : avec 500 images par classe, le transfer learning depuis ImageNet donne souvent de très bons résultats. Avec 50 images, c'est encore faisable. Avec 5000+, le fine-tuning complet devient intéressant."
           },
           {
-            "type": "check",
-            "question": "Dans le Transfer Learning, pourquoi 'gèle-t-on' (freeze) les couches du backbone pré-entraîné lors de la phase 1 ?",
-            "options": [
-              "Pour accélérer le forward pass",
-              "Pour éviter de détruire les features génériques apprises sur ImageNet avec un learning rate trop élevé",
-              "Pour réduire la consommation mémoire du GPU",
-              "Parce que ces couches ne sont pas utiles pour la nouvelle tâche"
-            ],
-            "correct": 1,
-            "explanation": "Le backbone pré-entraîné sur ImageNet a appris des features génériques précieuses (bords, textures, formes). En le gelant lors de la phase 1, on entraîne uniquement la nouvelle tête de classification sans risquer de 'désapprendre' ces features avec un gradient trop fort."
-          },
-          {
             "type": "compare",
             "before": {
               "label": "Sans Transfer Learning",
@@ -3113,10 +2813,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "Feature Extraction", "content": "Geler toutes les couches du backbone pré-entraîné. Entraîner seulement la nouvelle tête de classification. Rapide, peu de données nécessaires (100-500 images)." },
-              { "title": "Fine-tuning partiel", "content": "Dégeler les dernières couches du backbone avec un LR très faible (1e-5). Adapte les représentations au nouveau domaine sans détruire le préapprentissage." },
-              { "title": "Fine-tuning complet", "content": "Entraîner tout le réseau. Nécessite beaucoup de données (5000+ images/classe) et du temps. Risque de catastrophic forgetting si le LR est trop élevé." },
-              { "title": "Few-shot", "content": "3-10 exemples par classe avec un bon modèle pré-entraîné. Techniques spécialisées : Prototypical Networks, MAML, ou simplement embeddings + kNN." }
+              {
+                "title": "Feature Extraction",
+                "content": "Geler toutes les couches du backbone pré-entraîné. Entraîner seulement la nouvelle tête de classification. Rapide, peu de données nécessaires (100-500 images)."
+              },
+              {
+                "title": "Fine-tuning partiel",
+                "content": "Dégeler les dernières couches du backbone avec un LR très faible (1e-5). Adapte les représentations au nouveau domaine sans détruire le préapprentissage."
+              },
+              {
+                "title": "Fine-tuning complet",
+                "content": "Entraîner tout le réseau. Nécessite beaucoup de données (5000+ images/classe) et du temps. Risque de catastrophic forgetting si le LR est trop élevé."
+              },
+              {
+                "title": "Few-shot",
+                "content": "3-10 exemples par classe avec un bon modèle pré-entraîné. Techniques spécialisées : Prototypical Networks, MAML, ou simplement embeddings + kNN."
+              }
             ]
           },
           {
@@ -3131,17 +2843,8 @@
               "Phase 1 (feature extraction) : geler le **backbone** (corps principal du réseau — toutes les couches qui extraient les représentations visuelles) et entraîner seulement la **tête** (head — les dernières couches de classification, spécifiques à votre tâche)",
               "Phase 2 (fine-tuning) : dégeler les dernières couches avec un learning rate très faible (1e-5)",
               "Avec seulement 500 images par classe, on peut atteindre 90%+ d'accuracy grâce au Transfer Learning",
-              "Les modèles recommandés : EfficientNet, ResNet, ViT (Vision Transformer)"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Le Transfer Learning réutilise un modèle pré-entraîné sur des millions d'images comme point de départ",
+              "Les modèles recommandés : EfficientNet, ResNet, ViT (Vision Transformer)",
               "Phase 1 (feature extraction) : geler le backbone et entraîner seulement la tête de classification",
-              "Phase 2 (fine-tuning) : dégeler les dernières couches avec un learning rate très faible (1e-5)",
-              "Avec seulement 500 images par classe, on peut atteindre 90%+ d'accuracy grâce au Transfer Learning",
               "Les modèles pré-entraînés recommandés : EfficientNet, ResNet, ViT (Vision Transformer)"
             ]
           }
@@ -3203,10 +2906,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "RNN Simple", "content": "Mémoire courte, vanishing gradient sur les longues séquences. Traitement séquentiel impossibles à paralléliser. Encore utilisé pour de très courtes séquences ou en embarqué." },
-              { "title": "LSTM", "content": "Portes forget/input/output + cell state pour mémoire longue. Résout le vanishing gradient du RNN simple. Standard des années 2015-2017 pour le NLP." },
-              { "title": "GRU", "content": "Version allégée du LSTM avec seulement 2 portes (reset, update). Moins de paramètres, souvent aussi performant. Choix pratique quand la mémoire GPU est limitée." },
-              { "title": "Transformer", "content": "Remplace les RNN pour les longues séquences. Attention parallèle sur tous les tokens en une opération. 100× plus rapide à entraîner. Standard absolu depuis 2018." }
+              {
+                "title": "RNN Simple",
+                "content": "Mémoire courte, vanishing gradient sur les longues séquences. Traitement séquentiel impossibles à paralléliser. Encore utilisé pour de très courtes séquences ou en embarqué."
+              },
+              {
+                "title": "LSTM",
+                "content": "Portes forget/input/output + cell state pour mémoire longue. Résout le vanishing gradient du RNN simple. Standard des années 2015-2017 pour le NLP."
+              },
+              {
+                "title": "GRU",
+                "content": "Version allégée du LSTM avec seulement 2 portes (reset, update). Moins de paramètres, souvent aussi performant. Choix pratique quand la mémoire GPU est limitée."
+              },
+              {
+                "title": "Transformer",
+                "content": "Remplace les RNN pour les longues séquences. Attention parallèle sur tous les tokens en une opération. 100× plus rapide à entraîner. Standard absolu depuis 2018."
+              }
             ]
           },
           {
@@ -3456,40 +3171,29 @@
             "content": "Implication de coût : les LLMs sont facturés au token. 'ChatGPT est excellent!' = ~6 tokens. Un roman de 100k mots ≈ 133k tokens. Optimiser vos prompts = optimiser vos coûts."
           },
           {
-            "type": "check",
-            "question": "Pourquoi les LLMs utilisent-ils la tokenisation en sous-mots (BPE) plutôt qu'une tokenisation mot par mot ?",
-            "options": [
-              "C'est plus rapide à calculer",
-              "Elle permet un vocabulaire fixe (~50k tokens) qui gère n'importe quel texte, y compris les mots rares et les néologismes",
-              "Les mots entiers ne peuvent pas être représentés comme vecteurs",
-              "Pour réduire la taille des fichiers de modèle"
-            ],
-            "correct": 1,
-            "explanation": "Un vocabulaire de mots entiers serait soit trop petit (ne couvre pas les mots rares) soit trop grand (millions d'entrées). BPE représente les mots fréquents en un seul token et décompose les mots rares en sous-mots connus, donnant un vocabulaire fixe compact (~50k) qui couvre toute langue."
-          },
-          {
             "type": "cards",
             "items": [
-              { "title": "BPE (Byte Pair Encoding)", "content": "Fusionne les paires de caractères les plus fréquentes de façon itérative. Équilibre vocabulaire et couverture. Utilisé par GPT-2, GPT-3, GPT-4, LLaMA." },
-              { "title": "WordPiece", "content": "Variante de BPE utilisée par BERT. Maximise la probabilité du corpus plutôt que la fréquence des paires. Les tokens commencent par ## s'ils sont en milieu de mot." },
-              { "title": "SentencePiece", "content": "Indépendant de la langue et de la tokenisation par espaces. Gère l'espace différemment (▁ au début des mots). Utilisé par T5, LLaMA, Gemma." },
-              { "title": "Tiktoken", "content": "Tokeniseur utilisé par OpenAI (cl100k_base pour GPT-4). Très rapide, implémenté en Rust. Démo interactive sur platform.openai.com/tokenizer." }
+              {
+                "title": "BPE (Byte Pair Encoding)",
+                "content": "Fusionne les paires de caractères les plus fréquentes de façon itérative. Équilibre vocabulaire et couverture. Utilisé par GPT-2, GPT-3, GPT-4, LLaMA."
+              },
+              {
+                "title": "WordPiece",
+                "content": "Variante de BPE utilisée par BERT. Maximise la probabilité du corpus plutôt que la fréquence des paires. Les tokens commencent par ## s'ils sont en milieu de mot."
+              },
+              {
+                "title": "SentencePiece",
+                "content": "Indépendant de la langue et de la tokenisation par espaces. Gère l'espace différemment (▁ au début des mots). Utilisé par T5, LLaMA, Gemma."
+              },
+              {
+                "title": "Tiktoken",
+                "content": "Tokeniseur utilisé par OpenAI (cl100k_base pour GPT-4). Très rapide, implémenté en Rust. Démo interactive sur platform.openai.com/tokenizer."
+              }
             ]
           },
           {
             "type": "warning",
             "content": "⚠️ **Le tokeniseur est spécifique au modèle :** Ne jamais mélanger le tokeniseur de BERT avec GPT-2 — vocabulaires et encodages complètement différents. Toujours utiliser AutoTokenizer.from_pretrained('nom-du-modele'). Une erreur de tokeniseur donne des résultats incompréhensibles sans message d'erreur explicite."
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "La tokenisation convertit le texte en séquences de nombres (token IDs) compréhensibles par le modèle",
-              "BPE (Byte Pair Encoding) représente les mots fréquents en 1 token, les mots rares en plusieurs sous-mots",
-              "Règle pratique : ~1 token ≈ 0,75 mot en anglais et ~0,6 mot en français",
-              "Les LLMs sont facturés au token : optimiser ses prompts = optimiser ses coûts",
-              "GPT-4 utilise ~100 000 tokens dans son vocabulaire (cl100k_base encoding)"
-            ]
           },
           {
             "type": "summary",
@@ -3551,18 +3255,6 @@
             "label": "Embeddings avec Sentence Transformers (état de l'art)",
             "content": "from sentence_transformers import SentenceTransformer\nfrom sklearn.metrics.pairwise import cosine_similarity\nimport numpy as np\n\n# Modèle all-MiniLM-L6-v2 : 80MB, excellent rapport perf/taille\nmodel = SentenceTransformer('all-MiniLM-L6-v2')\n\nsentences = [\n    \"L'IA va révolutionner la médecine\",\n    \"L'intelligence artificielle transforme la santé\",  # sémantiquement proche\n    \"J'adore les pizzas aux champignons\",               # non lié\n    \"Le deep learning améliore le diagnostic médical\",  # proche\n]\n\nembeddings = model.encode(sentences)\nprint(f'Forme des embeddings : {embeddings.shape}')  # (4, 384)\n\n# Matrice de similarité\nsim_matrix = cosine_similarity(embeddings)\n\nprint('\\nSimilarités cosinus :')\nfor i, s1 in enumerate(sentences[:2]):\n    for j, s2 in enumerate(sentences[1:], 1):\n        if i != j:\n            print(f'  [{i}] vs [{j}] : {sim_matrix[i,j]:.3f}')\n            \n# Application : moteur de recherche sémantique !\nquery = \"IA et santé\"\nquery_emb = model.encode([query])\nsimilarities = cosine_similarity(query_emb, embeddings)[0]\nbest_match = sentences[np.argmax(similarities)]\nprint(f'\\nRecherche \"{query}\" -> \"{best_match}\"')",
             "contentJava": "// Java 11 avec LangChain4j (port Java officiel de LangChain)\n// Dépendance Maven : langchain4j-open-ai:0.32.0\nimport dev.langchain4j.model.openai.OpenAiEmbeddingModel;\nimport dev.langchain4j.model.embedding.EmbeddingModel;\nimport dev.langchain4j.data.embedding.Embedding;\nimport java.util.*;\n\npublic class SentenceEmbeddings {\n    public static void main(String[] args) {\n        // Modèle text-embedding-3-small (1536 dimensions, très performant)\n        EmbeddingModel model = OpenAiEmbeddingModel.builder()\n            .apiKey(System.getenv(\"OPENAI_API_KEY\"))\n            .modelName(\"text-embedding-3-small\")\n            .build();\n\n        List<String> sentences = Arrays.asList(\n            \"L'IA va révolutionner la médecine\",\n            \"L'intelligence artificielle transforme la santé\",  // proche\n            \"J'adore les pizzas aux champignons\",               // non lié\n            \"Le deep learning améliore le diagnostic médical\"   // proche\n        );\n\n        // Encoder toutes les phrases\n        List<Embedding> embeddings = model.embedAll(\n            sentences.stream()\n                .map(dev.langchain4j.data.segment.TextSegment::from)\n                .collect(java.util.stream.Collectors.toList())\n        ).content();\n\n        System.out.println(\"Forme des embeddings : (\" + embeddings.size()\n            + \", \" + embeddings.get(0).vector().length + \")\");\n\n        // Calcul de similarité cosinus entre les deux premières phrases\n        float[] e0 = embeddings.get(0).vector();\n        float[] e1 = embeddings.get(1).vector();\n        System.out.printf(\"Similarité [0] vs [1] : %.3f%n\",\n            cosineSim(e0, e1)); // ~0.85 (très proches)\n\n        // Application : moteur de recherche sémantique !\n        System.out.println();\n        System.out.println(\"Recherche 'IA et santé' -> phrase la plus proche trouvée automatiquement\");\n    }\n\n    static float cosineSim(float[] a, float[] b) {\n        float dot = 0, na = 0, nb = 0;\n        for (int i = 0; i < a.length; i++) { dot += a[i]*b[i]; na += a[i]*a[i]; nb += b[i]*b[i]; }\n        return dot / ((float)Math.sqrt(na) * (float)Math.sqrt(nb));\n    }\n}"
-          },
-          {
-            "type": "check",
-            "question": "Quelle est la principale limite des embeddings Word2Vec comparés aux embeddings contextuels de BERT/GPT ?",
-            "options": [
-              "Word2Vec est trop lent à calculer",
-              "Word2Vec donne un vecteur FIXE par mot, indépendant du contexte — 'banque' (financière) a le même vecteur que 'banque' (rivière)",
-              "Word2Vec ne fonctionne qu'en anglais",
-              "Word2Vec nécessite plus de mémoire que BERT"
-            ],
-            "correct": 1,
-            "explanation": "Word2Vec apprend un vecteur unique par mot, sans tenir compte du contexte. BERT et GPT créent des embeddings contextuels : le même mot a des représentations différentes selon la phrase. Cela permet de capturer la polysémie (un mot, plusieurs sens)."
           },
           {
             "type": "heading",
@@ -3627,18 +3319,9 @@
               "Word2Vec apprend des vecteurs statiques : 'Roi - Homme + Femme ≈ Reine' — analogies géométriques",
               "Les embeddings contextuels (BERT, GPT) produisent des vecteurs différents pour le même mot selon son contexte",
               "La similarité cosinus mesure la proximité sémantique entre embeddings",
-              "Sentence Transformers (all-MiniLM) permettent de créer des moteurs de recherche sémantique efficaces"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
+              "Sentence Transformers (all-MiniLM) permettent de créer des moteurs de recherche sémantique efficaces",
               "Les embeddings représentent les mots comme des vecteurs dans un espace où la proximité géométrique reflète la proximité sémantique",
-              "Word2Vec apprend des vecteurs statiques : 'Roi - Homme + Femme ≈ Reine'",
-              "Les embeddings contextuels (BERT, GPT) produisent des vecteurs différents pour le même mot selon son contexte",
-              "La similarité cosinus mesure la proximité sémantique entre embeddings",
-              "Sentence Transformers (all-MiniLM) permettent de créer des moteurs de recherche sémantique efficaces"
+              "Word2Vec apprend des vecteurs statiques : 'Roi - Homme + Femme ≈ Reine'"
             ]
           }
         ]
@@ -3716,40 +3399,29 @@
             "content": "La 'Multi-Head Attention' des Transformers utilise plusieurs têtes d'attention en parallèle (8, 12, 16...), chacune apprenant à capturer différents types de relations : syntaxiques, sémantiques, coréférences..."
           },
           {
-            "type": "check",
-            "question": "Dans le mécanisme d'attention, que représente le score d'attention Q × K^T / √d_k ?",
-            "options": [
-              "La valeur finale produite par le token",
-              "Une mesure de pertinence entre chaque paire de tokens : à quel point un token doit 'regarder' un autre",
-              "Le gradient utilisé pour la backpropagation",
-              "L'embedding positionnel du token"
-            ],
-            "correct": 1,
-            "explanation": "Le produit Query × Key mesure l'alignement (pertinence) entre deux tokens. Divisé par √d_k pour éviter les gradients trop faibles après le softmax, ce score indique combien d'attention le token query doit accorder au token key lors du calcul de sa nouvelle représentation."
-          },
-          {
             "type": "cards",
             "items": [
-              { "title": "Self-Attention", "content": "Chaque token regarde tous les autres tokens dans la même séquence. Permet de capturer les dépendances à longue distance ('il' → 'le chat' plusieurs tokens avant)." },
-              { "title": "Multi-Head Attention", "content": "Plusieurs self-attentions en parallèle (8-16 têtes). Chaque tête apprend un type de relation différent : syntaxique, sémantique, coréférence." },
-              { "title": "Cross-Attention", "content": "Le décodeur regarde l'encodeur. Queries viennent du décodeur, Keys et Values de l'encodeur. Utilisé dans les architectures encoder-decoder (T5, traduction)." },
-              { "title": "Positional Encoding", "content": "Encode l'ordre des tokens (sin/cos ou appris). Sans lui, l'attention est invariante à l'ordre — 'chat mange souris' serait identique à 'souris mange chat'." }
+              {
+                "title": "Self-Attention",
+                "content": "Chaque token regarde tous les autres tokens dans la même séquence. Permet de capturer les dépendances à longue distance ('il' → 'le chat' plusieurs tokens avant)."
+              },
+              {
+                "title": "Multi-Head Attention",
+                "content": "Plusieurs self-attentions en parallèle (8-16 têtes). Chaque tête apprend un type de relation différent : syntaxique, sémantique, coréférence."
+              },
+              {
+                "title": "Cross-Attention",
+                "content": "Le décodeur regarde l'encodeur. Queries viennent du décodeur, Keys et Values de l'encodeur. Utilisé dans les architectures encoder-decoder (T5, traduction)."
+              },
+              {
+                "title": "Positional Encoding",
+                "content": "Encode l'ordre des tokens (sin/cos ou appris). Sans lui, l'attention est invariante à l'ordre — 'chat mange souris' serait identique à 'souris mange chat'."
+              }
             ]
           },
           {
             "type": "warning",
             "content": "⚠️ **Attention quadratique :** La complexité du mécanisme d'attention est O(n²) en mémoire et en calcul. Pour un contexte de 4096 tokens, c'est 16 millions de paires à calculer. C'est pourquoi Flash Attention, Sparse Attention et Sliding Window Attention ont été développées pour les longs contextes."
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "L'attention permet à chaque token de 'regarder' tous les autres tokens pour construire sa représentation contextuelle",
-              "Trois vecteurs par token : Query (ce que je cherche), Key (ce que j'offre), Value (ce que je fournis si choisi)",
-              "Le score d'attention Q×K^T/√d_k est normalisé par Softmax pour obtenir des poids qui somment à 1",
-              "La Multi-Head Attention utilise plusieurs têtes en parallèle pour capturer différents types de relations",
-              "C'est ce mécanisme qui a rendu les Transformers possibles et révolutionné le NLP en 2017"
-            ]
           },
           {
             "type": "summary",
@@ -4003,22 +3675,6 @@
             "content": "La 'loi de Chinchilla' (Hoffmann et al., 2022) a montré que les modèles précédents étaient sous-entraînés. Pour un modèle optimal, il faut ~20 tokens d'entraînement par paramètre. LLaMA 3 a suivi cette recommandation avec 15T tokens pour un 70B."
           },
           {
-            "type": "check",
-            "question": "Quelle est la différence fondamentale entre un Encoder (BERT) et un Decoder (GPT) dans l'architecture Transformer ?",
-            "options": [
-              "L'encoder est plus grand que le decoder",
-              "L'encoder lit la séquence dans les deux sens (bidirectionnel) ; le decoder ne voit que les tokens passés (causal masking) pour générer token par token",
-              "L'encoder utilise ReLU et le decoder utilise GELU",
-              "L'encoder est utilisé pour les images, le decoder pour le texte"
-            ],
-            "correct": 1,
-            "explanation": "BERT (encoder) lit toute la séquence dans les deux directions → idéal pour COMPRENDRE le texte. GPT (decoder) applique un masque causal : chaque token ne voit que les tokens précédents → idéal pour GÉNÉRER du texte token par token."
-          },
-          {
-            "type": "interactive",
-            "widget": "temperature"
-          },
-          {
             "type": "usecase",
             "title": "Cas d'usage réels — Transformers",
             "items": [
@@ -4039,17 +3695,6 @@
           {
             "type": "warning",
             "content": "⚠️ **Lost in the Middle :** Malgré les grandes fenêtres de contexte (128K+ tokens), les modèles ont du mal avec les informations placées au milieu d'un très long contexte. Place les informations critiques au début ou à la fin du prompt. Des benchmarks montrent que la précision chute de 30% pour les infos au centre d'un contexte de 64K tokens."
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Le Transformer ('Attention Is All You Need', 2017) abandonne les RNNs pour un mécanisme d'attention parallèle",
-              "Encoder (BERT) : bidirectionnel, idéal pour comprendre. Decoder (GPT) : causal, idéal pour générer",
-              "La température contrôle la créativité lors de la génération : T=0 greedy, T=0.8 équilibré, T=2 très créatif",
-              "Les Scaling Laws prévoient que performance ∝ paramètres × données × compute",
-              "La loi de Chinchilla : pour un modèle optimal, entraîner sur ~20 tokens par paramètre"
-            ]
           },
           {
             "type": "summary",
@@ -4102,18 +3747,6 @@
             "contentJava": "// Java 11 — Fine-tuning via API Hugging Face ou OpenAI\n// Note : en Java, le fine-tuning low-level (LoRA) se fait via API REST.\n// DL4J supporte le fine-tuning complet ; pour LoRA, utilisez l'API HF.\n\nimport java.net.http.*;\nimport java.net.URI;\nimport java.nio.charset.StandardCharsets;\n\npublic class LoRAFineTuning {\n    public static void main(String[] args) {\n        System.out.println(\"=== Fine-tuning LoRA — Paramètres équivalents ===\");\n        System.out.println(\"  r (rang de décomposition) : 16   // 8-64\");\n        System.out.println(\"  lora_alpha               : 32   // facteur de scaling\");\n        System.out.println(\"  lora_dropout             : 0.05\");\n        System.out.println(\"  target_modules : [q_proj, v_proj, k_proj, o_proj]\");\n        System.out.println(\"  -> seulement ~0.19% des paramètres entraînés !\");\n        System.out.println();\n        System.out.println(\"Avantages LoRA :\");\n        System.out.println(\"  Entraînable sur 1 GPU 24GB au lieu de 8x80GB\");\n        System.out.println(\"  Adapter stockée séparément (2-100MB vs 14GB)\");\n        System.out.println(\"  Multiples adapters sur le même modèle de base\");\n        System.out.println();\n        System.out.println(\"Options fine-tuning en Java 11 :\");\n        System.out.println(\"  1. OpenAI Fine-Tuning API (gpt-3.5-turbo)\");\n        System.out.println(\"     POST https://api.openai.com/v1/fine_tuning/jobs\");\n        System.out.println(\"  2. Hugging Face AutoTrain REST API\");\n        System.out.println(\"  3. DL4J TransferLearning (fine-tuning complet)\");\n        System.out.println(\"  4. LangChain4j avec modèle Mistral/Llama via Ollama\");\n    }\n}"
           },
           {
-            "type": "check",
-            "question": "Quel est l'avantage principal de LoRA (Low-Rank Adaptation) pour le fine-tuning d'un LLM ?",
-            "options": [
-              "LoRA entraîne le modèle entier plus rapidement",
-              "LoRA entraîne seulement ~0.1-0.2% des paramètres en décomposant les mises à jour en matrices de bas rang, réduisant drastiquement la mémoire GPU nécessaire",
-              "LoRA améliore automatiquement la qualité des réponses sans données d'entraînement",
-              "LoRA est uniquement utilisable avec GPT-4"
-            ],
-            "correct": 1,
-            "explanation": "LoRA ajoute de petites matrices de rang r aux couches d'attention. Seules ces matrices sont entraînées (0.19% des paramètres pour un 7B). Résultat : fine-tuning sur 1 GPU 24GB au lieu de 8×80GB, avec des performances proches du fine-tuning complet."
-          },
-          {
             "type": "tip",
             "content": "🔋 **QLoRA — fine-tuner sur un seul GPU de 8 Go :**\nLoRA classique nécessite encore un GPU de 24-80 Go. QLoRA résout ça en **quantifiant** (compressant) le modèle de base en 4 bits au lieu de 16 bits — il prend 4× moins de mémoire.\nAnalogie : au lieu de transporter tout un dictionnaire (lourd), tu notes juste les pages modifiées (léger).\nRésultat : fine-tuner Llama-3 7B sur **un GPU grand public (8 Go)** en quelques heures. C'est la raison pour laquelle le fine-tuning est devenu accessible à tous depuis 2023."
           },
@@ -4153,18 +3786,8 @@
               "Le pipeline RLHF : SFT (démonstrations) → Reward Model (préférences humaines) → PPO (RL pour maximiser la récompense)",
               "LoRA entraîne moins de 0,2% des paramètres via des matrices de bas rang, rendant le fine-tuning accessible",
               "Un adapter LoRA fait 2-100 MB vs 14 GB pour le modèle complet — plusieurs adapters sur la même base",
-              "InstructGPT a montré qu'un modèle 1,3B aligné surpasse souvent un modèle 175B non-aligné"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Un LLM pré-entraîné prédit des tokens — le fine-tuning le transforme en assistant utile et aligné",
-              "Le pipeline RLHF : SFT (démonstrations humaines) → Reward Model (préférences humaines) → PPO (RL pour maximiser la récompense)",
-              "LoRA entraîne moins de 0,2% des paramètres via des matrices de bas rang, rendant le fine-tuning accessible",
-              "Un adapter LoRA fait 2-100 MB vs 14 GB pour le modèle complet — plusieurs adapters sur la même base",
-              "InstructGPT a montré qu'un modèle 1,3B aligné surpasse souvent un modèle 175B non-aligné"
+              "InstructGPT a montré qu'un modèle 1,3B aligné surpasse souvent un modèle 175B non-aligné",
+              "Le pipeline RLHF : SFT (démonstrations humaines) → Reward Model (préférences humaines) → PPO (RL pour maximiser la récompense)"
             ]
           }
         ]
@@ -4671,29 +4294,6 @@
             "content": "❌ PROMPT MEDIOCRE :\n\"Écris une fonction Python pour analyser des logs\"\n\n✅ PROMPT EXPERT :\n\"Tu es un SRE senior Python. Écris une fonction parse_nginx_logs(filepath: str) -> list[dict] qui :\n- Parse les logs Nginx au format Combined Log (IP, date, méthode, URL, status, taille, referrer, user-agent)\n- Utilise uniquement la stdlib Python (re, datetime)\n- Gère les lignes malformées avec un log d'avertissement\n- Retourne une liste de dicts avec les clés : ip, timestamp, method, path, status, size\n- Inclut des type hints et une docstring Google style\n- Ajoute 3 exemples de test dans le docstring\"\n\nLa différence : le deuxième prompt élimine toute ambiguïté et contraint l'output à exactement ce dont vous avez besoin."
           },
           {
-            "type": "check",
-            "question": "Parmi les 5 composantes d'un prompt expert, laquelle réduit le plus l'ambiguïté dans la réponse ?",
-            "options": [
-              "Le rôle/persona",
-              "Le format de sortie (spécifier JSON, markdown, longueur, structure attendue)",
-              "Le contexte",
-              "La tâche précise"
-            ],
-            "correct": 1,
-            "explanation": "Le format de sortie est souvent oublié. Préciser 'Réponds en JSON avec les clés x, y, z' ou 'Réponds en bullet points, max 5 points, en français' contraint la réponse à une structure exploitable directement — sans reformatage post-traitement."
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Un prompt est une interface de programmation en langage naturel — sa qualité détermine directement la qualité de la réponse",
-              "Les 5 composantes : Rôle, Contexte, Tâche précise, Format de sortie, Contraintes",
-              "Un prompt expert élimine toute ambiguïté et contraint l'output à exactement ce dont vous avez besoin",
-              "Le rôle/persona active les bons patterns : 'Tu es un SRE senior Python' produit un code plus robuste",
-              "Spécifier le format de sortie (JSON, markdown, longueur) évite tout post-traitement de la réponse"
-            ]
-          },
-          {
             "type": "summary",
             "title": "Ce qu'on a appris",
             "items": [
@@ -4767,40 +4367,29 @@
             "content": "Technique bonus — le XML structuring : entourer les sections importantes de tags XML dans votre prompt (<context>, <instructions>, <examples>) aide les LLMs modernes (Claude surtout) à parser et suivre les instructions plus précisément."
           },
           {
-            "type": "check",
-            "question": "Quelle phrase suffit à activer le raisonnement Chain of Thought en mode Zero-Shot ?",
-            "options": [
-              "'Réponds en JSON'",
-              "'Réfléchissons étape par étape.' (ou 'Let's think step by step.')",
-              "'Tu es un expert en mathématiques'",
-              "'Donne-moi 5 options différentes'"
-            ],
-            "correct": 1,
-            "explanation": "La phrase 'Réfléchissons étape par étape.' (Zero-Shot CoT) active le raisonnement enchaîné sans fournir d'exemples. Cette technique simple, découverte par Kojima et al. (2022), améliore les performances sur les problèmes de raisonnement, mathématiques et logiques."
-          },
-          {
             "type": "cards",
             "items": [
-              { "title": "Zero-Shot CoT", "content": "'Réfléchis étape par étape' sans exemple. Active le raisonnement enchaîné avec une phrase simple. Fonctionne mieux sur les modèles récents (GPT-4, Claude 3+)." },
-              { "title": "Few-Shot CoT", "content": "Exemples complets de raisonnement inclus dans le prompt. Plus puissant que Zero-Shot sur les tâches complexes. Coût : plus de tokens consommés." },
-              { "title": "Self-Consistency", "content": "Générer plusieurs réponses (5-10), prendre la plus fréquente. Améliore la précision de 10-20% sur les problèmes de maths/logique. Coût : N× plus de tokens." },
-              { "title": "Tree of Thoughts", "content": "Explorer plusieurs branches de raisonnement en parallèle, évaluer chaque branche, choisir la meilleure. Pour les problèmes où un mauvais premier pas bloque tout." }
+              {
+                "title": "Zero-Shot CoT",
+                "content": "'Réfléchis étape par étape' sans exemple. Active le raisonnement enchaîné avec une phrase simple. Fonctionne mieux sur les modèles récents (GPT-4, Claude 3+)."
+              },
+              {
+                "title": "Few-Shot CoT",
+                "content": "Exemples complets de raisonnement inclus dans le prompt. Plus puissant que Zero-Shot sur les tâches complexes. Coût : plus de tokens consommés."
+              },
+              {
+                "title": "Self-Consistency",
+                "content": "Générer plusieurs réponses (5-10), prendre la plus fréquente. Améliore la précision de 10-20% sur les problèmes de maths/logique. Coût : N× plus de tokens."
+              },
+              {
+                "title": "Tree of Thoughts",
+                "content": "Explorer plusieurs branches de raisonnement en parallèle, évaluer chaque branche, choisir la meilleure. Pour les problèmes où un mauvais premier pas bloque tout."
+              }
             ]
           },
           {
             "type": "warning",
             "content": "⚠️ **Le CoT peut être trompeur :** Le raisonnement affiché dans une Chain of Thought n'est pas toujours le vrai processus interne du modèle — c'est une reconstruction post-hoc plausible. Des études montrent que le CoT affiché peut être incorrect même quand la réponse finale est juste. Ne sur-interprète pas les chains of thought comme une 'vraie' réflexion logique."
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Chain of Thought (CoT) : demander au modèle de raisonner étape par étape améliore ses performances sur les tâches complexes",
-              "Zero-Shot CoT : ajouter 'Réfléchissons étape par étape.' suffit à activer le raisonnement enchaîné",
-              "Few-Shot : fournir des exemples (input → output) enseigne le format et le raisonnement attendus",
-              "ReAct alterne Pensée → Action → Observation pour résoudre des tâches nécessitant des outils externes",
-              "Le XML structuring (<role>, <context>, <instructions>) aide les LLMs modernes à parser les prompts complexes"
-            ]
           },
           {
             "type": "summary",
@@ -4852,18 +4441,6 @@
             "language": "text",
             "label": "Template de prompt pour code review",
             "content": "# ══ TEMPLATE CODE REVIEW ═══════════════════════════════\n\n<role>\nTu es un tech lead expérimenté faisant une code review.\nSois direct et actionnable. Priorise les problèmes critiques.\n</role>\n\n<code>\n[COLLER LE CODE ICI]\n</code>\n\n<review_focus>\nAnalyse en priorité :\n1. 🔴 CRITIQUE : Sécurité, bugs, perte de données\n2. 🟠 IMPORTANT : Performance, scalabilité\n3. 🟡 MOYEN : Lisibilité, maintenabilité\n4. 🟢 MINEUR : Style, convention\n</review_focus>\n\n<output_format>\nPour chaque problème trouvé :\n- Niveau : [CRITIQUE|IMPORTANT|MOYEN|MINEUR]\n- Ligne : [numéro]\n- Problème : [description concise]\n- Fix suggéré : [code corrigé]\n\nEnsuite : un résumé de la qualité globale (1-10) avec justification.\n</output_format>"
-          },
-          {
-            "type": "check",
-            "question": "Dans un prompt de génération de code, pourquoi est-il important de spécifier les versions exactes des bibliothèques (ex: FastAPI 0.110, Pydantic v2) ?",
-            "options": [
-              "Pour impressionner le modèle avec nos connaissances techniques",
-              "Les APIs changent entre versions — sans version précisée, le modèle peut générer du code valide pour une ancienne version mais incompatible avec votre environnement",
-              "Pour que le modèle sache quelle documentation consulter en ligne",
-              "C'est uniquement utile pour les langages compilés"
-            ],
-            "correct": 1,
-            "explanation": "Les bibliothèques évoluent et peuvent avoir des changements d'API incompatibles entre versions (ex: Pydantic v1 → v2 a changé la syntaxe). Spécifier les versions exactes force le modèle à générer du code compatible avec votre environnement réel."
           },
           {
             "type": "tip",
@@ -4944,10 +4521,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "System Prompt", "content": "Personnalité et règles permanentes de l'assistant. Défini une fois, s'applique à toute la conversation. Contrôle le ton, la langue, les contraintes métier." },
-              { "title": "Structured Output", "content": "JSON/XML forcé via le prompt ou les APIs natives (response_format). Toujours valider avec Pydantic/Zod — le modèle peut produire du JSON syntaxiquement correct mais sémantiquement faux." },
-              { "title": "Tool Use / Function Calling", "content": "L'IA décide d'appeler une fonction (recherche web, BDD, API). Le développeur définit le schéma des fonctions, l'IA choisit quand et comment les appeler." },
-              { "title": "Streaming", "content": "Réponse token par token pour l'UX. L'utilisateur voit les tokens arriver en temps réel plutôt d'attendre la réponse complète. Réduit la latence perçue de 80%." }
+              {
+                "title": "System Prompt",
+                "content": "Personnalité et règles permanentes de l'assistant. Défini une fois, s'applique à toute la conversation. Contrôle le ton, la langue, les contraintes métier."
+              },
+              {
+                "title": "Structured Output",
+                "content": "JSON/XML forcé via le prompt ou les APIs natives (response_format). Toujours valider avec Pydantic/Zod — le modèle peut produire du JSON syntaxiquement correct mais sémantiquement faux."
+              },
+              {
+                "title": "Tool Use / Function Calling",
+                "content": "L'IA décide d'appeler une fonction (recherche web, BDD, API). Le développeur définit le schéma des fonctions, l'IA choisit quand et comment les appeler."
+              },
+              {
+                "title": "Streaming",
+                "content": "Réponse token par token pour l'UX. L'utilisateur voit les tokens arriver en temps réel plutôt d'attendre la réponse complète. Réduit la latence perçue de 80%."
+              }
             ]
           },
           {
@@ -4962,17 +4551,8 @@
               "Un template de code review structuré par niveaux (CRITIQUE / IMPORTANT / MOYEN / MINEUR) donne des retours actionnables",
               "Toujours inclure un format de sortie précis (type hints, docstrings Google style, tests pytest...)",
               "La contrainte 'pas de TODO ni de ...' force le modèle à générer du code complet et fonctionnel",
-              "Les prompts de développeur sont des templates réutilisables — investir 30 min pour créer un excellent template vaut des heures"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
+              "Les prompts de développeur sont des templates réutilisables — investir 30 min pour créer un excellent template vaut des heures",
               "Pour la génération de code, spécifier le langage, les versions exactes des bibliothèques et les contraintes (async, type hints...)",
-              "Un template de code review structuré par niveaux (CRITIQUE / IMPORTANT / MOYEN / MINEUR) donne des retours actionnables",
-              "Toujours inclure un format de sortie précis (type hints, docstrings Google style, tests pytest...)",
-              "La contrainte 'pas de TODO ni de ...' force le modèle à générer du code complet et fonctionnel",
               "Les prompts de développeur sont des templates réutilisables — investir 30 min pour en créer un excellent vaut des heures"
             ]
           }
@@ -5318,31 +4898,8 @@
             "contentJava": "// Java 11 avec LangChain4j (langchain4j:0.32.0)\nimport dev.langchain4j.data.document.*;\nimport dev.langchain4j.data.document.loader.FileSystemDocumentLoader;\nimport dev.langchain4j.data.document.splitter.DocumentSplitters;\nimport dev.langchain4j.data.segment.TextSegment;\nimport dev.langchain4j.model.embedding.EmbeddingModel;\nimport dev.langchain4j.model.openai.*;\nimport dev.langchain4j.store.embedding.*;\nimport dev.langchain4j.store.embedding.inmemory.InMemoryEmbeddingStore;\nimport dev.langchain4j.chain.ConversationalRetrievalChain;\nimport java.util.List;\n\npublic class RAGLangChain4j {\n    public static void main(String[] args) {\n        // ─── ÉTAPE 1 : INDEXATION ────────────────────────\n        List<Document> documents =\n            FileSystemDocumentLoader.loadDocuments(\"./docs/\");\n        System.out.println(documents.size() + \" documents chargés\");\n\n        // Chunking : chunk_size=1000, overlap=200 (évite de couper le contexte)\n        DocumentSplitter splitter = DocumentSplitters.recursive(1000, 200);\n        List<TextSegment> chunks = splitter.splitAll(documents);\n        System.out.println(chunks.size() + \" chunks créés\");\n\n        // Embeddings et base vectorielle en mémoire\n        EmbeddingModel embeddingModel = OpenAiEmbeddingModel.builder()\n            .apiKey(System.getenv(\"OPENAI_API_KEY\"))\n            .modelName(\"text-embedding-3-small\")\n            .build();\n\n        EmbeddingStore<TextSegment> vectorStore = new InMemoryEmbeddingStore<>();\n\n        EmbeddingStoreIngestor ingestor = EmbeddingStoreIngestor.builder()\n            .documentSplitter(splitter)\n            .embeddingModel(embeddingModel)\n            .embeddingStore(vectorStore)\n            .build();\n        ingestor.ingest(documents);\n\n        // ─── ÉTAPE 2 & 3 : RETRIEVAL + GENERATION ───────\n        OpenAiChatModel llm = OpenAiChatModel.builder()\n            .apiKey(System.getenv(\"OPENAI_API_KEY\"))\n            .modelName(\"gpt-4o-mini\")\n            .temperature(0.0)\n            .build();\n\n        ConversationalRetrievalChain chain = ConversationalRetrievalChain.builder()\n            .chatLanguageModel(llm)\n            .retriever(EmbeddingStoreRetriever.from(\n                vectorStore, embeddingModel, 5))  // k=5 chunks les plus proches\n            .build();\n\n        String answer = chain.execute(\"Comment configurer l'authentification ?\");\n        System.out.println(\"Réponse: \" + answer);\n    }\n}"
           },
           {
-            "type": "check",
-            "question": "Pourquoi le RAG est-il préférable au fine-tuning pour intégrer des connaissances d'entreprise dans un LLM ?",
-            "options": [
-              "Le RAG est toujours moins coûteux que le fine-tuning",
-              "Le RAG permet de mettre à jour les connaissances sans réentraîner le modèle, cite ses sources et réduit les hallucinations sur des données factuelles",
-              "Le fine-tuning ne fonctionne pas avec des documents PDF",
-              "Le RAG produit toujours de meilleures réponses que le fine-tuning"
-            ],
-            "correct": 1,
-            "explanation": "Le RAG récupère les informations pertinentes au moment de la question — les connaissances sont modifiables sans réentraînement. Il cite ses sources, ce qui permet de vérifier les réponses. Le fine-tuning est préférable pour modifier le COMPORTEMENT ou le STYLE du modèle, pas pour lui injecter des faits."
-          },
-          {
             "type": "warning",
             "content": "⚠️ **Le RAG ne résout pas tout :** Si la question nécessite une synthèse de 50 documents ou un raisonnement multi-étapes, le RAG simple ne suffira pas — il récupère des passages pertinents mais ne synthétise pas. Pour ces cas, explore GraphRAG (qui modélise les relations entre documents) ou les agents avec mémoire longue."
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "Le RAG résout les deux limites des LLMs : connaissances figées à l'entraînement et ignorance des données privées",
-              "Pipeline en 3 étapes : Indexation (chunks → embeddings → base vectorielle), Retrieval (recherche similarité), Generation (LLM + contexte)",
-              "Le chunking (découpage des documents) est l'étape la plus critique pour la qualité du système RAG",
-              "La recherche vectorielle (cosine similarity) retrouve les chunks sémantiquement proches de la question",
-              "MMR (Maximum Marginal Relevance) équilibre pertinence et diversité dans les chunks récupérés"
-            ]
           },
           {
             "type": "summary",
@@ -5405,18 +4962,6 @@
             ]
           },
           {
-            "type": "check",
-            "question": "Quelle stratégie de chunking est recommandée pour des documents structurés comme des wikis ou documentations techniques en Markdown ?",
-            "options": [
-              "Le chunking récursif avec une grande taille de chunk (2000 tokens)",
-              "Le chunking par headers Markdown qui respecte la structure du document",
-              "Le chunking sémantique basé sur les embeddings",
-              "Un chunk unique par document pour conserver tout le contexte"
-            ],
-            "correct": 1,
-            "explanation": "Pour des documents structurés avec des titres (Markdown, HTML), couper sur les headers respecte la cohérence sémantique : chaque chunk correspond à une section complète. Le chunking récursif aveugle peut couper en plein milieu d'un concept important."
-          },
-          {
             "type": "heading",
             "content": "Reranking — améliorer la précision de la retrieval"
           },
@@ -5474,17 +5019,6 @@
           {
             "type": "warning",
             "content": "⚠️ **Coût du reranking à l'échelle :** Un cross-encoder full est O(n) en latence — linéaire avec le nombre de documents candidats. En production, applique le reranking uniquement sur le top-20 ou top-50 de la recherche vectorielle initiale, pas sur tout le corpus. Sinon la latence devient inacceptable (plusieurs secondes par requête)."
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
-              "La qualité du RAG dépend à 80% de la qualité du chunking — c'est l'étape la plus impactante",
-              "Stratégies : Récursif (général), Header Markdown (docs structurées), Sémantique (haute précision, coûteux)",
-              "Taille optimale : 512-1024 tokens par chunk avec 10-20% d'overlap pour ne pas couper le contexte",
-              "Techniques avancées : HyDE, Reranking (Cohere), Query Expansion, Parent-Child chunking, GraphRAG",
-              "L'évaluation RAG se mesure avec RAGAS (faithfulness, answer relevancy, context precision)"
-            ]
           },
           {
             "type": "summary",
@@ -5605,18 +5139,6 @@
             }
           },
           {
-            "type": "check",
-            "question": "Quelle est la principale différence entre une base de données SQL et une base vectorielle pour la recherche ?",
-            "options": [
-              "La base vectorielle est toujours plus rapide que le SQL",
-              "La base vectorielle recherche par similarité sémantique (distance cosinus dans un espace vectoriel) ; le SQL recherche par correspondance exacte de valeurs",
-              "Les bases vectorielles ne supportent pas les filtres",
-              "pgvector est toujours le meilleur choix en production"
-            ],
-            "correct": 1,
-            "explanation": "Une base SQL répond à 'qui a exactement cette valeur'. Une base vectorielle répond à 'quels documents ont un sens proche de cette requête'. Elle travaille avec des embeddings (vecteurs de flottants) et calcule des distances (cosinus, L2) pour trouver les voisins les plus proches."
-          },
-          {
             "type": "warning",
             "content": "⚠️ **Garbage in, garbage out en vectoriel :** La qualité des embeddings détermine entièrement la qualité de la recherche. Un mauvais modèle d'embedding (trop générique, pas adapté à ton domaine) donnera de mauvais résultats même avec la meilleure base vectorielle. Évalue toujours la qualité des embeddings sur ton domaine spécifique avant de choisir ton modèle."
           },
@@ -5628,13 +5150,7 @@
               "HNSW (Chroma, pgvector, Qdrant) : index en graphe hiérarchique, rapide et précis pour moins d'un milliard de vecteurs",
               "Solutions recommandées : Chroma (POC), pgvector (si déjà Postgres), Pinecone (prod managée), Qdrant (haute performance)",
               "La recherche hybride (vectorielle + keyword BM25) combine le meilleur des deux mondes pour des résultats plus pertinents",
-              "Le choix de la base vectorielle dépend du volume, des contraintes d'hébergement et du budget — pas de solution universelle"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
+              "Le choix de la base vectorielle dépend du volume, des contraintes d'hébergement et du budget — pas de solution universelle",
               "Une base vectorielle est optimisée pour la recherche par similarité dans des espaces de haute dimension (768-3072 dims)",
               "Les index HNSW permettent de chercher parmi des millions de vecteurs en quelques millisecondes",
               "Chroma : idéal pour prototyper. Pinecone : production managée. Weaviate : hybrid search. pgvector : si vous avez déjà Postgres",
@@ -5835,18 +5351,6 @@
             "content": "Sécurité agents : un agent avec accès à un shell Python peut exécuter du code arbitraire. En production, toujours : sandboxer l'exécution, limiter les permissions, logger toutes les actions, implémenter un circuit breaker."
           },
           {
-            "type": "check",
-            "question": "Quelle architecture de raisonnement utilise un agent pour décider de ses actions en alternant pensée, action et observation ?",
-            "options": [
-              "Chain of Thought (CoT)",
-              "ReAct (Reasoning + Acting) : le modèle produit une Pensée → choisit une Action → observe le Résultat → recommence",
-              "RLHF (Reinforcement Learning from Human Feedback)",
-              "Tree of Thought (ToT)"
-            ],
-            "correct": 1,
-            "explanation": "ReAct (Reasoning + Acting) structure la boucle agentique : le LLM produit explicitement une pensée (Thought), choisit une action (Action) parmi ses outils, reçoit l'observation (Observation), puis recommence. Cette trace permet au modèle de corriger son raisonnement à chaque étape."
-          },
-          {
             "type": "compare",
             "before": {
               "label": "LLM seul (sans agent)",
@@ -5870,10 +5374,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "Perception", "content": "L'agent observe son environnement : messages utilisateur, résultats d'outils, état de la conversation. C'est son input." },
-              { "title": "Planification", "content": "Décompose l'objectif en sous-tâches via ReAct ou CoT. Décide quels outils utiliser et dans quel ordre." },
-              { "title": "Action", "content": "Exécute via des tools (recherche web, code, API). Chaque tool doit avoir un schéma clair (nom, description, paramètres)." },
-              { "title": "Mémoire", "content": "Contextuelle court terme (fenêtre de conversation) + vectorielle long terme (base de connaissances persistante entre sessions)." }
+              {
+                "title": "Perception",
+                "content": "L'agent observe son environnement : messages utilisateur, résultats d'outils, état de la conversation. C'est son input."
+              },
+              {
+                "title": "Planification",
+                "content": "Décompose l'objectif en sous-tâches via ReAct ou CoT. Décide quels outils utiliser et dans quel ordre."
+              },
+              {
+                "title": "Action",
+                "content": "Exécute via des tools (recherche web, code, API). Chaque tool doit avoir un schéma clair (nom, description, paramètres)."
+              },
+              {
+                "title": "Mémoire",
+                "content": "Contextuelle court terme (fenêtre de conversation) + vectorielle long terme (base de connaissances persistante entre sessions)."
+              }
             ]
           },
           {
@@ -5888,13 +5404,7 @@
               "La boucle agentique ReAct alterne Pensée → Action → Observation jusqu'à l'accomplissement de la tâche",
               "LangChain et LangChain4j permettent de créer des agents en quelques lignes avec des outils prédéfinis",
               "En production : sandboxer l'exécution, limiter les permissions, logger et mettre un circuit breaker",
-              "Les LLMs les plus performants pour l'agentique : GPT-4o et Claude 3.5 Sonnet (meilleure capacité de raisonnement)"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
+              "Les LLMs les plus performants pour l'agentique : GPT-4o et Claude 3.5 Sonnet (meilleure capacité de raisonnement)",
               "Un agent IA est un LLM doté d'outils (recherche web, exécution de code, APIs) qui peut agir dans le monde réel",
               "La boucle agentique : Percevoir → Planifier → Agir → Observer → (répéter) — jusqu'à la tâche accomplie",
               "ReAct (Pensée → Action → Observation) est le pattern de raisonnement le plus courant pour les agents",
@@ -5940,18 +5450,6 @@
           {
             "type": "tip",
             "content": "**Patterns multi-agents :** Orchestrateur/Workers (un chef dirige des spécialistes), Pipeline séquentiel (chaque agent raffine la sortie du précédent), Debate (plusieurs agents argumentent puis convergent), Vote majoritaire (3 agents, on prend le consensus). Choisir selon la complexité de la tâche."
-          },
-          {
-            "type": "check",
-            "question": "Quel est l'avantage principal d'un système multi-agents par rapport à un agent unique pour une tâche complexe ?",
-            "options": [
-              "Les multi-agents coûtent moins de tokens",
-              "La spécialisation et la parallélisation : chaque agent est expert de son domaine et plusieurs agents peuvent travailler simultanément",
-              "Les multi-agents n'ont jamais de boucles infinies",
-              "AutoGen fonctionne sans LLM"
-            ],
-            "correct": 1,
-            "explanation": "Un agent unique cumule toutes les responsabilités et peut perdre le fil sur des tâches longues. Les systèmes multi-agents bénéficient de la spécialisation (chaque agent a un rôle précis), de la parallélisation (les agents travaillent en simultané) et de la vérification croisée (un reviewer valide le travail du developer)."
           },
           {
             "type": "compare",
@@ -6038,13 +5536,7 @@
               "AutoGen (Microsoft) : agents avec profils conversationnels, groupchat géré par un manager",
               "LangChain4j AiServices : créer des agents Java déclaratifs avec @SystemMessage et @Tool",
               "Patterns : orchestrateur/workers, pipeline séquentiel, debate, vote majoritaire",
-              "Défis en production : boucles infinies (max_iterations), coût des tokens, debugging de la chaîne de raisonnement"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
+              "Défis en production : boucles infinies (max_iterations), coût des tokens, debugging de la chaîne de raisonnement",
               "Les systèmes multi-agents décomposent les tâches complexes entre des agents spécialisés qui collaborent",
               "AutoGen et CrewAI permettent de créer des équipes d'agents avec des rôles définis (architecte, developer, reviewer)",
               "Le GroupChat Manager orchestre les tours de parole entre agents et évite les boucles infinies",
@@ -6257,18 +5749,6 @@
             "content": "MCP vs Function Calling : Function Calling est spécifique à chaque fournisseur LLM. MCP est universel — un serveur MCP fonctionne avec Claude, Cursor, VS Code Copilot, et tout client compatible MCP. C'est l'interopérabilité par design."
           },
           {
-            "type": "check",
-            "question": "Quelle est la différence fondamentale entre MCP et le Function Calling classique ?",
-            "options": [
-              "MCP est plus rapide que Function Calling",
-              "Function Calling ne supporte que Python",
-              "MCP est universel et interopérable : un serveur MCP fonctionne avec n'importe quel client compatible (Claude, Cursor, VS Code...), contrairement au Function Calling lié à un fournisseur LLM spécifique",
-              "MCP ne peut accéder qu'aux fichiers locaux"
-            ],
-            "correct": 2,
-            "explanation": "Le Function Calling est propriétaire : la syntaxe OpenAI ne fonctionne pas avec Anthropic, et vice versa. MCP standardise l'interface — un serveur MCP exposant vos données métier fonctionne avec tous les clients compatibles MCP sans modification. C'est l'équivalent USB-C pour les intégrations IA."
-          },
-          {
             "type": "warning",
             "content": "⚠️ **Sécurité des serveurs MCP :** Les serveurs MCP s'exécutent localement et ont accès aux ressources de ta machine (fichiers, réseau, commandes shell). Vérifie toujours la source et les permissions d'un serveur MCP avant de l'installer — traite-le comme une extension de navigateur ou un package npm : code tiers qui tourne avec tes droits."
           },
@@ -6280,13 +5760,7 @@
               "Architecture en trois couches : Host (app LLM), Client (connexion 1:1), Server (expose Resources, Tools, Prompts)",
               "Un serveur MCP expose des outils via JSON-RPC sur stdio ou SSE — n'importe quel client MCP peut les utiliser",
               "MCP est universel (Claude, Cursor, VS Code Copilot...) contrairement au Function Calling lié à chaque fournisseur",
-              "Pour créer un serveur MCP : déclarer les outils avec leur schéma JSON, implémenter call_tool(), configurer claude_desktop_config.json"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
+              "Pour créer un serveur MCP : déclarer les outils avec leur schéma JSON, implémenter call_tool(), configurer claude_desktop_config.json",
               "MCP (Model Context Protocol) standardise la communication entre LLMs et outils/données externes — l'USB-C de l'IA",
               "Architecture : Host (Claude Desktop) ↔ Client ↔ Server (expose Resources, Tools, Prompts)",
               "Un serveur MCP expose des outils via JSON-RPC sur stdio ou SSE",
@@ -6378,18 +5852,6 @@
             "content": "Le futur : les reasoning models (o3, R1) + les agents avec MCP + la multimodalité native = une IA capable de travailler en autonomie sur des tâches de plusieurs heures. Claude Code, Devin, et les agents de coding ne sont que le début de cette ère agentique."
           },
           {
-            "type": "check",
-            "question": "Qu'est-ce qui distingue un 'reasoning model' (o1, o3, DeepSeek-R1) d'un LLM classique ?",
-            "options": [
-              "Il utilise plus de données d'entraînement",
-              "Il est plus rapide à répondre",
-              "Il effectue une chaîne de réflexion interne avant de répondre, ce qui le rend bien supérieur sur les problèmes de raisonnement, maths et programmation complexe",
-              "Il ne peut traiter que du texte, pas d'images"
-            ],
-            "correct": 2,
-            "explanation": "Les reasoning models allouent du 'temps de réflexion' (chain-of-thought interne) avant de produire leur réponse finale. Cette délibération les rend bien supérieurs aux LLMs classiques sur les problèmes complexes : o3 dépasse les meilleurs mathématiciens sur certains benchmarks. En contrepartie, ils sont plus lents et coûteux."
-          },
-          {
             "type": "warning",
             "content": "⚠️ **L'écosystème IA change très vite :** Les benchmarks et classements de modèles changent tous les mois. Ce qui est state-of-the-art aujourd'hui peut être dépassé dans 6 mois. Ne te fie pas à des comparaisons datant de plus de 3 mois — consulte lmsys.org/chat et les leaderboards HuggingFace pour les infos à jour."
           },
@@ -6401,13 +5863,7 @@
               "Les reasoning models 'pensent avant de répondre' via une chaîne de réflexion interne — révolutionnaires pour les maths, la logique et la programmation",
               "Stack IA production : Claude/GPT pour l'inférence, pgvector ou Pinecone pour les embeddings, LangChain/LangChain4j pour l'orchestration, Langfuse pour l'observabilité",
               "Frameworks incontournables : LangChain (orchestration), LlamaIndex (RAG documents), AutoGen/CrewAI (multi-agents), DSPy (optimisation auto)",
-              "L'ère agentique s'accélère : agents + MCP + multimodalité convergent vers une IA capable de travailler en autonomie sur des projets entiers"
-            ]
-          },
-          {
-            "type": "summary",
-            "title": "Ce qu'on a appris",
-            "items": [
+              "L'ère agentique s'accélère : agents + MCP + multimodalité convergent vers une IA capable de travailler en autonomie sur des projets entiers",
               "La multimodalité native (texte, image, audio, vidéo) est devenue la norme avec GPT-4o, Gemini et Claude 3.5",
               "Les long context windows (jusqu'à 2M tokens) permettent de mettre toute une codebase dans le contexte",
               "Les reasoning models (o1, o3, R1) 'pensent avant de répondre' via une Chain of Thought interne",
@@ -7086,10 +6542,22 @@
           {
             "type": "cards",
             "items": [
-              { "title": "DVC", "content": "Versionner les données comme Git. DVC crée des pointeurs (.dvc) vers tes fichiers sur S3/GCS. Reproductibilité garantie : git checkout + dvc pull = même dataset qu'il y a 6 mois." },
-              { "title": "MLflow", "content": "Tracker les expériences, comparer les runs. Enregistre hyperparamètres, métriques, artefacts. Interface web pour comparer 50 runs en un coup d'œil. Plus de 'model_final_v2_VRAIMENT_FINAL.pkl'." },
-              { "title": "W&B (Weights & Biases)", "content": "Monitoring visuel en temps réel de l'entraînement. Courbes de loss, métriques, visualisation des prédictions. Collaboratif : toute l'équipe voit les expériences." },
-              { "title": "GitHub Actions", "content": "CI/CD automatique à chaque push. Lance les tests, entraîne le modèle, évalue les performances, déploie si les métriques sont satisfaisantes — le tout sans intervention manuelle." }
+              {
+                "title": "DVC",
+                "content": "Versionner les données comme Git. DVC crée des pointeurs (.dvc) vers tes fichiers sur S3/GCS. Reproductibilité garantie : git checkout + dvc pull = même dataset qu'il y a 6 mois."
+              },
+              {
+                "title": "MLflow",
+                "content": "Tracker les expériences, comparer les runs. Enregistre hyperparamètres, métriques, artefacts. Interface web pour comparer 50 runs en un coup d'œil. Plus de 'model_final_v2_VRAIMENT_FINAL.pkl'."
+              },
+              {
+                "title": "W&B (Weights & Biases)",
+                "content": "Monitoring visuel en temps réel de l'entraînement. Courbes de loss, métriques, visualisation des prédictions. Collaboratif : toute l'équipe voit les expériences."
+              },
+              {
+                "title": "GitHub Actions",
+                "content": "CI/CD automatique à chaque push. Lance les tests, entraîne le modèle, évalue les performances, déploie si les métriques sont satisfaisantes — le tout sans intervention manuelle."
+              }
             ]
           },
           {
