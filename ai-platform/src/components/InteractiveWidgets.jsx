@@ -4,7 +4,7 @@ import { useState, useMemo } from 'react'
 // Shows how learning rate affects convergence on a simple quadratic loss curve.
 export function GradientDescentWidget() {
   const [lr, setLr] = useState(0.3)
-  const [steps, setSteps] = useState(0)
+  const [steps, setSteps] = useState(12) // show full trajectory by default
   const [running, setRunning] = useState(false)
 
   // f(x) = x², f'(x) = 2x, start at x = 3
@@ -57,34 +57,39 @@ export function GradientDescentWidget() {
       </p>
 
       <svg viewBox={`0 0 ${W} ${H}`} style={{ width: '100%', maxWidth: 420, display: 'block', margin: '0 auto' }}>
+        <defs>
+          <clipPath id="gdClip">
+            <rect x={PAD} y={PAD} width={W - PAD * 2} height={H - PAD * 2} />
+          </clipPath>
+        </defs>
         {/* Axes */}
         <line x1={PAD} y1={H - PAD} x2={W - PAD} y2={H - PAD} stroke="rgba(255,255,255,0.15)" strokeWidth="1" />
         <line x1={PAD + (W - PAD * 2) / 2} y1={PAD} x2={PAD + (W - PAD * 2) / 2} y2={H - PAD} stroke="rgba(255,255,255,0.1)" strokeWidth="1" strokeDasharray="4,3" />
-        <text x={W / 2} y={H - 8} textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.3)">x</text>
+        <text x={W / 2} y={H - 8} textAnchor="middle" fontSize="10" fill="rgba(255,255,255,0.3)">x (valeur du poids)</text>
         <text x={8} y={PAD + 4} fontSize="10" fill="rgba(255,255,255,0.3)">perte</text>
 
         {/* Parabola */}
         <polyline points={parabolaPoints.join(' ')} fill="none" stroke="rgba(99,102,241,0.5)" strokeWidth="2" strokeLinejoin="round" />
 
-        {/* Trajectory path */}
-        {shown.length > 1 && (
-          <polyline
-            points={shown.map(p => { const { cx, cy } = toSvg(p.x, p.y); return `${cx},${cy}` }).join(' ')}
-            fill="none" stroke="#f97316" strokeWidth="1.5" strokeDasharray="4,2" opacity="0.7"
-          />
-        )}
-
-        {/* Dots */}
-        {shown.map((p, i) => {
-          const { cx, cy } = toSvg(p.x, p.y)
-          const isLast = i === shown.length - 1
-          return (
-            <circle key={i} cx={cx} cy={cy} r={isLast ? 6 : 3.5}
-              fill={isLast ? '#f97316' : 'rgba(251,146,60,0.5)'}
-              stroke={isLast ? '#fed7aa' : 'none'} strokeWidth="1.5"
+        {/* Trajectory — clipped to viewport */}
+        <g clipPath="url(#gdClip)">
+          {shown.length > 1 && (
+            <polyline
+              points={shown.map(p => { const { cx, cy } = toSvg(p.x, p.y); return `${cx},${cy}` }).join(' ')}
+              fill="none" stroke="#f97316" strokeWidth="1.5" strokeDasharray="4,2" opacity="0.7"
             />
-          )
-        })}
+          )}
+          {shown.map((p, i) => {
+            const { cx, cy } = toSvg(p.x, p.y)
+            const isLast = i === shown.length - 1
+            return (
+              <circle key={i} cx={cx} cy={cy} r={isLast ? 6 : 3.5}
+                fill={isLast ? '#f97316' : 'rgba(251,146,60,0.5)'}
+                stroke={isLast ? '#fed7aa' : 'none'} strokeWidth="1.5"
+              />
+            )
+          })}
+        </g>
 
         {/* Minimum marker */}
         <circle cx={toSvg(0, 0).cx} cy={toSvg(0, 0).cy} r={4} fill="none" stroke="#34d399" strokeWidth="1.5" strokeDasharray="3,2" />
