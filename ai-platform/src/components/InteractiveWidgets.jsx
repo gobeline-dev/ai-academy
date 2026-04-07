@@ -106,7 +106,7 @@ export function GradientDescentWidget() {
             <span style={{ fontFamily: 'var(--font-mono)', fontSize: '0.8rem', color: 'var(--color-primary-light)' }}>{lr.toFixed(3)}</span>
           </div>
           <input type="range" min="0.01" max="1.5" step="0.01" value={lr}
-            onChange={e => { setLr(+e.target.value); setSteps(0) }}
+            onChange={e => { setLr(+e.target.value); setSteps(ITERATIONS) }}
             style={{ width: '100%', accentColor: 'var(--color-primary)' }} />
           <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '0.7rem', color: 'var(--text-muted)', marginTop: 2 }}>
             <span>0.01 (lent)</span><span>0.5 (ok)</span><span>1.5 (diverge!)</span>
