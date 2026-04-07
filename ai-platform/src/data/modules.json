@@ -265,6 +265,10 @@
             "content": "🧒 **En simple :** Une matrice c'est un tableau comme dans Excel — des lignes et des colonnes de chiffres. Quand on 'multiplie' deux matrices, c'est comme appliquer un filtre Instagram à une photo : tu transformes l'image originale en quelque chose de nouveau. Dans un réseau de neurones, chaque couche est un filtre qui transforme les données pour les rendre plus utiles à la couche suivante."
           },
           {
+            "type": "tip",
+            "content": "📐 **Décodons `x @ W + b` pas à pas :** C'est l'opération centrale de TOUT réseau de neurones. Voici ce que signifie chaque symbole.\n\n**`x`** = le vecteur d'entrée — les données brutes. Ex: [surface=80, nb_pièces=3, étage=4]\n\n**`W`** = la matrice de poids — les paramètres que le réseau **apprend**. C'est un tableau 2D où chaque case est un coefficient. Ex (3 entrées → 2 neurones) :\n```\nW = [[0.2, -0.1],   ← poids depuis 'surface' vers neurone1 et neurone2\n     [0.5,  0.3],   ← poids depuis 'nb_pièces'\n     [-0.2, 0.8]]   ← poids depuis 'étage'\n```\n\n**`@`** = le produit matriciel — PAS une simple multiplication nombre×nombre. C'est une multiplication 'croisée' : pour calculer la sortie de neurone1, on multiplie chaque entrée par son poids correspondant et on additionne tout. Neurone1 = 80×0.2 + 3×0.5 + 4×(-0.2) = 16 + 1.5 - 0.8 = 16.7. Neurone2 = 80×(-0.1) + 3×0.3 + 4×0.8 = -8 + 0.9 + 3.2 = -3.9.\n\n**`b`** = le biais (bias) — un petit décalage ajouté après, indépendant des données. Ex: b=[0.1, -0.2] → sorties finales = [16.7+0.1, -3.9-0.2] = [16.8, -4.1].\n\n**Différence avec une multiplication ordinaire :** `3 × 5 = 15` (deux nombres → un nombre). `x @ W` (un vecteur × une matrice → un nouveau vecteur). Chaque valeur de sortie est une combinaison de TOUTES les entrées. C'est ce qui permet au réseau de détecter des patterns complexes — la surface ET le nombre de pièces ET l'étage influencent simultanément chaque neurone."
+          },
+          {
             "type": "text",
             "content": "Une matrice est un tableau 2D de nombres. Dans un réseau de neurones, chaque couche est une matrice de poids qui transforme les données d'entrée. La multiplication matricielle est l'opération centrale du deep learning."
           },
@@ -316,13 +320,13 @@
           },
           {
             "type": "text",
-            "content": "La Singular Value Decomposition (SVD) décompose une matrice en facteurs fondamentaux. C'est la base des premiers systèmes de recommandation (Netflix Prize) et une intuition clé pour comprendre les embeddings modernes."
+            "content": "La Singular Value Decomposition (SVD — Décomposition en Valeurs Singulières) décompose une matrice en facteurs fondamentaux. Elle découvre automatiquement des **dimensions latentes** (concepts cachés dans les données, jamais nommés explicitement — par exemple 'aime les films d'action' sans que cette catégorie existe dans les données brutes). C'est la base des premiers systèmes de recommandation (Netflix Prize) et une intuition clé pour comprendre les embeddings modernes."
           },
           {
             "type": "code",
             "language": "python",
             "label": "SVD : trouver la structure cachée des données",
-            "content": "import numpy as np\n\n# Matrice films x utilisateurs (notes)\nratings = np.array([\n    [5, 4, 0, 1],   # Alice\n    [4, 5, 0, 2],   # Bob (similaire à Alice)\n    [0, 1, 5, 4],   # Carol\n    [1, 0, 4, 5],   # Dave (similaire à Carol)\n])\n\nU, S, Vt = np.linalg.svd(ratings, full_matrices=False)\n\n# U : embeddings utilisateurs dans l'espace latent\n# S : importance de chaque dimension latente\n# Vt : embeddings des films\n\nprint(f'Dimensions latentes : {S.round(2)}')\n# [9.63, 3.96, ...] -> 2 concepts principaux\n# Concept 1 : films d'action, Concept 2 : films romantiques",
+            "content": "import numpy as np\n\n# Matrice films x utilisateurs (notes de 0 à 5)\nratings = np.array([\n    [5, 4, 0, 1],   # Alice\n    [4, 5, 0, 2],   # Bob (similaire à Alice)\n    [0, 1, 5, 4],   # Carol\n    [1, 0, 4, 5],   # Dave (similaire à Carol)\n])\n\nU, S, Vt = np.linalg.svd(ratings, full_matrices=False)\n\n# La SVD décompose la matrice en 3 parties :\n# U  : coordonnées de chaque UTILISATEUR dans l'espace latent\n#      (ex: Alice = [0.8, 0.1] = aime beaucoup l'action, peu le romantique)\n# S  : valeurs singulières = IMPORTANCE de chaque dimension latente\n#      (la 1ère dimension explique plus de variance que la 2ème, etc.)\n# Vt : coordonnées de chaque FILM dans l'espace latent\n#      (ex: Titanic = [0.1, 0.9] = peu d'action, très romantique)\n# 'Espace latent' = espace invisible inventé par l'algo pour représenter\n# les préférences — les dimensions ne sont pas nommées à l'avance,\n# le modèle les découvre seul depuis les données.\n\nprint(f'Dimensions latentes : {S.round(2)}')\n# [9.63, 3.96, ...] -> 2 concepts principaux\n# Concept 1 : films d'action, Concept 2 : films romantiques",
             "contentJava": "// Java 11 avec Apache Commons Math 3\n// Dépendance Maven : commons-math3:3.6.1\nimport org.apache.commons.math3.linear.*;\n\npublic class SVDExemple {\n    public static void main(String[] args) {\n        // Matrice films x utilisateurs (notes 0-5)\n        double[][] data = {\n            {5, 4, 0, 1},  // Alice\n            {4, 5, 0, 2},  // Bob  (similaire à Alice)\n            {0, 1, 5, 4},  // Carol\n            {1, 0, 4, 5},  // Dave (similaire à Carol)\n        };\n\n        RealMatrix ratings = MatrixUtils.createRealMatrix(data);\n        SingularValueDecomposition svd = new SingularValueDecomposition(ratings);\n\n        // U : embeddings utilisateurs, S : importance, Vt : embeddings films\n        double[] S = svd.getSingularValues();\n        System.out.print(\"Dimensions latentes : [\");\n        for (int i = 0; i < S.length; i++)\n            System.out.printf(\"%.2f%s\", S[i], i < S.length - 1 ? \", \" : \"]%n\");\n        // -> 2 concepts principaux : films d'action vs films romantiques\n    }\n}"
           },
           {
@@ -341,7 +345,7 @@
             "type": "summary",
             "title": "Ce qu'on a appris",
             "items": [
-              "Un vecteur est une liste ordonnée de nombres — en IA, tout (images, mots, sons) est représenté sous forme de vecteurs",
+              "Un vecteur est une liste ordonnée de nombres — en IA, tout (images, mots, sons) est représenté sous forme de vecteurs. Quand ce vecteur représente le 'sens' d'un mot ou d'une phrase, on l'appelle un **embedding** (représentation vectorielle dense qui capture la sémantique)",
               "Le produit scalaire mesure la similarité entre deux vecteurs ; la similarité cosinus normalise par la longueur",
               "Une matrice de poids W transforme les données via le produit matriciel X @ W + b — c'est le cœur d'une couche Dense",
               "La SVD décompose une matrice en facteurs latents, fondement des systèmes de recommandation et des embeddings",
@@ -373,6 +377,10 @@
             "content": "Une distribution de probabilité décrit comment les valeurs sont réparties. La distribution normale (ou gaussienne) est omniprésente : erreurs de mesure, scores de test, etc. Les LLMs génèrent du texte en échantillonnant des distributions de probabilité sur des tokens."
           },
           {
+            "type": "tip",
+            "content": "📖 **Logits vs probabilités :** Un réseau de neurones produit en sortie des scores bruts appelés **logits** — des nombres arbitraires, positifs ou négatifs, qui n'ont aucune contrainte (par exemple : [3.2, 1.5, 0.8, 0.3]). Ces scores ne sont pas encore des probabilités. La fonction **Softmax** transforme ces logits en vraies probabilités : elle exponentie chaque valeur et divise par la somme totale, ce qui garantit des valeurs positives dont la somme vaut exactement 1. C'est la 'sortie finale' de tout classificateur : des scores bruts → des probabilités interprétables."
+          },
+          {
             "type": "code",
             "language": "python",
             "label": "Distributions — comment un LLM choisit le prochain mot",
@@ -401,7 +409,7 @@
           },
           {
             "type": "text",
-            "content": "P(A|B) = P(B|A) × P(A) / P(B). Ne t'arrête pas sur la formule — l'essentiel est l'idée : **si tu obtiens une nouvelle information, mets à jour ta probabilité**. C'est exactement ce que fait un filtre anti-spam : chaque nouveau mot suspect augmente sa conviction que c'est du spam."
+            "content": "P(A|B) = P(B|A) × P(A) / P(B). Ne t'arrête pas sur la formule — l'essentiel est l'idée : **si tu obtiens une nouvelle information, mets à jour ta probabilité**. En vocabulaire Bayésien : P(A) est le **prior** (probabilité *a priori* — ce qu'on croit avant d'observer quoi que ce soit), P(A|B) est le **posterior** (probabilité *a posteriori* — ce qu'on croit après avoir observé B). Le théorème dit : posterior = prior × vraisemblance / normalisation. C'est exactement ce que fait un filtre anti-spam : chaque nouveau mot suspect augmente sa conviction (posterior) que c'est du spam."
           },
           {
             "type": "example",
@@ -510,6 +518,10 @@
             "contentJava": "public class GradientDescent {\n    static double loss(double w)     { return Math.pow(w - 3, 2); }\n    static double gradient(double w) { return 2 * (w - 3); }\n\n    public static void main(String[] args) {\n        // Trouver w qui minimise L(w) = (w - 3)^2\n        double w  = -2.0;  // point de départ aléatoire\n        double lr = 0.1;   // learning rate (taille du pas)\n        int nIter = 30;    // nombre d'itérations\n\n        System.out.printf(\"Départ : w=%.2f, perte=%.2f%n\", w, loss(w));\n        for (int i = 0; i < nIter; i++) {\n            double grad = gradient(w);\n            w = w - lr * grad;   // mise à jour du paramètre\n            if (i % 5 == 0)\n                System.out.printf(\"Iter %2d: w=%.4f, perte=%.6f%n\",\n                    i + 1, w, loss(w));\n        }\n        System.out.printf(\"%nConvergé vers w=%.4f (optimal: 3.0)%n\", w);\n    }\n}"
           },
           {
+            "type": "tip",
+            "content": "📖 **Deux mots clés à connaître avant de continuer :** Un **batch** (lot) c'est le nombre d'exemples qu'on montre au modèle en une fois avant de mettre à jour ses poids. Si tu as 10 000 photos et un batch de 32, le modèle voit 32 photos, corrige ses poids, voit les 32 suivantes, corrige à nouveau, etc. Une **époque** (epoch) c'est le fait de parcourir la totalité de tes données une fois. Avec 10 000 photos et des batchs de 32, une époque = 312 mises à jour des poids (10 000 ÷ 32). En pratique, on entraîne pendant 20, 50 ou 100 époques — le modèle voit les mêmes données plusieurs fois, mais apprend un peu plus à chaque passage."
+          },
+          {
             "type": "heading",
             "content": "SGD, Adam et les optimiseurs modernes"
           },
@@ -524,7 +536,7 @@
               {
                 "title": "Momentum",
                 "icon": "⚽",
-                "description": "Accumule la vélocité des gradients passés. Évite d'osciller dans les vallées étroites. Accélère la convergence sur les plateaux."
+                "description": "Accumule la vélocité des gradients passés. Évite d'osciller dans les vallées étroites. Accélère la **convergence** (= le fait que la perte cesse de diminuer et se stabilise au minimum — on dit que le modèle 'a convergé' quand il ne s'améliore plus) sur les plateaux."
               },
               {
                 "title": "Adam",
@@ -601,11 +613,15 @@
             "type": "code",
             "language": "text",
             "label": "Structure de projet ML",
-            "content": "mon-projet-ml/\n├── data/\n│   ├── raw/          # données brutes, ne jamais modifier\n│   └── processed/    # données nettoyées\n├── notebooks/        # exploration et expérimentation\n├── src/\n│   ├── features.py   # préparation des features\n│   ├── train.py      # entraînement du modèle\n│   └── predict.py    # inférence\n├── models/           # modèles sauvegardés (.pkl, .joblib)\n├── requirements.txt  # dépendances exactes (pip freeze)\n└── README.md"
+            "content": "mon-projet-ml/\n├── data/\n│   ├── raw/          # données brutes, ne jamais modifier\n│   └── processed/    # données nettoyées\n├── notebooks/        # exploration et expérimentation\n├── src/\n│   ├── features.py   # préparation des features (variables d'entrée)\n│   ├── train.py      # entraînement du modèle\n│   └── predict.py    # inférence (= utiliser un modèle déjà entraîné pour\n│                     #   faire des prédictions sur de nouvelles données.\n│                     #   Différent de l'entraînement : ici les poids sont\n│                     #   fixes, on fait juste le calcul forward)\n├── models/           # modèles sauvegardés (.pkl, .joblib)\n├── requirements.txt  # dépendances exactes (pip freeze)\n└── README.md"
           },
           {
             "type": "heading",
             "content": "Pipeline complet : de la donnée à la prédiction"
+          },
+          {
+            "type": "warning",
+            "content": "⚠️ **Data leakage — le piège qui fausse tout :** Le 'data leakage' (fuite de données) se produit quand des informations du jeu de test contaminent l'entraînement. Exemple classique : tu normalises tes données (calcul de la moyenne et de l'écart-type) SUR L'ENSEMBLE du dataset avant de le diviser. Résultat : le modèle a indirectement 'vu' les données de test via la normalisation. Il obtient des scores artificiellement élevés à l'évaluation, mais sera bien moins bon en production. **Règle absolue :** tout calcul sur les données (normalisation, encodage, statistiques) doit être appris UNIQUEMENT sur le train set, puis appliqué tel quel sur le test set. `fit_transform` sur train → `transform` seul sur test."
           },
           {
             "type": "code",
@@ -615,7 +631,7 @@
             "annotations": [
               {
                 "line": 16,
-                "text": "stratify=y garantit que les proportions de classes sont identiques dans train et test"
+                "text": "stratify=y (stratification) = garantit que les proportions de classes sont identiques dans train et test. Sans ça, tu pourrais avoir 90% de classe 0 dans le train mais 60% dans le test — résultats non comparables. Ex : si 20% de tes exemples sont positifs, stratify garantit 20% de positifs dans chaque split."
               },
               {
                 "line": 20,
@@ -717,10 +733,10 @@
             "type": "list",
             "items": [
               "**Collecte et nettoyage des données** : garbage in, garbage out — c'est 70% du travail réel",
-              "**Feature engineering** : choisir et transformer les bonnes variables d'entrée (ex: transformer une date en \"jour de la semaine\" plutôt que laisser le chiffre brut)",
+              "**Feature engineering** : choisir et transformer les bonnes **features** (variables d'entrée — tout ce que le modèle reçoit comme information pour faire sa prédiction : âge, salaire, localisation, historique d'achat...). Ex: transformer une date brute en 'jour de la semaine' ou 'est-ce un jour férié' est plus informatif que le timestamp numérique brut. Plus les features sont pertinentes, moins le modèle a besoin de données pour apprendre.",
               "**Split train/validation/test** : ne jamais évaluer sur les données d'entraînement",
               "**Entraînement et tuning** : choisir et optimiser le modèle",
-              "**Évaluation** : mesurer la qualité du modèle — accuracy (% bien classés), F1 (équilibre précision/rappel), AUC-ROC (score global sur tous les seuils)",
+              "**Évaluation** : mesurer la qualité du modèle — **accuracy** (% d'exemples bien classés), **F1-score** (moyenne harmonique entre précision et rappel — utile quand les classes sont déséquilibrées : un modèle qui dit toujours 'pas de cancer' a 99% d'accuracy sur un dataset où 1% des patients ont un cancer, mais un F1 catastrophique), **AUC-ROC** (aire sous la courbe ROC — mesure la capacité du modèle à discriminer les classes pour *tous les seuils de décision* possibles : 1.0 = parfait, 0.5 = aussi bon qu'un tirage au sort)",
               "**Déploiement et monitoring** : en production, le comportement réel change avec le temps (data drift — dérive des données : le modèle se dégrade car le monde a changé) — un modèle de détection de fraude de 2022 peut être obsolète en 2024"
             ]
           },
@@ -892,7 +908,7 @@
             "type": "decide",
             "title": "Régression linéaire vs logistique : quand choisir ?",
             "rules": [
-              { "condition": "votre cible est un nombre (prix, température, durée)", "choice": "**Régression linéaire** — prédit une valeur continue. MAE et RMSE pour évaluer." },
+              { "condition": "votre cible est un nombre (prix, température, durée)", "choice": "**Régression linéaire** — prédit une valeur continue. **MAE** (Mean Absolute Error = erreur absolue moyenne : en moyenne, de combien se trompe-t-on ? Ex: 15k€ d'écart moyen sur les prix immobiliers) et **RMSE** (Root Mean Squared Error = racine de l'erreur quadratique moyenne : comme le MAE mais pénalise davantage les grosses erreurs car on les met au carré avant de moyenner) pour évaluer." },
               { "condition": "votre cible est binaire (0/1, oui/non, spam/non-spam)", "choice": "**Régression logistique** — prédit P(y=1). Accuracy, F1, AUC-ROC pour évaluer." },
               { "condition": "vous devez expliquer le modèle à des non-techniciens (légal, médical)", "choice": "**L'un ou l'autre** — les deux sont interprétables via leurs coefficients." },
               { "condition": "vos features ont des relations non-linéaires complexes", "choice": "Ces modèles vont sous-fitter. Passez à Random Forest ou Gradient Boosting (module suivant)." }
@@ -923,7 +939,7 @@
           },
           {
             "type": "tip",
-            "content": "🧒 **En simple — l'arbre de décision :** Imagine le jeu des 20 questions pour deviner un animal. 'Est-ce que ça vit dans l'eau ?' → Non. 'Est-ce que ça a 4 pattes ?' → Oui. 'Est-ce que ça ronronne ?' → Oui → C'est un chat ! Un arbre de décision fait exactement ça : il pose une série de questions sur les données pour arriver à une réponse. **La Random Forest (Forêt Aléatoire)**, c'est l'étape supérieure : imagine 100 amis qui jouent chacun au jeu des 20 questions avec des questions différentes, puis qui votent ensemble. Si 80 d'entre eux disent 'chat' et 20 disent 'chien', la forêt répond 'chat'. Résultat : bien plus fiable qu'un seul joueur, même si chaque individu fait des erreurs !"
+            "content": "🧒 **En simple — l'arbre de décision :** Imagine le jeu des 20 questions pour deviner un animal. 'Est-ce que ça vit dans l'eau ?' → Non. 'Est-ce que ça a 4 pattes ?' → Oui. 'Est-ce que ça ronronne ?' → Oui → C'est un chat ! Un arbre de décision fait exactement ça : il pose une série de questions sur les données pour arriver à une réponse. **La Random Forest (Forêt Aléatoire)**, c'est l'étape supérieure : imagine 100 amis qui jouent chacun au jeu des 20 questions avec des questions différentes, puis qui votent ensemble. Si 80 d'entre eux disent 'chat' et 20 disent 'chien', la forêt répond 'chat'. Pour garantir que chaque ami voit des exemples différents, la Random Forest utilise le **bootstrapping** — pour chaque arbre, on tire aléatoirement (avec remise) un sous-ensemble des données d'entraînement. 'Avec remise' signifie que le même exemple peut être sélectionné plusieurs fois. Résultat : 100 arbres diversifiés qui se trompent rarement tous en même temps."
           },
           {
             "type": "code",
@@ -1438,7 +1454,7 @@
           },
           {
             "type": "tip",
-            "content": "En pratique, on n'implémente jamais backprop manuellement. PyTorch et TensorFlow le font automatiquement via l'autograd. Mais comprendre la mécanique permet de déboguer les problèmes de gradient (vanishing, exploding)."
+            "content": "En pratique, on n'implémente jamais backprop manuellement. PyTorch et TensorFlow le font automatiquement via l'autograd. Mais comprendre la mécanique permet de déboguer deux pathologies classiques : le **gradient vanishing** (gradient qui disparaît) — les gradients se multiplient couche par couche en remontant, et si chaque multiplicateur est < 1, le gradient devient exponentiellement petit, les premières couches n'apprennent plus rien. Le **gradient exploding** (gradient qui explose) — si les multiplicateurs sont > 1, le gradient devient exponentiellement grand, les poids font des bonds géants et l'entraînement diverge. Solutions : fonctions d'activation ReLU/GELU, normalisation (BatchNorm), initialisation He/Xavier, gradient clipping."
           },
           {
             "type": "check",
@@ -1856,7 +1872,7 @@
             "title": "Ce qu'on a appris",
             "items": [
               "Le Transfer Learning réutilise un modèle pré-entraîné sur des millions d'images comme point de départ",
-              "Phase 1 (feature extraction) : geler le backbone et entraîner seulement la tête de classification",
+              "Phase 1 (feature extraction) : geler le **backbone** (corps principal du réseau — toutes les couches qui extraient les représentations visuelles) et entraîner seulement la **tête** (head — les dernières couches de classification, spécifiques à votre tâche)",
               "Phase 2 (fine-tuning) : dégeler les dernières couches avec un learning rate très faible (1e-5)",
               "Avec seulement 500 images par classe, on peut atteindre 90%+ d'accuracy grâce au Transfer Learning",
               "Les modèles recommandés : EfficientNet, ResNet, ViT (Vision Transformer)"
@@ -1872,7 +1888,7 @@
         "sections": [
           {
             "type": "intro",
-            "content": "Avant les Transformers, les RNNs (Réseaux de Neurones Récurrents) et LSTMs dominaient le traitement de séquences : texte, audio, séries temporelles. Ils traitent les données token par token en maintenant un état caché — une 'mémoire'. Comprendre pourquoi ils ont été remplacés est essentiel pour apprécier la révolution Transformer."
+            "content": "Avant les Transformers, les RNNs (Réseaux de Neurones Récurrents) et LSTMs dominaient le traitement de séquences : texte, audio, séries temporelles. Ils traitent les données token par token en maintenant un **état caché** (hidden state — un vecteur résumant ce que le réseau 'se souvient' des tokens précédents) qui joue le rôle de mémoire. Comprendre pourquoi ils ont été remplacés est essentiel pour apprécier la révolution Transformer."
           },
           {
             "type": "heading",
@@ -2470,7 +2486,7 @@
           },
           {
             "type": "text",
-            "content": "Pipeline InstructGPT/ChatGPT :\n1. Supervised Fine-Tuning (SFT) sur des démos humaines de conversations\n2. Reward Model : humains rankent des réponses, on apprend leurs préférences\n3. PPO (Proximal Policy Optimization) : RL pour maximiser la récompense humaine"
+            "content": "Pipeline InstructGPT/ChatGPT :\n1. **Supervised Fine-Tuning (SFT)** : des humains démontrent des conversations idéales, on entraîne le LLM à les imiter\n2. **Reward Model** : des humains comparent plusieurs réponses et votent pour la meilleure, on entraîne un modèle 'juge' à prédire ces préférences\n3. **PPO (Proximal Policy Optimization)** : algorithme d'apprentissage par renforcement qui optimise le LLM pour maximiser la récompense du juge — avec une contrainte : les mises à jour ne doivent pas trop s'éloigner du modèle précédent ('proximal' = proche), sinon le modèle oublie ce qu'il savait faire. C'est ce 3ème step qui aligne le LLM sur les valeurs humaines."
           },
           {
             "type": "code",
@@ -2798,6 +2814,10 @@
             "content": "Le prompt engineering est l'art de communiquer efficacement avec un LLM. Un bon prompt obtient des résultats précis, cohérents et exploitables. Un mauvais prompt produit des hallucinations, des formats incorrects ou des réponses hors-sujet."
           },
           {
+            "type": "tip",
+            "content": "📖 **Hallucination en IA :** terme technique désignant le phénomène où un LLM invente un fait faux et le présente avec assurance, comme si c'était vrai. Exemple : demander à ChatGPT de citer des articles scientifiques et recevoir des références inventées (auteurs réels, titre fictif, journal qui n'a jamais publié ça). Ce n'est pas un bug au sens classique — c'est une conséquence directe du fonctionnement des LLMs : ils prédisent le **token le plus probable**, pas le token le plus exact. Ils n'ont pas accès à une base de vérité ; ils interpolent à partir de leurs données d'entraînement."
+          },
+          {
             "type": "heading",
             "content": "Anatomie d'un bon prompt : les 5 piliers"
           },
@@ -3037,7 +3057,7 @@
               {
                 "title": "3. Generation",
                 "icon": "✍️",
-                "description": "Les chunks pertinents + la question sont injectés dans le prompt du LLM. Le modèle génère une réponse basée sur ce contexte (grounded generation)."
+                "description": "Les chunks pertinents + la question sont injectés dans le prompt du LLM. Le modèle génère une réponse basée sur ce contexte — c'est ce qu'on appelle la **grounded generation** (génération ancrée dans les sources). Contrairement à la génération 'libre' où le modèle peut **halluciner** (inventer des faits plausibles mais faux — un phénomène inhérent aux LLMs), ici il s'appuie sur des passages réels qu'on lui a fournis, ce qui réduit drastiquement les inventions."
               }
             ]
           },
@@ -3141,7 +3161,11 @@
         "sections": [
           {
             "type": "intro",
-            "content": "Une base vectorielle est optimisée pour la recherche par similarité dans des espaces de haute dimension (768, 1536, 3072 dimensions). Elle utilise des index approximatifs (HNSW, IVF) pour chercher parmi des millions de vecteurs en quelques millisecondes."
+            "content": "Une base vectorielle est optimisée pour la recherche par similarité dans des espaces de haute dimension (768, 1536, 3072 dimensions). Elle utilise des index approximatifs (**HNSW** et **IVF**) pour chercher parmi des millions de vecteurs en quelques millisecondes."
+          },
+          {
+            "type": "tip",
+            "content": "📖 **HNSW et IVF — comment ça marche ?** Sans index, chercher le vecteur le plus proche parmi 1 million de vecteurs = comparer 1 million de fois. Trop lent. Les index approximatifs 'trichent intelligemment' pour répondre en quelques millisecondes. **HNSW (Hierarchical Navigable Small World)** fonctionne comme un GPS multi-niveaux : un niveau 'autoroutes' avec peu de points très connectés permet de traverser rapidement le réseau, puis des niveaux 'routes locales' de plus en plus précis affinent la recherche — exactement comme un GPS qui cherche d'abord l'autoroute, puis la rue. **IVF (Inverted File Index)** divise l'espace en zones (comme des codes postaux) : la recherche se limite aux zones les plus proches de la requête, sans tout parcourir. Les deux sont des méthodes **approximatives** — elles peuvent rater le voisin exact mais trouvent un très bon voisin ~100× plus vite."
           },
           {
             "type": "heading",
@@ -3175,7 +3199,7 @@
               {
                 "title": "Weaviate",
                 "icon": "🟡",
-                "description": "Open-source avec module vectoriseurs intégrés. Supporte le hybrid search (vectoriel + BM25 keyword). Auto-hébergeable sur Kubernetes."
+                "description": "Open-source avec module vectoriseurs intégrés. Supporte le **hybrid search** (recherche hybride = combinaison de la recherche vectorielle par sens + recherche **BM25** par mots-clés exacts — BM25 est l'algorithme de Google Search des années 2000, toujours très efficace pour les termes techniques précis comme un numéro de série ou un nom propre). Auto-hébergeable sur Kubernetes."
               },
               {
                 "title": "pgvector",
@@ -3293,7 +3317,7 @@
             "type": "code",
             "language": "python",
             "label": "Métriques clés pour un RAG production-ready",
-            "content": "# pip install ragas\n# RAGAS évalue 4 dimensions clés automatiquement\n\n# Métriques et seuils cibles :\n# faithfulness    > 0.8  : réponse fidèle aux sources (pas d'hallucination)\n# answer_relevancy > 0.8  : réponse pertinente à la question\n# context_precision > 0.7 : les bons chunks ont été récupérés\n# context_recall   > 0.7  : toutes les infos nécessaires ont été trouvées\n\n# Dataset de test\ntest_cases = [\n    {\n        'question': 'Quel langage pour la data science ?',\n        'ground_truth': 'Python est le langage dominant en data science.',\n    }\n]\n\n# Diagnostics si score bas :\n# faithfulness < 0.8 → le modèle hallucine, améliorer le system prompt\n# context_precision < 0.7 → mauvais chunks récupérés, revoir les embeddings\n# context_recall < 0.7 → infos manquantes, revoir le chunking ou augmenter k\nprint('Seuils RAGAS pour un RAG production-ready : > 0.8 faithfulness, > 0.7 context')"
+"content": "# pip install ragas\n# RAGAS (Retrieval Augmented Generation Assessment) = framework d'évaluation automatique\n# Il évalue 4 dimensions clés :\n\n# faithfulness    > 0.8  : la réponse est-elle fidèle aux sources ? (pas d'hallucination)\n# answer_relevancy > 0.8  : la réponse répond-elle vraiment à la question ?\n# context_precision > 0.7 : les chunks récupérés étaient-ils vraiment utiles ?\n# context_recall   > 0.7  : toutes les infos nécessaires ont-elles été trouvées ?\n\n# Dataset de test avec 'ground_truth' = la réponse idéale de référence\n# (aussi appelé 'vérité terrain' — c'est la réponse correcte connue à l'avance,\n# qui sert d'étalon pour juger si le modèle a bien répondu)\ntest_cases = [\n    {\n        'question': 'Quel langage pour la data science ?',\n        'ground_truth': 'Python est le langage dominant en data science.',\n    }\n]\n\n# Diagnostics si score bas :\n# faithfulness < 0.8 → le modèle hallucine (invente des faits), améliorer le system prompt\n# context_precision < 0.7 → mauvais chunks récupérés, revoir les embeddings\n# context_recall < 0.7 → infos manquantes dans les chunks, revoir le chunking ou augmenter k\nprint('Seuils RAGAS pour un RAG production-ready : > 0.8 faithfulness, > 0.7 context')"
           },
           {
             "type": "tip",
